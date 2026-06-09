@@ -1,0 +1,192 @@
+/**
+ * Colors — State of AI 2026 palette (exact match)
+ * Source: https://2026.stateofai.dev (extracted from inline styles + compiled CSS)
+ *
+ * Two layers:
+ *   1. BASE     — raw palette values (the literal hexes from the site).
+ *   2. SEMANTIC — role-based aliases. Build UI against these, not the raw values,
+ *                 so a theme swap only touches the base layer.
+ */
+
+:root {
+  /* ─────────────────────────────────────────────
+     BASE — raw palette
+     ───────────────────────────────────────────── */
+
+  /* Warm charcoal surfaces (the dark theme spine) */
+  --charcoal-900: #242220;   /* page background */
+  --charcoal-800: #272325;   /* raised surface / card */
+  --charcoal-700: #2f2b28;   /* hairline-raised */
+  --amber-bg-700: #56442b;   /* row hover / elevated amber-tinted surface */
+  --amber-bg-500: #a47738;   /* mid amber surface */
+
+  /* Cream (inverted sections + text) */
+  --cream-50:  #FFF6E6;      /* primary text + inverted-section background */
+  --cream-100: #F0E8D6;      /* inverted alt */
+  --ink-900:   #272325;      /* text on cream */
+
+  /* Amber — the brand color & bar-fill gradient */
+  --amber-300: #fcac3c;      /* brand / links / gradient bright end */
+  --amber-500: #ec9c23;      /* orange-amber */
+  --amber-600: #b7781f;      /* gradient dark end */
+  --amber-700: #a47738;
+
+  /* Indigo — primary interactive accent (buttons, active nav) */
+  --indigo-400: #a5b4fc;
+  --indigo-500: #818cf8;
+  --indigo-600: #576de7;
+  --indigo-700: #3c52d1;
+
+  /* Teal — charts & cool accent */
+  --teal-300: #9ac6c9;
+  --teal-400: #47cfed;
+  --teal-500: #41c7c7;
+  --teal-600: #3abbb3;
+  --teal-700: #12959e;
+
+  /* Green — positive sentiment / success */
+  --green-300: #85eba2;
+  --green-400: #4bc77d;
+  --green-500: #2eba66;
+
+  /* Pink / magenta — highlight */
+  --pink-400: #f95db2;
+  --pink-500: #ec75cb;
+  --pink-600: #ef4e88;
+
+  /* Lavender */
+  --lavender-500: #d68df0;
+
+  /* Red — error / negative */
+  --red-400: #fe6a6a;
+  --red-500: #e45959;
+
+  /* Warning */
+  --warning-300: #ffe589;
+  --warning-400: #f5ef7e;
+  --warning-600: #aaa433;
+
+  /* Banner (top announcement bar — deep rose) */
+  --rose-700: #9D2240;
+  --rose-400: #E87F93;
+  --rose-100: #FDD3DB;
+
+  /* Canada red — the blog co-brand. A refined, slightly warm flag red that sits
+     in harmony with amber rather than fighting it. Used for links, the maple
+     mark, the soap-box callout, and editorial accents. */
+  --canada-900: #5e0f17;   /* deepest — pressed/contrast */
+  --canada-700: #a01724;   /* dark end of the red gradient */
+  --canada-500: #d52b1e;   /* core Canada red (flag-adjacent) */
+  --canada-400: #e8443a;   /* hover / bright */
+  --canada-300: #f4837a;   /* tint on dark */
+  --canada-bg:  #3a2320;   /* charcoal washed with red — soap-box surface */
+
+  /* ─────────────────────────────────────────────
+     SEMANTIC — role aliases (build against these)
+     ───────────────────────────────────────────── */
+
+  /* Surfaces */
+  --bg-base:        var(--charcoal-900);   /* page */
+  --bg-surface:     var(--charcoal-800);   /* cards, inputs */
+  --bg-elevated:    var(--charcoal-700);   /* popovers, raised panels */
+  --bg-subtle:      var(--amber-bg-700);   /* hover rows, selected */
+  --bg-inverted:    var(--cream-50);       /* cream sections */
+  --bg-inverted-alt: var(--cream-100);
+
+  /* Text */
+  --text-primary:   var(--cream-50);
+  --text-secondary: rgba(255, 246, 229, 0.72);
+  --text-muted:     rgba(255, 246, 229, 0.5);
+  --text-disabled:  rgba(255, 246, 229, 0.32);
+  --text-inverted:  var(--ink-900);        /* on cream */
+  --text-link:      var(--amber-300);
+
+  /* Borders */
+  --border:         rgba(255, 246, 229, 0.16);
+  --border-strong:  rgba(255, 246, 229, 0.35);
+  --border-solid:   var(--cream-50);
+
+  /* Brand */
+  --brand:          var(--amber-300);
+  --brand-dark:     var(--amber-600);
+  --brand-gradient: linear-gradient(90deg, var(--amber-600), var(--amber-300));
+
+  /* Interactive accent */
+  --accent:         var(--indigo-500);
+  --accent-hover:   var(--indigo-400);
+
+  /* Semantic status */
+  --success:        var(--green-300);
+  --success-bg:     rgba(133, 235, 162, 0.16);
+  --success-border: rgba(133, 235, 162, 0.35);
+  --warning:        var(--warning-400);
+  --warning-bg:     rgba(245, 239, 126, 0.12);
+  --warning-border: var(--warning-600);
+  --error:          var(--red-400);
+  --error-bg:       rgba(254, 106, 106, 0.14);
+  --error-border:   rgba(254, 106, 106, 0.4);
+  --info:           var(--indigo-400);
+  --info-bg:        rgba(129, 140, 248, 0.14);
+  --info-border:    rgba(129, 140, 248, 0.35);
+
+  /* Data-viz sequence (ordered — use in this order for multi-series) */
+  --chart-1:  var(--amber-300);
+  --chart-2:  var(--indigo-500);
+  --chart-3:  var(--teal-500);
+  --chart-4:  var(--pink-400);
+  --chart-5:  var(--green-300);
+  --chart-6:  var(--lavender-500);
+  --chart-7:  var(--teal-400);
+  --chart-8:  var(--red-400);
+  --chart-9:  var(--amber-500);
+  --chart-10: var(--teal-300);
+
+  /* Domain chart roles (survey semantics) */
+  --experience-used:  #12959e;
+  --experience-heard: #7ac7be;
+  --experience-never: #8b8b80;
+  --sentiment-positive: var(--green-300);
+  --sentiment-neutral:  #8b8b80;
+  --sentiment-negative: #e87040;
+
+  /* ─────────────────────────────────────────────
+     EDITORIAL — blog / long-form reading roles
+     ───────────────────────────────────────────── */
+
+  /* Co-brand red */
+  --canada:          var(--canada-500);
+  --canada-hover:    var(--canada-400);
+  --canada-gradient: linear-gradient(90deg, var(--canada-700), var(--canada-500));
+
+  /* Prose text — serif body wants a touch more warmth & size than UI text */
+  --prose-text:      rgba(255, 246, 229, 0.86);  /* article body */
+  --prose-heading:   var(--cream-50);            /* article headings */
+  --prose-muted:     rgba(255, 246, 229, 0.52);  /* captions, footnotes */
+  --prose-link:      var(--canada-300);          /* in-article links */
+  --prose-link-hover: var(--canada-400);
+  --prose-rule:      rgba(255, 246, 229, 0.12);  /* hr, paragraph dividers */
+  --prose-marker:    var(--amber-300);           /* list bullets, drop-cap */
+  --prose-selection: rgba(213, 43, 30, 0.32);    /* text selection in articles */
+
+  /* Callout surfaces (tinted charcoal + accent border on the inline edge) */
+  --callout-note-accent:    var(--indigo-400);
+  --callout-note-bg:        rgba(129, 140, 248, 0.10);
+  --callout-tip-accent:     var(--teal-400);
+  --callout-tip-bg:         rgba(65, 199, 199, 0.10);
+  --callout-warning-accent: var(--warning-400);
+  --callout-warning-bg:     rgba(245, 239, 126, 0.09);
+  --callout-takeaway-accent: var(--amber-300);
+  --callout-takeaway-bg:    rgba(252, 172, 60, 0.10);
+  --callout-soapbox-accent: var(--canada-500);
+  --callout-soapbox-bg:     var(--canada-bg);
+
+  /* Code surfaces (a hair darker than cards, for contrast in prose) */
+  --code-bg:        #1e1c1a;
+  --code-header-bg: #2a2724;
+  --code-text:      #f0e8d6;
+  --code-comment:   rgba(255, 246, 229, 0.4);
+  --code-keyword:   var(--canada-300);
+  --code-string:    var(--green-300);
+  --code-fn:        var(--amber-300);
+  --code-number:    var(--teal-400);
+}

@@ -1,0 +1,15 @@
+/**
+ * Fonts — MatthewPurdon.me / State of AI design system
+ *
+ * Three Google-hosted webfonts:
+ *   • IBM Plex Mono  — PRIMARY: nav, headings, UI, code, labels. The signature.
+ *   • IBM Plex Serif — READING: long-form article body (the blog's magazine voice).
+ *                      Pairs natively with Plex Mono — same family, shared metrics.
+ *   • Inter          — secondary sans for dense UI chrome where mono is too wide.
+ *
+ * These load from Google Fonts (no local binaries shipped in the source repo).
+ * If you need to self-host, drop .woff2 files in /assets/fonts and replace this
+ * @import with @font-face rules.
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Serif:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&display=swap');

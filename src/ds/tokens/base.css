@@ -1,0 +1,55 @@
+/**
+ * Base reset & document defaults — State of AI design system
+ * Sets the warm-charcoal canvas, cream mono body text, and amber links.
+ */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  tab-size: 2;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: var(--leading-normal);
+  color: var(--text-primary);
+  background-color: var(--bg-base);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code, kbd, samp, pre {
+  font-family: var(--font-code);
+  font-weight: var(--weight-semibold);
+}
+
+a {
+  color: var(--text-link);
+  text-decoration: none;
+}
+a:hover { text-decoration: underline; }
+
+::selection {
+  background: var(--amber-300);
+  color: var(--ink-900);
+}
+
+/* Cream / inverted section helper */
+.inverted {
+  background: var(--bg-inverted);
+  color: var(--text-inverted);
+}
+
+/* Screen-reader only */
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}

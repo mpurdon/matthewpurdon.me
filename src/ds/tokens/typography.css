@@ -1,0 +1,70 @@
+/**
+ * Typography — MatthewPurdon.me / State of AI design system
+ *
+ * IBM Plex Mono is the PRIMARY typeface: navigation, headings, UI, code, labels.
+ * The monospaced grid is the signature of the brand. IBM Plex Serif is the
+ * READING face — reserved for long-form article body, where mono is tiring;
+ * it shares Plex's metrics so the pairing is seamless. Inter is a secondary
+ * sans for dense UI chrome where the wide mono advance would crowd.
+ *
+ * Headings & emphasis lean heavy (600–700). Labels / buttons / eyebrows are
+ * UPPERCASE with wide tracking — a core mannerism of the report aesthetic.
+ */
+
+:root {
+  /* Families */
+  --font-mono: 'IBM Plex Mono', ui-monospace, 'Cascadia Code', monospace;
+  --font-serif: 'IBM Plex Serif', Georgia, 'Times New Roman', serif;
+  --font-sans: var(--font-mono);          /* alias — mono IS the sans here */
+  --font-ui:   'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+
+  /* Type scale (rem) */
+  --text-xs:   0.75rem;    /* 12px — micro labels, chart ticks */
+  --text-sm:   0.8125rem;  /* 13px — meta, table cells */
+  --text-base: 1rem;       /* 16px — body */
+  --text-lg:   1.125rem;   /* 18px — lead body */
+  --text-xl:   1.25rem;    /* 20px — block title */
+  --text-2xl:  1.5rem;     /* 24px — card title */
+  --text-3xl:  2rem;       /* 32px — section heading */
+  --text-4xl:  2.5rem;     /* 40px — page title (mobile) */
+  --text-5xl:  3rem;       /* 48px — display */
+  --text-6xl:  4rem;       /* 64px — hero (desktop) */
+  --text-stat: 5.5rem;     /* 88px — big-number stat */
+
+  /* Weights */
+  --weight-normal:    400;
+  --weight-medium:    500;
+  --weight-semibold:  600;
+  --weight-bold:      700;
+
+  /* Line heights */
+  --leading-tight:   1.1;
+  --leading-snug:    1.25;
+  --leading-normal:  1.5;
+  --leading-relaxed: 1.65;
+
+  /* Letter spacing */
+  --tracking-tight:  -0.02em;
+  --tracking-normal: 0em;
+  --tracking-wide:   0.04em;
+  --tracking-wider:  0.08em;   /* eyebrows */
+  --tracking-widest: 0.14em;   /* buttons, nav labels */
+
+  /* Semantic roles */
+  --font-body:    var(--font-mono);
+  --font-display: var(--font-mono);
+  --font-code:    var(--font-mono);
+  --font-label:   var(--font-mono);
+  --font-prose:   var(--font-serif);   /* long-form article body */
+
+  /* Prose (long-form reading) scale & rhythm */
+  --prose-size:        1.1875rem;   /* 19px — comfortable serif reading size */
+  --prose-leading:     1.7;         /* generous line height for measure */
+  --prose-measure:     68ch;        /* max line length for body */
+  --prose-narrow:      62ch;        /* tighter measure when a margin rail is present */
+  --prose-para-gap:    1.4em;       /* space between paragraphs */
+  --prose-h2:          2rem;        /* in-article section heading */
+  --prose-h3:          1.4rem;      /* sub-heading */
+  --prose-lead:        1.4375rem;   /* article standfirst / dek */
+  --prose-pullquote:   1.875rem;    /* pull-quote size */
+}
