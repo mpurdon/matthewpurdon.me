@@ -28,9 +28,9 @@ src/
   home.jsx / notes.jsx / article.jsx / lab.jsx / about.jsx   views
   shared.jsx            covers, chips, badges, layout helpers
   ds/                   design system: tokens (CSS), component bundle, docs
-public/                 favicon, robots.txt
+public/                 favicon, robots.txt, _headers
 scripts/generate-feed.mjs   RSS feed built from src/data.js
-amplify.yml             AWS Amplify Hosting build spec
+.github/workflows/deploy.yml   CI deploy to Cloudflare Pages
 ```
 
 Routes are hash-based: `#notes`, `#notes/<slug>`, `#lab`, `#lab/<slug>`,
@@ -43,6 +43,8 @@ Everything editable lives in `src/data.js` (posts, projects, profile, topics) an
 
 ## Deploy
 
-Hosted on AWS Amplify. `amplify.yml` runs `npm ci && npm run build` and publishes
-`dist/`. Pushes to `main` deploy automatically once the app is connected to the
-GitHub repo.
+Hosted on Cloudflare Pages (project `matthewpurdon-me`). Pushes to `main` deploy
+via GitHub Actions (`.github/workflows/deploy.yml`), which needs two repo secrets:
+`CLOUDFLARE_API_TOKEN` (Cloudflare Pages — Edit) and `CLOUDFLARE_ACCOUNT_ID`.
+
+Manual deploy from a machine with wrangler auth: `npm run deploy`.
