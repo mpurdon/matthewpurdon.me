@@ -94,15 +94,4 @@ export const PROJECTS = [
     linkLabel: 'Source on GitHub',
     year: '2026',
   },
-  {
-    slug: 'open-source',
-    name: 'Sixty repos and counting',
-    type: 'Software', ai: false, status: 'Ongoing', accent: 'amber',
-    tagline: 'CLIs, experiments, and tools-for-one that occasionally turn out to be useful.',
-    summary: 'The long tail of side projects on GitHub — small command-line tools, runtime experiments, and the occasional thing that escaped into production. Browse the whole shelf.',
-    stack: ['Python', 'TypeScript', 'CLIs'],
-    link: 'https://github.com/mpurdon?tab=repositories',
-    linkLabel: 'Browse all repos',
-    year: '2012 – now',
-  },
 ];
