@@ -220,6 +220,224 @@ function GreyEminenceBody() {
   );
 }
 
+function TccBody() {
+  return (
+    <>
+      <p>
+        tcc started as a curiosity, not a plan. I wanted to see what pi was like: a deliberately
+        small open-source coding agent that ships an agent loop, a terminal UI, and very little
+        else. The experiment stopped being an experiment almost immediately, because the discovery
+        underneath it was bigger than the tool: building your own harness is not a research
+        project. It is a couple of evenings, it is genuinely fun, and the thing you end up with is
+        fast in a way that makes the commercial harnesses feel like they are wading. tcc is that
+        experiment grown up: pi underneath, AWS Bedrock as the model provider, and everything else
+        taught through extensions: persistent memory, per-branch checkpoints, secret scanning,
+        budget caps, a second model that reviews the first one's work before it lands, and a French
+        butler who announces my errors. We will get to the butler.
+      </p>
+      <Soapbox variant="aside" label="Petty grievance" signoff="the butler stays, though">
+        <p>April 1, Claude Code grows a tamagotchi. Eighteen species, rarity tiers, a SNARK stat... living in the tool I work in all day, and I didn't get a vote. It's cute! And it bugged me way out of proportion, because that's the deal with a vendor harness: you get the roadmap, the whims, and the pet. Own the harness and the only whimsy in it is whimsy you installed on purpose.</p>
+      </Soapbox>
+
+      <p>
+        The practical pull was Bedrock: at work the road to Claude runs through AWS (corporate SSO,
+        per-model inference profiles, a bill in list-price dollars), and a harness I own could be
+        built for those rails natively. Beyond that, the day-one brief said developer experience
+        was paramount, and most of what that meant in practice was borrowing shamelessly. tcc
+        mirrors Claude Code wherever mirroring is free: the memory format matches exactly, so both
+        harnesses share one brain per project; hooks use the same event names, so an existing hooks
+        file mostly drops in; plugins and skills load from the marketplace repos my team already
+        maintains. Anything pi could not actually support was dropped without ceremony.
+      </p>
+      <p>
+        Three weeks and fifty-four commits later, the wrapper had twenty-five always-on extensions
+        and opinions about everything from token throughput to notification etiquette. Almost
+        everything interesting I learned came from one property of the corporate cloud: on Bedrock,
+        waste is not an abstraction. Every retry, every overlong test log, every reviewer that
+        hangs for ten minutes shows up as dollars and wall-clock time, attributed to you.
+      </p>
+
+      <h2>Why a wrapper, and not a fork</h2>
+
+      <p>
+        pi stays small by exposing seams instead of shipping features: an extension API that
+        surfaces session start, every tool call, every turn end, and the tool results themselves.
+        That last seam matters more than it sounds; half of tcc is built on the discovery that an
+        extension can rewrite what the model sees before the model sees it. Everything tcc adds
+        hangs off those events, which means everything is a TypeScript file I can read, and nothing
+        is a patch I have to maintain against someone else's release schedule.
+      </p>
+      <p>
+        There is one yardstick every new feature gets weighed against: tcc is fast, and it has to
+        stay that way. UI extensions are skipped entirely in headless mode, MCP servers do not boot
+        until the first tool call needs them, and anything that would add latency to a turn has to
+        argue for its life. A harness you wait for is a harness you stop using. (The harness, it
+        turns out, is the new dotfiles: the tool you live in was always going to end up in version
+        control, tended like the editor config.)
+      </p>
+
+      <h2>The reviewer that never came back</h2>
+      <p>
+        tcc's heaviest feature is a final-review command that fans the day's diff out to about ten
+        specialist reviewers: correctness, the six Well-Architected pillars, code reuse,
+        complexity. The first time I ran it on a real repo, some reviewers simply never came back.
+        Bedrock throttles concurrency per inference profile, and a ten-way parallel fan-out
+        reliably starved a few of its own children. Annoying, but at least it was honest about
+        failing.
+      </p>
+      <p>
+        The expensive version came later, courtesy of one stale model ARN in a config file. Every
+        reviewer pointed at it failed silently and burned its entire ten-minute timeout doing so;
+        nine subagents, ninety minutes of wall-clock time, zero findings. The fix has three layers.
+        Fatal AWS errors (a missing profile, denied access, an expired token) now kill the call
+        immediately instead of waiting out the clock, while throttling stays retryable, because
+        throttling is weather and a missing ARN is a wrong address. The first fatal failure puts
+        that model on a per-session blacklist, so the other nine calls return instantly. And the
+        doctor command grew a deep mode that smoke-tests every configured ARN, because the cheapest
+        place to discover a wrong address is before you send nine couriers to it.
+      </p>
+      <p>
+        The reviewers also got a doctrine. A failed subagent retries once, quietly; if it fails
+        again it is marked unavailable and the work continues, and the final report names the
+        lenses that went missing rather than pretending to coverage it did not have. One reviewer
+        dying should cost exactly one reviewer's findings; it took deliberate engineering to make
+        that sentence true.
+      </p>
+      <Callout variant="note" title="Under the hood">
+        Reviewers launch in waves of three or four to stay under Bedrock's per-profile concurrency
+        throttle. The pass refuses to start with less than 60k tokens of context headroom and warns
+        below 120k, because aggregating ten reports consumes 60–120k on its own. Transient errors
+        get one retry after five seconds; if more than half the reviewers fail anyway, the report
+        ships marked as partial, with the gaps listed.
+      </Callout>
+
+      <h2>Compaction amnesia</h2>
+      <p>
+        Deep into a long session one night, I watched tcc shell out to grep and ls like a tourist,
+        ignoring the ripgrep-backed search tools I had built for it. My first theory was that
+        compaction (the periodic summarizing that keeps a long conversation inside the context
+        window) had somehow deleted the tools. It had not. The tool list was intact; what
+        compaction had erased was the history of the tools being used. Every earlier turn where the
+        custom search returned clean results had been squashed into a summary, and with no recent
+        examples in front of it, the model reached for the tool it knew best from training data.
+        Both options were on the menu. It just picked the familiar one.
+      </p>
+      <p>
+        I tried, briefly, to fix this with prompting, and you can guess how that went. The fix that
+        held was subtraction: at session start, if ripgrep and fd exist on the machine, the
+        built-in grep and find tools are removed from the menu entirely (ls survives; it is
+        harmless, and there is no better replacement for simply looking around). The lesson
+        generalized further than I expected: a model's defaults are training-deep, and a harness
+        shapes behaviour most reliably by editing the menu, not the request.
+      </p>
+      <PullQuote cite="Matthew Purdon">
+        You cannot prompt away a model's habits. If you want it to pick the right tool, take the
+        wrong one off the menu.
+      </PullQuote>
+
+      <h2>A colleague's suspiciously good numbers</h2>
+      <p>
+        A colleague showed up with a screenshot of a token-trimming tool claiming it had cut his
+        usage by 54 percent, and my honest first reaction was that the number smelled fake. Digging
+        in, the verdict was kinder and more useful: not fake, cherry-picked. The headline was
+        dominated by one case, a 91.8 percent cut on Rust test output, which is real and also
+        unsurprising (cargo test is famously operatic). Across a normal mixed workflow the honest
+        expectation was ten to twenty percent. But that is the thing about Bedrock at list price:
+        ten to twenty percent of a heavy session is real money, not a rounding error. The number
+        was cherry-picked and the idea was right.
+      </p>
+      <p>
+        I did not want a new dependency for it (my instinct was a unix filter; awk if it came to
+        that), and then I found something better while reading pi's event types: the content of a
+        tool result is writable. An extension can rewrite a command's output after the command runs
+        and before the model reads it. So tcc now trims at the source. Test runners keep their
+        setup lines and their failures-and-summary tail, because the middle of a green test run has
+        never once been useful; verbose git logs and everything else get sensible caps, with a note
+        saying how many lines were omitted and a hint to pipe through grep next time.
+      </p>
+      <Callout variant="tip" title="The arithmetic">
+        Test runners keep the first 30 lines and the last 150; git log without --oneline stops at
+        200; everything else caps at 500 with an "[N lines omitted]" marker. On a flat-fee
+        subscription you never see what verbose output costs. On Bedrock it is a line item: a
+        failing test run can be thousands of lines, and they get re-read on every turn that
+        follows.
+      </Callout>
+
+      <h2>The token dies mid-sentence</h2>
+      <p>
+        Corporate SSO tokens expire on their own schedule, which is to say: mid-afternoon,
+        mid-session, mid-thought. The failure arrived as a one-liner from the AWS SDK:{' '}
+        <code>Value not present for clientId in SSO Token. Cannot refresh.</code> The diagnosis was
+        a generation gap in AWS config formats; tokens minted through the legacy style carry no
+        OAuth client registration, so the SDK has nothing to refresh with. Half the fix was a
+        doctor warning that nags about the legacy format. The other half leaned on a small gift in
+        pi's design: the hook that runs before each agent turn is awaitable. Every five minutes tcc
+        quietly validates credentials, and when they have died it launches the SSO login and holds
+        the turn until the browser dance completes. The model never sees the auth error. From its
+        side of the conversation, the user just took a moment to reply.
+      </p>
+
+      <h2>A French butler in the terminal</h2>
+      <p>
+        An agent that works in long turns creates a babysitting problem: I want to walk away, and I
+        want to know the moment it needs me. The obvious fix is notification sounds keyed by event
+        (a question, a permission prompt, an error, a finished task), and the macOS defaults were
+        too boring to live with. So tcc's voice lines are generated once through a text-to-speech
+        API, in a French accent, and my terminal now says "Pardonnez-moi, monsieur, j'ai une
+        question" when the agent is blocked on me and "Oh là là! C'est une catastrophe!" when
+        something dies.
+      </p>
+      <p>I REGRET NOTHING!!!</p>
+      <p>
+        The banners were the actual engineering story. The sound played; the notification never
+        appeared; the scripting bridge returned a clean exit code while macOS silently discarded
+        the banner. After a long detour through permission panes, the culprit turned out to be the
+        terminal itself: on modern macOS a script's notification is attributed to whichever app
+        launched it, and my terminal emulator had never been granted notification rights. Granting
+        them surfaced the banner and revealed the second wrinkle: clicking it opened Script Editor,
+        a hard limitation of the scripting route. The final fix was a small notifier utility with
+        the sender mapped from the running terminal, so a click lands you back in the session that
+        called for you.
+      </p>
+      <p>
+        The last fix was etiquette. The butler originally announced a catastrophe for every failed
+        shell command, and a coding agent fails shell commands all day as a normal part of working.
+        Now the error line is reserved for the genuinely fatal (a blown budget, a dead login, a
+        broken model), and quick turns finish in silence. A butler who announces everything
+        announces nothing.
+      </p>
+
+      <h2>A shield between the agent and the wire</h2>
+      <p>
+        An agent reads files for a living, and sooner or later it reads the wrong one. A stray env
+        file here, a deploy script with a hardcoded key there, and a credential is sitting in the
+        conversation, one API call away from leaving the machine. tcc's last line of defence is a
+        data-loss-prevention layer that inspects every tool call before it executes: eleven
+        built-in patterns covering AWS access keys, three flavours of GitHub token, live Stripe
+        keys, Slack tokens, private-key headers, and the API keys of the model vendors themselves.
+        A match can be allowed, blocked, or held for review; review shows a redacted snippet (the
+        first four characters, an ellipsis, the last four) and asks me to decide, and every event
+        lands in an audit log.
+      </p>
+      <p>
+        The architecture is borrowed with admiration from node9-proxy: rules group into shields,
+        shields are plain JSON, and a directory of user shields means a new policy is a file drop,
+        not a release. The epilogue is my favourite part. Days after it shipped, my own cleanup
+        command (four parallel review agents that hunt for waste in whatever changed) flagged that
+        the eleven patterns were being recompiled on every single tool call, and the regexes moved
+        behind a cache. The harness reviews the harness now.
+      </p>
+      <p>
+        When I quit for the day, tcc prints one line on the way out:{' '}
+        <code>session: 42 turns · 34m · $1.83</code>. That line is the whole philosophy of the
+        project: the work, the time, and the bill, visible, owned, and small enough to read at a
+        glance.
+      </p>
+    </>
+  );
+}
+
 export const PROJECT_BODIES = {
   'grey-eminence': GreyEminenceBody,
+  'tcc': TccBody,
 };

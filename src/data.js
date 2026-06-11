@@ -62,6 +62,17 @@ export const PROJECTS = [
     year: '2026', date: 'May 29, 2026',
   },
   {
+    slug: 'tcc',
+    name: 'tcc',
+    type: 'Software', ai: true, status: 'Live', accent: 'indigo', featured: true,
+    tagline: 'An experiment with the tiny pi coding agent that became my daily-driver harness: AWS Bedrock underneath, twenty-five extensions on top, every behaviour mine to change.',
+    summary: 'A weekend experiment with the open-source pi coding agent that grew into a daily-driver harness on AWS Bedrock: persistent memory, per-branch checkpoints, secret scanning, budget caps, background PR watches, and a second-opinion review gate. Built for a corporate account, where every wasted token is a line item.',
+    stack: ['TypeScript', 'pi', 'AWS Bedrock', 'Node.js'],
+    link: 'https://github.com/mpurdon/tcc-harness',
+    linkLabel: 'Source on GitHub',
+    year: '2026', date: 'June 7, 2026',
+  },
+  {
     slug: 'technical-evolution-proposals',
     name: 'Technical Evolution (TE) Proposals',
     type: 'Process', ai: false, status: 'In use', accent: 'amber', featured: true,
