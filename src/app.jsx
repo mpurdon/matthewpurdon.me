@@ -6,6 +6,7 @@ import { NotesIndex, TopicPage } from './notes.jsx';
 import Article from './article.jsx';
 import { LabIndex, ProjectDetail } from './lab.jsx';
 import About from './about.jsx';
+import Story from './story.jsx';
 import { POSTS, PROJECTS, SITE_URL } from './data.js';
 
 // Design settings, fixed at the values chosen during the design pass.
@@ -22,6 +23,7 @@ const TITLES = {
   notes: 'Field Notes — Matthew Purdon',
   lab: 'Lab — Matthew Purdon',
   about: 'About — Matthew Purdon',
+  story: 'The scenic route — Matthew Purdon',
 };
 
 // /notes/slug → article, /lab/slug → project, /topic/name → topic landing.
@@ -40,7 +42,7 @@ function parsePath(pathname) {
     return project ? { name: 'project', project } : { name: 'lab' };
   }
   if (head === 'topic' && rest) return { name: 'topic', topic: rest };
-  if (head === 'notes' || head === 'lab' || head === 'about') return { name: head };
+  if (head === 'notes' || head === 'lab' || head === 'about' || head === 'story') return { name: head };
   return { name: 'home' };
 }
 
@@ -111,6 +113,7 @@ export default function App() {
     case 'notes': body = <NotesIndex t={t} openPost={openPost} openTopic={openTopic} />; break;
     case 'lab': body = <LabIndex t={t} openProject={openProject} go={go} />; break;
     case 'about': body = <About t={t} go={go} />; break;
+    case 'story': body = <Story t={t} go={go} />; break;
     case 'article': body = <Article post={view.post} t={t} openTopic={openTopic} go={go} />; break;
     case 'project': body = <ProjectDetail project={view.project} t={t} go={go} openProject={openProject} />; break;
     case 'topic': body = <TopicPage topic={view.topic} t={t} openPost={openPost} openTopic={openTopic} go={go} />; break;

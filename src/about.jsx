@@ -3,7 +3,7 @@ import DS from './ds/index.js';
 import { kicker, pad } from './shared.jsx';
 import { PROFILE } from './data.js';
 
-const { Button, Prose } = DS;
+const { Button, Prose, Soapbox } = DS;
 
 function LinkCard({ label, value, href }) {
   return (
@@ -39,6 +39,23 @@ export default function About({ t, go }) {
           <p>This site is two things. <strong>Field Notes</strong> is where I write — partly thinking out loud about where the craft is heading, partly literal notes from watching real teams change how they work. <strong>The Lab</strong> is where I keep the things I've made: software, yes, but also the processes and playbooks I'm proudest of. Some of it was built with an AI pair; where that's true, I say so.</p>
           <p>I write in the open because the half-formed version, dated and a little wrong, is more useful than the polished version that never ships. If something here is wrong, that's an invitation — tell me.</p>
         </Prose>
+
+        <Soapbox label="Origin story" title="The scenic route" style={{ maxWidth: 680, marginTop: 32 }}>
+          <p>
+            I grew up in the country, where the dump and the yard-sale table were our supply
+            chain, and the family computer lived in the kitchen. The only quiet came after eleven,
+            so that's when I learned; people ask why I'm still up at 3 a.m., and the honest answer
+            is that the habit never left.
+          </p>
+          <p>
+            The long version runs through three nights sleeping in my car, two semesters of
+            college, most of a bootcamp, a Quake II crew, a program called pulse, three years on
+            a Caribbean island, and zero job interviews in twenty-five years.
+          </p>
+          <p>
+            <a href="/story" onClick={(e) => { e.preventDefault(); go('story'); }}>Read the whole story →</a>
+          </p>
+        </Soapbox>
 
         <div style={{ marginTop: 36 }}>
           <p style={{ fontFamily: 'var(--font-label)', textTransform: 'uppercase', letterSpacing: 'var(--tracking-widest)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--text-muted)', margin: '0 0 16px' }}>What I think about</p>

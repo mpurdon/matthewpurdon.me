@@ -24,7 +24,7 @@ const NAV = [
 ];
 
 export function Masthead({ view, go }) {
-  const active = view === 'article' || view === 'topic' ? 'notes' : view === 'project' ? 'lab' : view;
+  const active = view === 'article' || view === 'topic' ? 'notes' : view === 'project' ? 'lab' : view === 'story' ? 'about' : view;
   return (
     <header style={{
       position: 'sticky', top: 0, zIndex: 600,

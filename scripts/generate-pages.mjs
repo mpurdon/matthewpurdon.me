@@ -66,6 +66,12 @@ urls.push({ loc: renderPage({
   title: 'About — Matthew Purdon',
   description: 'Matthew Purdon is a principal software engineer in Toronto with 25 years of experience, writing about AI-assisted engineering and how teams actually ship.',
 }) });
+urls.push({ loc: renderPage({
+  path: '/story',
+  title: 'The scenic route — Matthew Purdon',
+  description: 'The origin story, long version: a kitchen computer in the country, Quake II over a school LAN, a program called pulse, three years in the Caribbean, and twenty-five years without a job interview.',
+  jsonLd: [breadcrumbs([['Home', '/'], ['About', '/about'], ['The scenic route', '/story']])],
+}) });
 
 // Articles → BlogPosting + breadcrumbs + article OG tags
 for (const p of POSTS) {
