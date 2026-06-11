@@ -265,15 +265,15 @@ function TccBody() {
         That last seam matters more than it sounds; half of tcc is built on the discovery that an
         extension can rewrite what the model sees before the model sees it. Everything tcc adds
         hangs off those events, which means everything is a TypeScript file I can read, and nothing
-        is a patch I have to maintain against someone else's release schedule.
+        is a patch I have to maintain against someone else's release schedule. The result feels
+        less like a product than a dotfiles repo: the tool I live in, kept in version control and
+        tuned a little every week.
       </p>
       <p>
         There is one yardstick every new feature gets weighed against: tcc is fast, and it has to
         stay that way. UI extensions are skipped entirely in headless mode, MCP servers do not boot
         until the first tool call needs them, and anything that would add latency to a turn has to
-        argue for its life. A harness you wait for is a harness you stop using. (The harness, it
-        turns out, is the new dotfiles: the tool you live in was always going to end up in version
-        control, tended like the editor config.)
+        argue for its life. A harness you wait for is a harness you stop using.
       </p>
 
       <h2>The reviewer that never came back</h2>
@@ -382,10 +382,10 @@ function TccBody() {
         An agent that works in long turns creates a babysitting problem: I want to walk away, and I
         want to know the moment it needs me. The obvious fix is notification sounds keyed by event
         (a question, a permission prompt, an error, a finished task), and the macOS defaults were
-        too boring to live with. So tcc's voice lines are generated once through a text-to-speech
-        API, in a French accent, and my terminal now says "Pardonnez-moi, monsieur, j'ai une
-        question" when the agent is blocked on me and "Oh là là! C'est une catastrophe!" when
-        something dies.
+        too boring to live with. So tcc gives Claude a voice: the lines are generated once through
+        a text-to-speech API, in a French accent, and now it is Claude himself saying
+        "Pardonnez-moi, monsieur, j'ai une question" when he is blocked on me and "Oh là là!
+        C'est une catastrophe!" when something dies.
       </p>
       <p>I REGRET NOTHING!!!</p>
       <p>
@@ -427,6 +427,15 @@ function TccBody() {
         the eleven patterns were being recompiled on every single tool call, and the regexes moved
         behind a cache. The harness reviews the harness now.
       </p>
+      <Callout variant="note" title="Why not just node9-proxy?">
+        Fair question, since the shield format is lifted from it. A proxy inspects traffic at the
+        network edge, which is after the secret has already landed in the conversation; block
+        there and the leak is contained, not prevented, and the context holding it gets re-sent
+        on every turn that follows. Inside the harness the same rules fire before the tool call
+        runs, so the secret never enters the context at all, and a hold can pause the turn and
+        actually ask me. It also keeps the dependency count honest: a proxy is infrastructure to
+        deploy and keep running; an extension is one more TypeScript file in the repo.
+      </Callout>
       <p>
         When I quit for the day, tcc prints one line on the way out:{' '}
         <code>session: 42 turns · 34m · $1.83</code>. That line is the whole philosophy of the
