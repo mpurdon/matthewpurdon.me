@@ -1,6 +1,6 @@
 /* matthewpurdon.me — Home. Leads with Matthew. */
 import DS from './ds/index.js';
-import { SectionLabel, Cover, TopicChip, pad, TypeBadge, AIBadge, kicker } from './shared.jsx';
+import { SectionLabel, Cover, TopicChip, pad, TypeBadge, AIBadge, kicker, accent } from './shared.jsx';
 import { PROFILE, POSTS, PROJECTS, TOPICS } from './data.js';
 
 const { Button, ArticleCard, Byline } = DS;
@@ -58,6 +58,36 @@ function HeroPortrait({ t, go }) {
   );
 }
 
+// Featured Field Note: magazine-cover treatment — category, title, and issue
+// number live inside the cover block; the right side is just dek + byline.
+function FeaturedCard({ post, t, onClick }) {
+  const c = accent(post.accent);
+  return (
+    <a href={'#notes/' + post.slug} onClick={onClick}
+      style={{ display: 'flex', flexWrap: 'wrap', gap: 26, alignItems: 'center', textDecoration: 'none',
+        border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', background: 'var(--bg-surface)',
+        padding: 20, marginTop: 20, transition: 'border-color var(--duration-base) var(--ease)' }}
+      onMouseEnter={(e) => e.currentTarget.style.borderColor = 'var(--border-strong)'}
+      onMouseLeave={(e) => e.currentTarget.style.borderColor = 'var(--border)'}>
+      <div style={{ flex: '1 1 380px', minWidth: 0, height: 220, borderRadius: 'var(--radius-md)', border: '1px solid var(--border)',
+        background: `radial-gradient(120% 150% at 100% 0%, ${c.fill} 0%, transparent 55%), linear-gradient(135deg, var(--bg-elevated), var(--bg-surface))`,
+        display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '14px 16px' }}>
+        <div>
+          <span style={{ display: 'block', fontFamily: 'var(--font-label)', fontSize: 'var(--text-xs)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: 'var(--tracking-widest)', color: c.edge }}>{post.category}</span>
+          <span style={{ display: 'block', marginTop: 12, fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: 'clamp(28px, 3.4vw, 38px)', lineHeight: 1.1, letterSpacing: '-0.03em', color: 'var(--text-primary)', textWrap: 'balance' }}>{post.title}</span>
+        </div>
+        <span aria-hidden="true" style={{ alignSelf: 'flex-end', fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: 'clamp(2rem, 4.5vw, 2.8rem)', lineHeight: 0.95, letterSpacing: '-0.04em', color: 'var(--text-primary)', opacity: 0.92 }}>01</span>
+      </div>
+      <div style={{ flex: '1 1 320px', minWidth: 0 }}>
+        <p style={{ fontFamily: 'var(--font-prose)', fontSize: 'var(--text-lg)', lineHeight: 1.55, color: 'var(--text-secondary)', margin: 0, textWrap: 'pretty' }}>{post.dek}</p>
+        <div style={{ marginTop: 18 }}>
+          <Byline compact author="Matthew Purdon" avatar="MP" date={post.date} readingTime={post.time} />
+        </div>
+      </div>
+    </a>
+  );
+}
+
 export default function Home({ t, go, openPost, openProject, openTopic }) {
   const featured = POSTS.find(p => p.featured) || POSTS[0];
   const recent = POSTS.filter(p => p !== featured).slice(0, 3);
@@ -77,22 +107,21 @@ export default function Home({ t, go, openPost, openProject, openTopic }) {
           <SectionLabel t={t}>From Field Notes</SectionLabel>
           <a href="#notes" onClick={(e) => { e.preventDefault(); go('notes'); }} style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--text-muted)', textDecoration: 'none' }}>All writing →</a>
         </div>
-        <ArticleCard variant="hero" accent={featured.accent} category={featured.category}
-          href={'#notes/' + featured.slug} onClick={(e) => { e.preventDefault(); openPost(featured); }}
-          title={featured.title} dek={featured.dek} meta={meta(featured)}
-          cover={<Cover id="home-feat" t={t} category={featured.category} accent={featured.accent} ratio="4 / 3" big="01" />} />
+        <FeaturedCard post={featured} t={t} onClick={(e) => { e.preventDefault(); openPost(featured); }} />
       </section>
 
-      <section style={{ padding: pad(t, '28px 0 40px', '18px 0 30px') }}>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 28 }}>
-          {recent.map((p, i) => (
-            <ArticleCard key={p.slug} variant="grid" accent={p.accent} category={p.category}
-              href={'#notes/' + p.slug} onClick={(e) => { e.preventDefault(); openPost(p); }}
-              title={p.title} dek={p.dek} meta={meta(p)}
-              cover={<Cover id={'home-r' + i} t={t} category={p.category} accent={p.accent} big={'0' + (i + 2)} />} />
-          ))}
-        </div>
-      </section>
+      {recent.length > 0 && (
+        <section style={{ padding: pad(t, '28px 0 40px', '18px 0 30px') }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 28 }}>
+            {recent.map((p, i) => (
+              <ArticleCard key={p.slug} variant="grid" accent={p.accent} category={p.category}
+                href={'#notes/' + p.slug} onClick={(e) => { e.preventDefault(); openPost(p); }}
+                title={p.title} dek={p.dek} meta={meta(p)}
+                cover={<Cover id={'home-r' + i} t={t} category={p.category} accent={p.accent} big={'0' + (i + 2)} />} />
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* From the Lab */}
       <section style={{ padding: pad(t, '24px 0 40px', '16px 0 30px'), borderTop: '1px solid var(--border)' }}>

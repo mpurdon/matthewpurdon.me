@@ -2,6 +2,7 @@
 import DS from './ds/index.js';
 import { SectionLabel, pad, TypeBadge, AIBadge, kicker, TYPE_META } from './shared.jsx';
 import { PROJECTS, PROFILE } from './data.js';
+import { PROJECT_BODIES } from './lab-bodies.jsx';
 
 const { Button, Prose } = DS;
 
@@ -78,6 +79,7 @@ export function LabIndex({ t, openProject, go }) {
 
 export function ProjectDetail({ project: pr, t, go, openProject }) {
   const others = PROJECTS.filter(x => x.slug !== pr.slug).slice(0, 3);
+  const Body = PROJECT_BODIES[pr.slug];
   return (
     <main style={{ maxWidth: 820, margin: '0 auto', padding: '0 32px 96px' }}>
       <header style={{ padding: '56px 0 28px' }}>
@@ -88,7 +90,7 @@ export function ProjectDetail({ project: pr, t, go, openProject }) {
       </header>
 
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 28, padding: '22px 0', borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)', marginBottom: 8 }}>
-        {[['Type', pr.type], ['Status', pr.status], ['Year', pr.year], ['AI partner', pr.ai ? 'Yes' : 'No']].map(([k, v]) => (
+        {[['Type', pr.type], ['Status', pr.status], pr.date ? ['Date', pr.date] : ['Year', pr.year], ['AI partner', pr.ai ? 'Yes' : 'No']].map(([k, v]) => (
           <div key={k}>
             <p style={{ fontFamily: 'var(--font-label)', fontSize: 'var(--text-xs)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: 'var(--tracking-wide)', color: 'var(--text-muted)', margin: '0 0 5px' }}>{k}</p>
             <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-base)', color: 'var(--text-primary)', margin: 0 }}>{v}</p>
@@ -98,7 +100,7 @@ export function ProjectDetail({ project: pr, t, go, openProject }) {
 
       <div style={{ padding: '28px 0 8px' }}>
         <Prose style={{ maxWidth: '100%' }}>
-          <p>{pr.summary}</p>
+          {Body ? <Body /> : <p>{pr.summary}</p>}
         </Prose>
         <div style={{ margin: '26px 0' }}><StackRow stack={pr.stack} /></div>
         <a href={pr.link} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>

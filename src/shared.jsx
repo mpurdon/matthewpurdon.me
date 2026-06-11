@@ -20,24 +20,26 @@ export function SectionLabel({ children, t, style }) {
 }
 
 // Typographic cover — on-brand, photo-less. `ratio` e.g. '16 / 9' or '4 / 3'.
-export function TypoCover({ category, accent: a = 'amber', ratio = '16 / 9', big, height }) {
+export function TypoCover({ category, accent: a = 'amber', ratio = '16 / 9', big, height, labelSize = 'var(--text-xs)', centerLabel = false }) {
   const c = accent(a);
   return (
     <div style={{
       position: 'relative', overflow: 'hidden', borderRadius: 'var(--radius-md)',
       border: '1px solid var(--border)', aspectRatio: height ? undefined : ratio, height,
-      background: `radial-gradient(120% 150% at 100% 0%, ${c.fill} 0%, transparent 55%), linear-gradient(135deg, var(--bg-elevated), var(--bg-surface))`,
-      display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '1rem 1.1rem',
+      background: centerLabel
+        ? `radial-gradient(55% 320% at 100% 50%, ${c.fill} 0%, transparent 62%), radial-gradient(45% 260% at 72% 50%, ${c.fill} 0%, transparent 70%), linear-gradient(135deg, var(--bg-elevated), var(--bg-surface))`
+        : `radial-gradient(120% 150% at 100% 0%, ${c.fill} 0%, transparent 55%), linear-gradient(135deg, var(--bg-elevated), var(--bg-surface))`,
+      display: 'flex', flexDirection: 'column', justifyContent: centerLabel ? 'center' : 'space-between', padding: '1rem 1.1rem',
     }}>
-      <span style={{ fontFamily: 'var(--font-label)', fontSize: 'var(--text-xs)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: 'var(--tracking-widest)', color: c.edge }}>{category}</span>
+      <span style={{ fontFamily: 'var(--font-label)', fontSize: labelSize, fontWeight: 700, textTransform: 'uppercase', letterSpacing: 'var(--tracking-widest)', color: c.edge }}>{category}</span>
       {big && <span aria-hidden="true" style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: 'clamp(2.2rem, 6vw, 3.4rem)', lineHeight: 0.95, letterSpacing: '-0.04em', color: 'var(--text-primary)', opacity: 0.92, alignSelf: 'flex-end' }}>{big}</span>}
     </div>
   );
 }
 
 // Article/section cover. `id` kept for call-site stability; covers are typographic.
-export function Cover({ category, accent = 'amber', ratio = '16 / 9', big, height }) {
-  return <TypoCover category={category} accent={accent} ratio={ratio} big={big} height={height} />;
+export function Cover({ category, accent = 'amber', ratio = '16 / 9', big, height, labelSize, centerLabel }) {
+  return <TypoCover category={category} accent={accent} ratio={ratio} big={big} height={height} labelSize={labelSize} centerLabel={centerLabel} />;
 }
 
 // Red-aware topic chip.

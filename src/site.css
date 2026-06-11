@@ -1,0 +1,66 @@
+/* matthewpurdon.me — site-level fixes layered over the design system.
+   The DS injects its component CSS at runtime, so overrides here need one
+   extra point of specificity to win ties. */
+
+/* PullQuote: the 3rem quote mark sits in a line box squashed to 1.4rem, so its
+   ink overflows upward out of the figure and eats the top margin. Pad the top
+   so the optical spacing matches the bottom. */
+figure.mp-pq {
+  padding-top: 1rem;
+}
+
+/* Drop cap: classic two-line alignment. Cap top flush with line 1's cap top,
+   foot on line 2's baseline, right gutter one body line-height wide so the
+   letter reads grounded and symmetrical. `initial-letter: 2` does the optical
+   sizing math natively; the un-supported path (Firefox) keeps the DS float. */
+.mp-prose.mp-prose--dropcap > p:first-of-type::first-letter {
+  padding-block-start: 0;
+  padding-inline-end: 0;
+  margin-inline-end: calc(var(--prose-size) * var(--prose-leading) / 2);
+}
+@supports (initial-letter: 2) {
+  .mp-prose.mp-prose--dropcap > p:first-of-type::first-letter {
+    float: none;
+    font-size: inherit;
+    line-height: inherit;
+    initial-letter: 2;
+  }
+}
+
+/* Soapbox aside: the card's padding is uniform, but the small muted signoff
+   reads optically tighter against the bottom border than the eyebrow does at
+   the top. Give the bottom a touch more inset. */
+.mp-soap.mp-soap--aside {
+  padding-bottom: 1.5rem;
+}
+
+/* Soapbox: the watermark maple leaf ships at 0.06 opacity, too subtle to read
+   as a motif against the dark card. Bring it up. */
+.mp-soap .mp-soap__leaf-bg {
+  opacity: 0.14;
+}
+
+/* Folded soapbox (SoapboxFold in article.jsx): the closing rant is an
+   appendix, optional by design. One card — the header carries the title, the
+   inner Soapbox is stripped to bare body so it reads as the same surface, and
+   the header breathes while closed to invite the click. */
+.soap-fold .mp-soap { margin: 0; border: none; background: transparent; border-radius: 0; }
+.soap-fold .mp-soap__head { display: none; }
+.soap-fold .soap-fold__cta::before { content: '+ read the rant'; }
+.soap-fold.is-open .soap-fold__cta::before { content: '− okay, enough'; }
+@media (prefers-reduced-motion: no-preference) {
+  .soap-fold:not(.is-open) .soap-fold__head {
+    animation: soap-fold-pulse 3.2s ease-in-out infinite;
+  }
+}
+@keyframes soap-fold-pulse {
+  0%, 100% { background-color: rgba(213, 43, 30, 0.02); box-shadow: inset 0 0 0 rgba(213, 43, 30, 0); }
+  50% { background-color: rgba(213, 43, 30, 0.13); box-shadow: inset 0 0 26px rgba(213, 43, 30, 0.12); }
+}
+
+/* Section headings clear floated asides (Soapbox/PullQuote aside variants) so
+   a new section never starts squeezed beside the previous section's pull-out. */
+.mp-prose h2,
+.mp-prose h3 {
+  clear: both;
+}

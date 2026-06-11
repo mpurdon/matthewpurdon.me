@@ -19,7 +19,8 @@ export const PROFILE = {
     github: 'https://github.com/mpurdon',
     x: 'https://x.com/mpurdon',
     instagram: 'https://www.instagram.com/mdjpurdon/',
-    site: 'https://purdonmoi.com/',
+    site: 'https://purdonmoi.com/', // domain has no DNS records yet; re-add footer/about links when live
+
   },
 };
 
@@ -35,76 +36,31 @@ export const TOPICS = {
   'Notes': { blurb: 'Short, dated, half-formed. Thinking out loud.', accent: 'teal' },
 };
 
-// Field Notes (the writing). `body` present on the featured one for the article view.
+// Field Notes (the writing). Hand-written bodies live in article.jsx, keyed by slug.
 export const POSTS = [
   {
-    slug: 'interviewing-the-ai-assisted-engineer',
-    title: 'Interviewing for the AI-assisted engineer',
-    dek: 'When the editor writes half the code, the take-home stops measuring what you think it measures. Here is what I screen for instead.',
-    category: 'Hiring', accent: 'canada', featured: true,
-    date: 'May 31, 2026', dateLong: 'May 31, 2026', time: '9 min read',
-    tags: ['Hiring', 'AI-Assisted Engineering', 'The New SDLC', 'Opinion'],
-  },
-  {
-    slug: 'the-new-sdlc-from-memory',
-    title: 'The new SDLC, drawn from memory',
-    dek: 'I tried to sketch the development loop the way it actually runs now — model in every step — without looking at anyone’s diagram. It came out weird, and truer for it.',
-    category: 'The New SDLC', accent: 'indigo',
-    date: 'May 19', dateLong: 'May 19, 2026', time: '7 min read',
-    tags: ['The New SDLC', 'AI-Assisted Engineering', 'Teams & Process'],
-  },
-  {
-    slug: 'what-i-watch-when-a-team-adopts-ai',
-    title: 'What I watch when a team adopts AI',
-    dek: 'Field notes from three teams’ first ninety days with assistants. The interesting signal was never the velocity chart.',
-    category: 'Teams & Process', accent: 'teal',
-    date: 'May 6', dateLong: 'May 6, 2026', time: '8 min read',
-    tags: ['Teams & Process', 'AI-Assisted Engineering', 'Notes'],
-  },
-  {
-    slug: 'product-managers-are-becoming-editors',
-    title: 'Product managers are becoming editors',
-    dek: 'The role quietly changed shape and nobody updated the org chart. A short argument for renaming the job.',
-    category: 'Product', accent: 'teal',
-    date: 'Apr 24', dateLong: 'April 24, 2026', time: '6 min read',
-    tags: ['Product', 'Opinion', 'The New SDLC'],
-  },
-  {
-    slug: 'a-short-history-of-the-autocomplete',
-    title: 'Where we’ve been: a short history of the autocomplete',
-    dek: 'From snippets to IntelliSense to agents. The line is straighter than the hype suggests, and the lessons keep repeating.',
-    category: 'Industry', accent: 'indigo',
-    date: 'Apr 9', dateLong: 'April 9, 2026', time: '11 min read',
-    tags: ['Industry', 'AI-Assisted Engineering'],
-  },
-  {
-    slug: 'taste-is-the-bottleneck-now',
-    title: 'Taste is the bottleneck now',
-    dek: 'When generation is free, the scarce resource is knowing which of the ten plausible answers is the right one.',
-    category: 'AI-Assisted Engineering', accent: 'amber',
-    date: 'Mar 28', dateLong: 'March 28, 2026', time: '5 min read',
-    tags: ['AI-Assisted Engineering', 'Opinion'],
-  },
-  {
-    slug: 'review-is-the-new-writing',
-    title: 'Review is the new writing',
-    dek: 'I now spend more of the day reading code I did not type than typing code nobody will read. The skills are not the same.',
-    category: 'The New SDLC', accent: 'indigo',
-    date: 'Mar 12', dateLong: 'March 12, 2026', time: '6 min read',
-    tags: ['The New SDLC', 'Teams & Process', 'Opinion'],
-  },
-  {
-    slug: 'on-vibe-coding',
-    title: 'On “vibe coding” and other things we’ll regret naming',
-    dek: 'A short note on why the names we give new practices outlive the practices, and stick us with the wrong mental model.',
-    category: 'Notes', accent: 'teal',
-    date: 'Feb 27', dateLong: 'February 27, 2026', time: '3 min read',
-    tags: ['Notes', 'Industry'],
+    slug: 'summaries-all-the-way-down',
+    title: 'Summaries all the way down',
+    dek: 'An engineer writes the truth. Four summaries later, an exec reads a guess. Field notes on the compression chain, and the layered artifact I build instead.',
+    category: 'Teams & Process', accent: 'amber', featured: true,
+    date: 'Apr 10, 2026', dateLong: 'April 10, 2026', time: '10 min read',
+    tags: ['Teams & Process', 'AI-Assisted Engineering', 'Opinion'],
   },
 ];
 
 // Lab — things built. type: 'Software' | 'Process'. ai: was AI a build partner?
 export const PROJECTS = [
+  {
+    slug: 'grey-eminence',
+    name: 'Grey Eminence',
+    type: 'Software', ai: true, status: 'Live', accent: 'teal', featured: true,
+    tagline: 'A native macOS meeting recorder that never joins the call: on-device transcription, speaker diarization, and a Claude-powered memory of everything said.',
+    summary: 'Records the mic and system audio with Core Audio taps, transcribes both on the Neural Engine while the meeting runs, then re-transcribes with a larger Whisper model after. Claude turns transcripts into summaries, action items, and answers; an interview mode scores candidates against rubrics with evidence quotes.',
+    stack: ['Swift 6', 'SwiftUI', 'WhisperKit', 'Core Audio', 'Claude API'],
+    link: 'https://github.com/mpurdon/greyeminence',
+    linkLabel: 'Source on GitHub',
+    year: '2026', date: 'May 29, 2026',
+  },
   {
     slug: 'technical-evolution-proposals',
     name: 'Technical Evolution (TE) Proposals',
@@ -125,28 +81,6 @@ export const PROJECTS = [
     stack: ['React', 'Design tokens', 'AI-assisted'],
     link: 'https://github.com/mpurdon',
     linkLabel: 'Source on GitHub',
-    year: '2026',
-  },
-  {
-    slug: 'ai-assisted-interview-kit',
-    name: 'AI-Assisted Engineering interview kit',
-    type: 'Process', ai: true, status: 'Draft', accent: 'indigo',
-    tagline: 'A rubric and take-home built to measure judgement, not autocomplete speed.',
-    summary: 'A structured interview loop for hiring engineers who work with models all day: a paired review exercise, a "debug the agent" round, and a scoring sheet weighted toward taste and verification.',
-    stack: ['Rubric', 'Take-home', 'Hiring'],
-    link: 'https://github.com/mpurdon',
-    linkLabel: 'Notes & template',
-    year: '2026',
-  },
-  {
-    slug: 'new-sdlc-playbook',
-    name: 'The New SDLC playbook',
-    type: 'Process', ai: false, status: 'Draft', accent: 'teal',
-    tagline: 'A team operating model for shipping with agents in the loop, without losing the plot.',
-    summary: 'A short playbook: where the model belongs in each phase, what stays human, the review ritual that replaces solo authorship, and the guardrails that keep velocity from becoming churn.',
-    stack: ['Playbook', 'Process', 'Teams'],
-    link: 'https://github.com/mpurdon',
-    linkLabel: 'Read the draft',
     year: '2026',
   },
   {

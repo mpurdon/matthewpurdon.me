@@ -57,7 +57,6 @@ export default function About({ t, go }) {
           <LinkCard label="LinkedIn" value="matthewdjpurdon" href={L.linkedin} />
           <LinkCard label="X / Twitter" value="@mpurdon" href={L.x} />
           <LinkCard label="Instagram" value="@mdjpurdon" href={L.instagram} />
-          <LinkCard label="Personal" value="purdonmoi.com" href={L.site} />
           <LinkCard label="Email" value={PROFILE.email} href={'mailto:' + PROFILE.email} />
         </div>
         <div style={{ display: 'flex', gap: 12, marginTop: 28, flexWrap: 'wrap' }}>

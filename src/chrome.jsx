@@ -104,7 +104,6 @@ export function Footer({ go }) {
         </FooterCol>
         <FooterCol title="Contact">
           <FLink href={'mailto:' + PROFILE.email} external>Email</FLink>
-          <FLink href={L.site} external>purdonmoi.com</FLink>
         </FooterCol>
       </div>
       <div style={{ borderTop: '1px solid var(--border)' }}>

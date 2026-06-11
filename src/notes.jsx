@@ -33,28 +33,32 @@ export function NotesIndex({ t, openPost, openTopic }) {
           cover={<Cover id="notes-feat" t={t} category={featured.category} accent={featured.accent} ratio="4 / 3" big="01" />} />
       </section>
 
-      <section style={{ padding: pad(t, '8px 0 40px', '4px 0 28px') }}>
-        <SectionLabel t={t}>Recent</SectionLabel>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 28 }}>
-          {grid.map((p, i) => (
-            <ArticleCard key={p.slug} variant="grid" accent={p.accent} category={p.category}
-              href={'#notes/' + p.slug} onClick={(e) => { e.preventDefault(); openPost(p); }}
-              title={p.title} dek={p.dek} meta={meta(p)}
-              cover={<Cover id={'notes-g' + i} t={t} category={p.category} accent={p.accent} big={'0' + (i + 2)} />} />
-          ))}
-        </div>
-      </section>
+      {grid.length > 0 && (
+        <section style={{ padding: pad(t, '8px 0 40px', '4px 0 28px') }}>
+          <SectionLabel t={t}>Recent</SectionLabel>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 28 }}>
+            {grid.map((p, i) => (
+              <ArticleCard key={p.slug} variant="grid" accent={p.accent} category={p.category}
+                href={'#notes/' + p.slug} onClick={(e) => { e.preventDefault(); openPost(p); }}
+                title={p.title} dek={p.dek} meta={meta(p)}
+                cover={<Cover id={'notes-g' + i} t={t} category={p.category} accent={p.accent} big={'0' + (i + 2)} />} />
+            ))}
+          </div>
+        </section>
+      )}
 
-      <section>
-        <SectionLabel t={t}>More writing</SectionLabel>
-        <div>
-          {list.map((p) => (
-            <ArticleCard key={p.slug} variant="list" category={p.category}
-              href={'#notes/' + p.slug} onClick={(e) => { e.preventDefault(); openPost(p); }}
-              title={p.title} dek={p.dek} meta={meta(p)} />
-          ))}
-        </div>
-      </section>
+      {list.length > 0 && (
+        <section>
+          <SectionLabel t={t}>More writing</SectionLabel>
+          <div>
+            {list.map((p) => (
+              <ArticleCard key={p.slug} variant="list" category={p.category}
+                href={'#notes/' + p.slug} onClick={(e) => { e.preventDefault(); openPost(p); }}
+                title={p.title} dek={p.dek} meta={meta(p)} />
+            ))}
+          </div>
+        </section>
+      )}
 
       <section style={{ marginTop: pad(t, 56, 36), paddingTop: 36, borderTop: '1px solid var(--border)' }}>
         <SectionLabel t={t}>Browse by topic</SectionLabel>
