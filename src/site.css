@@ -45,7 +45,9 @@ figure.mp-pq {
    inner Soapbox is stripped to bare body so it reads as the same surface, and
    the header breathes while closed to invite the click. */
 .soap-fold .mp-soap { margin: 0; border: none; background: transparent; border-radius: 0; }
-.soap-fold .mp-soap__head { display: none; }
+/* One extra class: the DS's own `.mp-soap--section .mp-soap__head { display:flex }`
+   ties at (0,2,0) and is injected later, so it wins without this. */
+.soap-fold .mp-soap .mp-soap__head { display: none; }
 .soap-fold .soap-fold__cta::before { content: '+ read the rant'; }
 .soap-fold.is-open .soap-fold__cta::before { content: '− okay, enough'; }
 @media (prefers-reduced-motion: no-preference) {
