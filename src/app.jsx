@@ -1,4 +1,4 @@
-/* matthewpurdon.me — app shell: hash router + page chrome. */
+/* matthewpurdon.me — app shell: path router + page chrome. */
 import { useEffect, useRef, useState } from 'react';
 import { Masthead, Footer } from './chrome.jsx';
 import Home from './home.jsx';
@@ -6,7 +6,7 @@ import { NotesIndex, TopicPage } from './notes.jsx';
 import Article from './article.jsx';
 import { LabIndex, ProjectDetail } from './lab.jsx';
 import About from './about.jsx';
-import { POSTS, PROJECTS } from './data.js';
+import { POSTS, PROJECTS, SITE_URL } from './data.js';
 
 // Design settings, fixed at the values chosen during the design pass.
 const SETTINGS = {
@@ -24,10 +24,10 @@ const TITLES = {
   about: 'About — Matthew Purdon',
 };
 
-// #notes/slug → article, #lab/slug → project, #topic/name → topic landing.
-function parseHash(hash) {
-  const h = decodeURIComponent((hash || '').replace(/^#\/?/, ''));
-  if (!h || h === 'home') return { name: 'home' };
+// /notes/slug → article, /lab/slug → project, /topic/name → topic landing.
+function parsePath(pathname) {
+  const h = decodeURIComponent((pathname || '/').replace(/^\/+/, '').replace(/\/+$/, ''));
+  if (!h || h === 'home' || h === 'index.html') return { name: 'home' };
   const slash = h.indexOf('/');
   const head = slash === -1 ? h : h.slice(0, slash);
   const rest = slash === -1 ? '' : h.slice(slash + 1);
@@ -44,25 +44,36 @@ function parseHash(hash) {
   return { name: 'home' };
 }
 
-function viewToHash(view) {
+function viewToPath(view) {
   switch (view.name) {
-    case 'article': return '#notes/' + view.post.slug;
-    case 'project': return '#lab/' + view.project.slug;
-    case 'topic': return '#topic/' + encodeURIComponent(view.topic);
-    case 'home': return '#home';
-    default: return '#' + view.name;
+    case 'article': return '/notes/' + view.post.slug;
+    case 'project': return '/lab/' + view.project.slug;
+    case 'topic': return '/topic/' + encodeURIComponent(view.topic);
+    case 'home': return '/';
+    default: return '/' + view.name;
   }
+}
+
+// Pre-path-routing links used #notes/slug fragments; translate them once on load.
+function initialView() {
+  const legacy = (window.location.hash || '').replace(/^#\/?/, '');
+  if (legacy) {
+    const view = parsePath('/' + legacy);
+    window.history.replaceState(null, '', viewToPath(view));
+    return view;
+  }
+  return parsePath(window.location.pathname);
 }
 
 export default function App() {
   const t = SETTINGS;
-  const [view, setView] = useState(() => parseHash(window.location.hash));
+  const [view, setView] = useState(initialView);
   const scroller = useRef(null);
 
   useEffect(() => {
-    const onHash = () => setView(parseHash(window.location.hash));
-    window.addEventListener('hashchange', onHash);
-    return () => window.removeEventListener('hashchange', onHash);
+    const onPop = () => setView(parsePath(window.location.pathname));
+    window.addEventListener('popstate', onPop);
+    return () => window.removeEventListener('popstate', onPop);
   }, []);
 
   useEffect(() => {
@@ -72,12 +83,22 @@ export default function App() {
     if (view.name === 'project') title = view.project.name + ' — Matthew Purdon · Lab';
     if (view.name === 'topic') title = '#' + view.topic + ' — Matthew Purdon';
     document.title = title;
+    // Keep canonical + description in sync on client-side navigation; the
+    // prerendered HTML carries the correct values on first load.
+    const path = viewToPath(view);
+    const canonical = document.querySelector('link[rel="canonical"]');
+    if (canonical) canonical.setAttribute('href', SITE_URL + (path === '/' ? '/' : path));
+    const desc = document.querySelector('meta[name="description"]');
+    if (desc) {
+      if (view.name === 'article') desc.setAttribute('content', view.post.dek);
+      else if (view.name === 'project') desc.setAttribute('content', view.project.tagline);
+    }
   }, [view]);
 
   const navigate = (next) => {
-    const hash = viewToHash(next);
-    if (window.location.hash === hash) setView(next);
-    else window.location.hash = hash; // hashchange listener updates the view
+    const path = viewToPath(next);
+    if (window.location.pathname !== path) window.history.pushState(null, '', path);
+    setView(next);
   };
 
   const go = (name) => navigate({ name });

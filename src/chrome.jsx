@@ -33,12 +33,12 @@ export function Masthead({ view, go }) {
       backdropFilter: 'saturate(140%) blur(10px)', WebkitBackdropFilter: 'saturate(140%) blur(10px)',
       borderBottom: '1px solid var(--border)',
     }}>
-      <a href="#home" onClick={(e) => { e.preventDefault(); go('home'); }} style={{ textDecoration: 'none' }} aria-label="Matthew Purdon — home">
+      <a href="/" onClick={(e) => { e.preventDefault(); go('home'); }} style={{ textDecoration: 'none' }} aria-label="matthewpurdon — home">
         <Wordmark />
       </a>
       <nav style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
         {NAV.map(n => (
-          <a key={n.key} href={'#' + n.key} onClick={(e) => { e.preventDefault(); go(n.key); }} style={{
+          <a key={n.key} href={'/' + n.key} onClick={(e) => { e.preventDefault(); go(n.key); }} style={{
             fontFamily: 'var(--font-label)', fontSize: 'var(--text-xs)', fontWeight: 600,
             textTransform: 'uppercase', letterSpacing: 'var(--tracking-wide)',
             padding: '0.5rem 0.75rem', borderRadius: 'var(--radius-md)', textDecoration: 'none',
@@ -92,9 +92,9 @@ export function Footer({ go }) {
           </p>
         </div>
         <FooterCol title="Read">
-          <FLink href="#notes" onClick={() => go('notes')}>Field Notes</FLink>
-          <FLink href="#lab" onClick={() => go('lab')}>Lab</FLink>
-          <FLink href="#about" onClick={() => go('about')}>About</FLink>
+          <FLink href="/notes" onClick={() => go('notes')}>Field Notes</FLink>
+          <FLink href="/lab" onClick={() => go('lab')}>Lab</FLink>
+          <FLink href="/about" onClick={() => go('about')}>About</FLink>
         </FooterCol>
         <FooterCol title="Elsewhere">
           <FLink href={L.github} external>GitHub</FLink>

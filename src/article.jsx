@@ -295,9 +295,10 @@ export default function Article({ post, t, openTopic, go }) {
   const meta = (p) => <Byline author="Matthew Purdon" avatar="MP" date={p.dateLong || p.date} readingTime={p.time} tag={p.category} />;
   const back = post.category;
   return (
+    <main>
     <article>
       <header style={{ maxWidth: 820, margin: '0 auto', padding: '56px 32px 32px', textAlign: 'center' }}>
-        <a href="#topic" onClick={(e) => { e.preventDefault(); openTopic(back); }}
+        <a href={'/topic/' + encodeURIComponent(back)} onClick={(e) => { e.preventDefault(); openTopic(back); }}
           style={{ fontFamily: 'var(--font-label)', textTransform: 'uppercase', letterSpacing: 'var(--tracking-wider)', fontSize: 'var(--text-xs)', fontWeight: 700, color: kicker(t), textDecoration: 'none' }}>
           ← {back}
         </a>
@@ -316,7 +317,7 @@ export default function Article({ post, t, openTopic, go }) {
         <div style={{ marginTop: 36, display: 'flex', flexWrap: 'wrap', gap: 8, alignItems: 'center' }}>
           <span style={{ fontFamily: 'var(--font-label)', fontSize: 'var(--text-xs)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: 'var(--tracking-wider)', color: 'var(--text-muted)', marginInlineEnd: 4 }}>Filed under</span>
           {post.tags.map(tag => (
-            <a key={tag} href="#topic" onClick={(e) => { e.preventDefault(); openTopic(tag); }}
+            <a key={tag} href={'/topic/' + encodeURIComponent(tag)} onClick={(e) => { e.preventDefault(); openTopic(tag); }}
               style={{ display: 'inline-flex', alignItems: 'center', gap: '0.35rem', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--canada-300)', textDecoration: 'none', padding: '0.3rem 0.7rem', borderRadius: 'var(--radius-full)', border: '1px solid rgba(213,43,30,0.32)', background: 'rgba(213,43,30,0.08)' }}>
               #{tag}
             </a>
@@ -331,12 +332,13 @@ export default function Article({ post, t, openTopic, go }) {
               Principal software engineer in Toronto, 25 years in. Writes Field Notes on AI-assisted engineering and the new SDLC, and builds the occasional tool — and process — in the Lab.
             </p>
             <div style={{ display: 'flex', gap: 14 }}>
-              <a href="#about" onClick={(e) => { e.preventDefault(); go('about'); }} style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', color: 'var(--canada-300)', textDecoration: 'none' }}>About →</a>
+              <a href="/about" onClick={(e) => { e.preventDefault(); go('about'); }} style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', color: 'var(--canada-300)', textDecoration: 'none' }}>About →</a>
               <a href={PROFILE.links.github} target="_blank" rel="noopener noreferrer" style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', color: 'var(--text-muted)', textDecoration: 'none' }}>GitHub ↗</a>
             </div>
           </div>
         </div>
       </div>
     </article>
+    </main>
   );
 }

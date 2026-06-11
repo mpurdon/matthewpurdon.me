@@ -13,9 +13,9 @@ export function kicker(t) { return t && t.red === 'subtle' ? 'var(--text-muted)'
 
 export function SectionLabel({ children, t, style }) {
   return (
-    <p style={{ fontFamily: 'var(--font-label)', textTransform: 'uppercase', letterSpacing: 'var(--tracking-widest)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--text-muted)', margin: '0 0 20px', ...style }}>
+    <h2 style={{ fontFamily: 'var(--font-label)', textTransform: 'uppercase', letterSpacing: 'var(--tracking-widest)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--text-muted)', margin: '0 0 20px', ...style }}>
       {children}
-    </p>
+    </h2>
   );
 }
 
@@ -47,7 +47,7 @@ export function TopicChip({ label, count, onClick, t, size = 'md' }) {
   const subtle = t && t.red === 'subtle';
   const pad = size === 'sm' ? '0.3rem 0.7rem' : '0.5rem 0.9rem';
   return (
-    <a href={'#topic'} onClick={(e) => { e.preventDefault(); onClick && onClick(label); }}
+    <a href={'/topic/' + encodeURIComponent(label)} onClick={(e) => { e.preventDefault(); onClick && onClick(label); }}
       style={{
         display: 'inline-flex', alignItems: 'center', gap: '0.5rem',
         fontFamily: 'var(--font-mono)', fontSize: size === 'sm' ? 'var(--text-xs)' : 'var(--text-sm)',

@@ -63,7 +63,7 @@ function HeroPortrait({ t, go }) {
 function FeaturedCard({ post, t, onClick }) {
   const c = accent(post.accent);
   return (
-    <a href={'#notes/' + post.slug} onClick={onClick}
+    <a href={'/notes/' + post.slug} onClick={onClick}
       style={{ display: 'flex', flexWrap: 'wrap', gap: 26, alignItems: 'center', textDecoration: 'none',
         border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', background: 'var(--bg-surface)',
         padding: 20, marginTop: 20, transition: 'border-color var(--duration-base) var(--ease)' }}
@@ -105,7 +105,7 @@ export default function Home({ t, go, openPost, openProject, openTopic }) {
       <section style={{ padding: pad(t, '48px 0 8px', '34px 0 4px') }}>
         <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: 12 }}>
           <SectionLabel t={t}>From Field Notes</SectionLabel>
-          <a href="#notes" onClick={(e) => { e.preventDefault(); go('notes'); }} style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--text-muted)', textDecoration: 'none' }}>All writing →</a>
+          <a href="/notes" onClick={(e) => { e.preventDefault(); go('notes'); }} style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--text-muted)', textDecoration: 'none' }}>All writing →</a>
         </div>
         <FeaturedCard post={featured} t={t} onClick={(e) => { e.preventDefault(); openPost(featured); }} />
       </section>
@@ -115,7 +115,7 @@ export default function Home({ t, go, openPost, openProject, openTopic }) {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 28 }}>
             {recent.map((p, i) => (
               <ArticleCard key={p.slug} variant="grid" accent={p.accent} category={p.category}
-                href={'#notes/' + p.slug} onClick={(e) => { e.preventDefault(); openPost(p); }}
+                href={'/notes/' + p.slug} onClick={(e) => { e.preventDefault(); openPost(p); }}
                 title={p.title} dek={p.dek} meta={meta(p)}
                 cover={<Cover id={'home-r' + i} t={t} category={p.category} accent={p.accent} big={'0' + (i + 2)} />} />
             ))}
@@ -127,11 +127,11 @@ export default function Home({ t, go, openPost, openProject, openTopic }) {
       <section style={{ padding: pad(t, '24px 0 40px', '16px 0 30px'), borderTop: '1px solid var(--border)' }}>
         <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: 12, paddingTop: pad(t, 36, 26) }}>
           <SectionLabel t={t} style={{ marginBottom: 20 }}>From the Lab</SectionLabel>
-          <a href="#lab" onClick={(e) => { e.preventDefault(); go('lab'); }} style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--text-muted)', textDecoration: 'none' }}>Everything built →</a>
+          <a href="/lab" onClick={(e) => { e.preventDefault(); go('lab'); }} style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--text-muted)', textDecoration: 'none' }}>Everything built →</a>
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 24 }}>
           {labFeat.map((pr) => (
-            <a key={pr.slug} href={'#lab/' + pr.slug} onClick={(e) => { e.preventDefault(); openProject(pr); }}
+            <a key={pr.slug} href={'/lab/' + pr.slug} onClick={(e) => { e.preventDefault(); openProject(pr); }}
               style={{ display: 'block', textDecoration: 'none', border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', background: 'var(--bg-surface)', padding: 24, transition: 'border-color var(--duration-base) var(--ease)' }}
               onMouseEnter={(e) => e.currentTarget.style.borderColor = 'var(--border-strong)'}
               onMouseLeave={(e) => e.currentTarget.style.borderColor = 'var(--border)'}>
