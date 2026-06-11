@@ -3,6 +3,7 @@
    indexable with correct metadata before any JS runs. Also writes sitemap.xml.
    Runs as part of `npm run build`, after vite build and the feed. */
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
+import { dirname as dirOf } from 'node:path';
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { POSTS, PROJECTS, TOPICS, PROFILE, SITE_URL, AVATAR } from '../src/data.js';
@@ -39,9 +40,11 @@ function renderPage({ path, title, description, ogType = 'website', jsonLd = [],
     .replace(/(<meta name="twitter:description" content=")[^"]*(" \/>)/, `$1${esc(description)}$2`);
   const blocks = jsonLd.map((o) => `<script type="application/ld+json">\n${JSON.stringify(o, null, 2)}\n</script>`).join('\n');
   if (blocks || extraMeta) html = html.replace('</head>', `${extraMeta}${blocks}\n</head>`);
-  const dir = resolve(root, '.' + decodeURIComponent(path));
-  mkdirSync(dir, { recursive: true });
-  writeFileSync(resolve(dir, 'index.html'), html);
+  // Flat <path>.html (not <path>/index.html): Cloudflare Pages serves it at
+  // the clean slash-less URL with a 200, matching canonicals/sitemap exactly.
+  const file = resolve(root, '.' + decodeURIComponent(path) + '.html');
+  mkdirSync(dirOf(file), { recursive: true });
+  writeFileSync(file, html);
   return url;
 }
 
