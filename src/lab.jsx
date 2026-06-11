@@ -1,7 +1,7 @@
 /* matthewpurdon.me — Lab index + project detail. */
 import DS from './ds/index.js';
 import { SectionLabel, pad, TypeBadge, AIBadge, kicker, TYPE_META } from './shared.jsx';
-import { PROJECTS, PROFILE } from './data.js';
+import { PROJECTS } from './data.js';
 import { PROJECT_BODIES } from './lab-bodies.jsx';
 
 const { Button, Prose } = DS;
@@ -64,15 +64,6 @@ export function LabIndex({ t, openProject, go }) {
         <CardsGrid items={PROJECTS} openProject={openProject} />
       </section>
 
-      <section style={{ paddingTop: 8 }}>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16, flexWrap: 'wrap', border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', background: 'var(--bg-surface)', padding: '22px 26px' }}>
-          <div>
-            <p style={{ fontFamily: 'var(--font-mono)', fontWeight: 600, fontSize: 'var(--text-base)', color: 'var(--text-primary)', margin: '0 0 4px' }}>Sixty repositories and counting.</p>
-            <p style={{ fontFamily: 'var(--font-prose)', fontSize: 'var(--text-sm)', color: 'var(--text-secondary)', margin: 0 }}>The long tail of experiments and tools-for-one lives on GitHub.</p>
-          </div>
-          <a href={PROFILE.links.github} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}><Button variant="outline">Browse GitHub ↗</Button></a>
-        </div>
-      </section>
     </main>
   );
 }
