@@ -56,10 +56,11 @@ function viewToPath(view) {
   }
 }
 
-// Pre-path-routing links used #notes/slug fragments; translate them once on load.
+// Pre-path-routing links used #notes/slug fragments; translate them once on
+// load. Plain #some-anchor hashes are section deep links — leave them alone.
 function initialView() {
   const legacy = (window.location.hash || '').replace(/^#\/?/, '');
-  if (legacy) {
+  if (legacy && /^(notes|lab|topic)(\/|$)|^(home|about|story)$/.test(legacy)) {
     const view = parsePath('/' + legacy);
     window.history.replaceState(null, '', viewToPath(view));
     return view;

@@ -1,6 +1,7 @@
 /* matthewpurdon.me — Lab index + project detail. */
+import { useRef } from 'react';
 import DS from './ds/index.js';
-import { SectionLabel, pad, TypeBadge, AIBadge, kicker, TYPE_META } from './shared.jsx';
+import { SectionLabel, pad, TypeBadge, AIBadge, kicker, TYPE_META, useDeepAnchors } from './shared.jsx';
 import { PROJECTS } from './data.js';
 import { PROJECT_BODIES } from './lab-bodies.jsx';
 
@@ -71,6 +72,8 @@ export function LabIndex({ t, openProject, go }) {
 export function ProjectDetail({ project: pr, t, go, openProject }) {
   const others = PROJECTS.filter(x => x.slug !== pr.slug).slice(0, 3);
   const Body = PROJECT_BODIES[pr.slug];
+  const bodyRef = useRef(null);
+  useDeepAnchors(bodyRef, [pr.slug]);
   return (
     <main style={{ maxWidth: 820, margin: '0 auto', padding: '0 32px 96px' }}>
       <header style={{ padding: '56px 0 28px' }}>
@@ -89,7 +92,7 @@ export function ProjectDetail({ project: pr, t, go, openProject }) {
         ))}
       </div>
 
-      <div style={{ padding: '28px 0 8px' }}>
+      <div ref={bodyRef} style={{ padding: '28px 0 8px' }}>
         <Prose style={{ maxWidth: '100%' }}>
           {Body ? <Body /> : <p>{pr.summary}</p>}
         </Prose>

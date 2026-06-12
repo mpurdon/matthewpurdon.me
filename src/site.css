@@ -66,3 +66,33 @@ figure.mp-pq {
 .mp-prose h3 {
   clear: both;
 }
+
+/* Deep-link copy buttons (h2s, Soapboxes, SoapboxFolds — see useDeepAnchors
+   in shared.jsx). Red per the palette; revealed on hover of the section. */
+.anchor-copy {
+  display: inline-flex; align-items: center; justify-content: center;
+  vertical-align: middle; margin-inline-start: 10px; padding: 2px;
+  background: none; border: none; cursor: pointer;
+  color: var(--canada-500);
+  opacity: 0;
+  transition: opacity var(--duration-base) var(--ease), color var(--duration-base) var(--ease);
+}
+.anchor-copy svg { width: 16px; height: 16px; display: block; }
+h2:hover > .anchor-copy,
+.mp-soap:hover .anchor-copy,
+.soap-fold:hover > .anchor-copy,
+.anchor-copy:focus-visible,
+.anchor-copy.is-copied { opacity: 1; }
+.anchor-copy:hover { color: var(--canada-400); }
+.anchor-copy .anchor-copy__check { display: none; }
+.anchor-copy.is-copied .anchor-copy__link { display: none; }
+.anchor-copy.is-copied .anchor-copy__check { display: block; color: var(--canada-400); }
+@media (hover: none) { .anchor-copy { opacity: 0.55; } }
+
+/* The fold header is a <button>; its copy link sits on the section instead. */
+.soap-fold { position: relative; }
+.anchor-copy--fold { position: absolute; top: 14px; inset-inline-end: 16px; margin: 0; }
+.soap-fold .soap-fold__cta { margin-inline-end: 26px; }
+
+/* Anchored sections stop clear of the sticky masthead. */
+.mp-prose h2, .mp-soap, .soap-fold { scroll-margin-top: 86px; }

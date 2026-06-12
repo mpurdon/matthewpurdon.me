@@ -1,4 +1,5 @@
 /* matthewpurdon.me — shared view helpers (covers, labels, chips, accents). */
+import { useEffect } from 'react';
 
 const ACCENTS = {
   amber:  { fill: 'rgba(252,172,60,0.22)', edge: 'var(--amber-300)', solid: '#fcac3c' },
@@ -94,4 +95,103 @@ export function TypeBadge({ type }) {
 
 export function AIBadge() {
   return <Pill color="var(--indigo-400)" border="1px solid rgba(129,140,248,0.4)" bg="rgba(129,140,248,0.12)">AI-assisted</Pill>;
+}
+
+// Deep-linkable anchors. Gives every h2, Soapbox, and SoapboxFold inside a
+// rendered body an id slugged from its title plus a red copy-link button
+// (styles: .anchor-copy in site.css). DOM enhancement rather than components
+// because the Soapbox markup lives inside the prebuilt DS bundle.
+export function slugify(text) {
+  return String(text || '')
+    .toLowerCase()
+    .replace(/['’]/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
+
+const LINK_SVG = '<svg class="anchor-copy__link" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>';
+const CHECK_SVG = '<svg class="anchor-copy__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>';
+
+function makeCopyButton(id) {
+  const b = document.createElement('button');
+  b.type = 'button';
+  b.className = 'anchor-copy';
+  b.title = 'Copy link to this section';
+  b.setAttribute('aria-label', 'Copy link to this section');
+  b.innerHTML = LINK_SVG + CHECK_SVG;
+  b.addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    window.history.replaceState(null, '', '#' + id);
+    const url = window.location.origin + window.location.pathname + '#' + id;
+    if (navigator.clipboard) navigator.clipboard.writeText(url).catch(() => {});
+    b.classList.add('is-copied');
+    setTimeout(() => b.classList.remove('is-copied'), 1400);
+  });
+  return b;
+}
+
+export function useDeepAnchors(ref, deps) {
+  useEffect(() => {
+    const root = ref.current;
+    if (!root) return;
+    const seen = new Set();
+    const assign = (base) => {
+      let id = base || 'section';
+      let n = 2;
+      while (seen.has(id)) id = `${base}-${n++}`;
+      seen.add(id);
+      return id;
+    };
+
+    // Section headers: id + button on the h2 itself.
+    root.querySelectorAll('h2').forEach((h) => {
+      if (h.querySelector('.anchor-copy')) { seen.add(h.id); return; }
+      const id = assign(slugify(h.textContent));
+      h.id = id;
+      h.appendChild(makeCopyButton(id));
+    });
+
+    // Soapboxes (full-width and asides). The copy of a Soapbox nested inside a
+    // SoapboxFold has its chrome stripped, so the fold section is the anchor.
+    root.querySelectorAll('.mp-soap, .soap-fold').forEach((el) => {
+      if (el.classList.contains('mp-soap') && el.closest('.soap-fold')) return;
+      if (el.querySelector(':scope > .anchor-copy, :scope .mp-soap__title .anchor-copy, :scope .mp-soap__eyebrow .anchor-copy')) { seen.add(el.id); return; }
+      const title = el.querySelector('.mp-soap__title');
+      const sign = el.querySelector('.mp-soap__sign');
+      const foldTitle = el.classList.contains('soap-fold') ? el.querySelector('.soap-fold__head span:last-child') : null;
+      const text = (foldTitle || title || sign)?.textContent;
+      if (!text) return;
+      const id = assign(slugify(text));
+      el.id = id;
+      const btn = makeCopyButton(id);
+      if (el.classList.contains('soap-fold')) {
+        // The fold header is itself a <button>; park the copy link on the
+        // section, absolutely positioned (no nested buttons).
+        btn.classList.add('anchor-copy--fold');
+        el.appendChild(btn);
+      } else if (title) {
+        title.appendChild(btn);
+      } else {
+        const eyebrow = el.querySelector('.mp-soap__eyebrow');
+        (eyebrow || el).appendChild(btn);
+      }
+    });
+
+    // Deep link on load: wait out the router's scroll-to-top, then go there.
+    const hash = decodeURIComponent((window.location.hash || '').slice(1));
+    if (hash && seen.has(hash)) {
+      const timer = setTimeout(() => {
+        const el = document.getElementById(hash);
+        if (!el) return;
+        if (el.classList.contains('soap-fold')) {
+          const head = el.querySelector('.soap-fold__head');
+          if (head && head.getAttribute('aria-expanded') === 'false') head.click();
+        }
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 80);
+      return () => clearTimeout(timer);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, deps);
 }

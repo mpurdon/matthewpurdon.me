@@ -1,7 +1,7 @@
 /* matthewpurdon.me — single article view. */
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import DS from './ds/index.js';
-import { Cover, kicker } from './shared.jsx';
+import { Cover, kicker, useDeepAnchors } from './shared.jsx';
 import { AVATAR, PROFILE } from './data.js';
 import { LEAF } from './chrome.jsx';
 
@@ -294,6 +294,8 @@ export default function Article({ post, t, openTopic, go }) {
   const Body = BODIES[post.slug];
   const meta = (p) => <Byline author="Matthew Purdon" avatar="MP" date={p.dateLong || p.date} readingTime={p.time} tag={p.category} />;
   const back = post.category;
+  const bodyRef = useRef(null);
+  useDeepAnchors(bodyRef, [post.slug]);
   return (
     <main>
     <article>
@@ -311,7 +313,7 @@ export default function Article({ post, t, openTopic, go }) {
         <Cover id={'art-' + post.slug} t={t} category={post.category} accent={post.accent} height={60} labelSize="var(--prose-lead)" centerLabel />
       </div>
 
-      <div style={{ maxWidth: 760, margin: '0 auto', padding: '32px 32px 64px' }}>
+      <div ref={bodyRef} style={{ maxWidth: 760, margin: '0 auto', padding: '32px 32px 64px' }}>
         {Body ? <Body /> : <DefaultBody post={post} />}
 
         <div style={{ marginTop: 36, display: 'flex', flexWrap: 'wrap', gap: 8, alignItems: 'center' }}>
