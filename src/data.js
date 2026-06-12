@@ -95,6 +95,17 @@ export const PROJECTS = [
     year: '2026', date: 'June 7, 2026',
   },
   {
+    slug: 'evalu8',
+    name: 'Evalu8',
+    type: 'Software', ai: true, status: 'Done', accent: 'teal', featured: false,
+    tagline: 'A one-evening Electron app that replaced the Postman collection: a bespoke client for a sparsely documented API, built to explore call evaluations the way I actually wanted to read them.',
+    summary: 'Built in a single evening to explore 8x8\'s quality-management API while validating an AI call-scoring pipeline: search interactions, read transcripts beside their human scorecards, all behind a UI that absorbs the API\'s inconsistent response shapes and thin documentation. Reopened once, four months later, to add a phone-number lookup that scans five years of call history in parallel monthly windows with client-side matching, because the API has no phone filter. The entire git history is two sittings; that cadence is the point.',
+    stack: ['Electron', 'React', 'TypeScript', 'Vite', 'Tailwind'],
+    link: 'https://github.com/mpurdon/evalu8',
+    linkLabel: 'Source on GitHub',
+    year: '2026', date: 'March 31, 2026',
+  },
+  {
     slug: 'matthewpurdon-design-system',
     name: 'matthewpurdon.me + design system',
     type: 'Software', ai: true, status: 'Live', accent: 'canada', featured: true,
