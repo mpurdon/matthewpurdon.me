@@ -84,6 +84,17 @@ export const PROJECTS = [
     year: '2025',
   },
   {
+    slug: 'mcp-servers',
+    name: 'MCP servers',
+    type: 'Software', ai: true, status: 'Live', accent: 'amber', featured: true,
+    tagline: 'A monorepo of Model Context Protocol servers built as facades, not adapters: each tool answers a question I actually ask, with the org\'s tribal knowledge baked in.',
+    summary: 'Four public TypeScript MCP servers (MongoDB, Sumo Logic, GitHub, FreshBooks) plus an installer CLI that configures Claude Desktop, Code, and Cowork in one command and auto-discovers private servers from local descriptors. Each server is a facade over its API: org-wide PR rollups and CI-failure log archaeology in one call, log searches that already know where every service logs, production writes that refuse to run without explicit confirmation, and invoicing tools shaped like the chore instead of the endpoint.',
+    stack: ['TypeScript', 'MCP SDK', 'zod', 'Turborepo', 'npm'],
+    link: 'https://github.com/mpurdon/mcp-servers',
+    linkLabel: 'Source on GitHub',
+    year: '2026', date: 'June 7, 2026',
+  },
+  {
     slug: 'matthewpurdon-design-system',
     name: 'matthewpurdon.me + design system',
     type: 'Software', ai: true, status: 'Live', accent: 'canada', featured: true,

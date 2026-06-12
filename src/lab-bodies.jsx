@@ -636,8 +636,194 @@ function DsBody() {
   );
 }
 
+function McpServersBody() {
+  return (
+    <>
+      <p>
+        One weekend in early June I went looking for my MCP servers and found an archaeology dig.
+        A FreshBooks server living inside <code>~/.claude/mcp-servers/</code>, no git history, born
+        in a single Claude session in May. A Sumo Logic server that was a straight clone of a
+        repo I found on GitHub, still carrying a Dockerfile and an HTTP transport I never used. A GitHub
+        server written in untyped JavaScript. Each one wired up by hand-editing whichever JSON
+        file that particular host wanted: one path for Claude Desktop, another for Claude Code, a
+        third for Cowork. Every new machine, every new host, the same twenty minutes of
+        config spelunking.
+      </p>
+      <p>
+        The cleanup is the boring part of this story: a pnpm and Turborepo monorepo, everything
+        ported to strict TypeScript, a conventions document, CI, and npm publishing. That took the
+        weekend. The part worth writing down is what I noticed while moving the servers in: Claude
+        used some of them constantly and ignored others, and the difference had nothing to do
+        with how many tools each one exposed. The servers that earned their keep were the ones
+        that knew things.
+      </p>
+      <Callout variant="note" title="Under the hood">
+        Four public servers (MongoDB, Sumo Logic, GitHub, FreshBooks) and one installer CLI,
+        fifty-one tools between them, published to npm under <code>@mpurdon/*</code>. TypeScript,
+        ESM, Node 20+, every tool input validated with zod, stdio transport only. One private
+        server (a work MySQL database) lives in its own repo and joins through a local descriptor.
+        Releases go out via Changesets and npm Trusted Publishing (OIDC); there is no npm token
+        in CI to leak.
+      </Callout>
+
+      <h2>Watching Claude order off the menu</h2>
+      <p>
+        The Sumo Logic API is honest about what it is: searches are jobs, so you start one, poll
+        until it finishes, then page through the results. My first server exposed exactly that,
+        one tool per endpoint, and watching Claude use it was like watching an intern with a curl
+        cheatsheet. Five tool calls to answer one question, and the first query was usually wrong
+        anyway, because the query language is the easy half. The hard half is knowing that the
+        checkout service logs under a source category like <code>prd/ecommerce/checkout</code>,
+        that its noisy health checks need filtering out, and that nobody has ever written any of
+        this down anywhere a model could read it.
+      </p>
+      <Callout variant="warning" title="The adapter smells">
+        You are looking at an adapter, not a tool, when: the tool list mirrors the API's endpoint
+        list; the descriptions are copied from the endpoint summaries, with no hint of when to
+        reach for one; results come back as raw API responses (pagination envelopes, hypermedia
+        links, forty fields where five matter) that the model re-reads on every turn that
+        follows; polling and paging are the model's problem; tools demand IDs the model has no
+        way to know (account, business, workspace) instead of resolving them from config; and a
+        DELETE is wrapped as casually as a GET, with no confirmation semantics anywhere.
+      </Callout>
+      <p>
+        The fix was already sitting in the server I had cloned. Grey Perez, a developer I have
+        never met whose{' '}
+        <a href="https://github.com/greyaperez/mcp-sumologic" target="_blank" rel="noopener noreferrer">
+          mcp-sumologic
+        </a>{' '}
+        this package descends from, had built it around a context file, and it is still the best
+        idea in the whole monorepo. It maps the organization the way a senior engineer carries it
+        in their head (environments, then
+        applications and infrastructure, each with its source category, common filters, and a
+        couple of known-good sample queries), plus shortcuts: parameterized query templates for
+        the searches you run every week. On top of that map the server grows tools shaped like
+        questions. <code>discover_sources</code> tells the model what exists.{' '}
+        <code>search_by_context</code> takes an application name and a time range and builds the
+        query itself. The raw job-polling tools are still there for the odd bespoke search, but
+        the model almost never needs them, because the tribal knowledge lives in the server now.
+      </p>
+      <PullQuote cite="Matthew Purdon">
+        An adapter exposes the API. A facade answers the question.
+      </PullQuote>
+      <p>
+        The FreshBooks server is the purest version of the idea. The API has endpoints for time
+        entries, clients, and invoices; nothing in the API knows that it is invoicing day. So the
+        tools are the chores themselves. <code>generate_timesheet</code> pulls a date range of
+        time entries and writes the exact bi-weekly Excel file my client expects, signature image
+        and all. <code>generate_invoice</code> groups the same entries by project and service,
+        looks up each billable rate, and creates the draft invoice. What used to be a Python
+        script and an evening of copy-paste is one sentence in a chat window.
+      </p>
+
+      <Soapbox label="Hot take" title="Stop shipping adapters" signoff="put the loop in the server">
+        <p>Every team's first MCP server is the same server: open the API docs, write one tool per endpoint, ship it, post about it. Congrats, you've built an SDK with extra steps. And lately you don't even have to do the typing: point FastMCP's from_openapi() at an OpenAPI document and the whole spec becomes a server, one tool per operation, two hundred endpoints into two hundred tools in one line of code. (Not FastMCP's fault. It's a good framework, and it ships route maps precisely so you can curate the conversion. Nobody curates.) Every one of those two hundred names, descriptions, and parameter schemas now gets loaded into the model's context before the conversation starts; you're paying by the token to ship a table of contents.</p>
+        <p>The model already knows how to call a REST API; that was never the hard part. The hard part is which endpoints, in what order, with which magic strings, and a 1:1 wrapper outsources exactly that to the most expensive, slowest component in the entire stack. You're paying frontier-model prices for orchestration a for-loop could do. So here's the test: if your server's tool list reads like the API's sidebar nav, you haven't built a tool, you've forwarded the documentation. Put the loop in the server. Put the org chart in the server. Put the connection strings, the source categories, the rate limits, the schema in the server. Tools should be named after the questions people actually ask ("what broke in CI?", "what merged this week?"), because every turn the model spends on plumbing is a turn it doesn't spend on judgment, you know? The model is the only part of the system that can think. Stop making it do the part that doesn't need thinking.</p>
+      </Soapbox>
+
+      <h2>One question, forty API calls</h2>
+      <p>
+        My Monday-morning question is "what happened in the org while I wasn't looking?" GitHub
+        does not have an endpoint for that. It has a search endpoint that returns thin results,
+        and a detail endpoint you must hit once per PR to learn anything useful, and a secondary
+        rate limit that bans you for asking too enthusiastically (I found that one the empirical
+        way). So <code>get_org_recent_prs</code> does the whole dance in one call: search the org,
+        then enrich every hit with its size, CI state, and whether it is a dependabot PR, in
+        batches of eight to stay under the ban hammer. One tool call, one rolled-up answer,
+        org-wide.
+      </p>
+      <p>
+        The deepest tool in the set is <code>get_pr_ci_failures</code>, which exists because "why
+        is CI red?" is never one API call. It resolves the PR to its head commit, finds the failed
+        workflow runs for that commit, keeps only the newest run per workflow, walks each one down
+        through its failing jobs to the failing steps, downloads the job log, locates that step's
+        section by its log markers, strips the timestamps, and returns the last fifty lines. That
+        is the part of code review nobody enjoys (four phases of clicking through the Actions UI),
+        and the model gets it as a single tool whose answer is exactly the fifty lines that
+        matter. Its sibling <code>get_pr_for_review</code> categorizes every changed file as code,
+        CI, infrastructure, or dependencies, so a review can open with the blast radius instead of
+        discovering it on file nine of twelve.
+      </p>
+
+      <h2>Production is a different planet</h2>
+      <p>
+        The scariest sentence in agent tooling is "the model has your production connection
+        string". The MongoDB server is built around taking that sentence seriously. It keeps
+        three connection strings (dev, staging, production) in a <code>chmod 600</code> config
+        file, always knows which one is loaded, and reports it through{' '}
+        <code>current_environment</code> along with a <code>writesRestricted</code> flag. In
+        production, write tools do not execute. They return a refusal that describes exactly what
+        would have run (the operation, the environment, the host, the documents or filters
+        involved) and ask to be re-invoked with <code>confirmed: true</code>. The model cannot
+        forget to ask permission, because asking permission is the return value.{' '}
+        <code>drop_collection</code> requires confirmation in every environment, including dev,
+        because there is no environment where I want that to be a surprise.
+      </p>
+      <p>
+        The same paranoia covers what comes back over the wire. The server will happily tell you
+        which host it is talking to; it derives a sanitized hostname from the connection string
+        and never returns the string itself, because a credential that enters the context window
+        gets re-sent with every turn that follows (the tcc story's secret shields fight the same
+        battle one layer up). And the private work server, a MySQL database with fifteen years of
+        history in it, applies the philosophy to schemas: its best tool is{' '}
+        <code>get_schema_wiki</code>, which returns the entire schema as one markdown document,
+        cached for a day. The model reads it once at the start of a session instead of dribbling
+        out twenty <code>describe_table</code> calls, and its other tools are named after the
+        domain objects, not the tables.
+      </p>
+
+      <h2>Five servers, one shape</h2>
+      <p>
+        A week after the consolidation, dependabot bumped every dependency in the repo and
+        handed me the best war story in it. The dotenv library, as of version 17, prints a
+        friendly tip banner when it loads. To stdout. A stdio MCP server <em>is</em> its stdout;
+        the host expects nothing on that stream but JSON-RPC frames, so one library being
+        helpful is a corrupted stream and a dead server. The fix is a <code>quiet: true</code>{' '}
+        flag and a new respect for how fragile the transport is: the conventions document now
+        opens with the rule that diagnostics go to stderr, and ESLint enforces it by banning{' '}
+        <code>console.log</code> outright.
+      </p>
+      <p>
+        That document (<code>CONVENTIONS.md</code>, distilled from the MongoDB package as the
+        reference implementation) is what makes five servers feel like one. Config is validated
+        with zod at startup, and a bad config fails with a message that names the exact file and
+        shows sample contents to paste. Servers shut down cleanly on SIGINT and guard against
+        late-resolving promises crashing the process mid-session. And the installer ties it
+        together: <code>npx @mpurdon/mcp-servers configure</code> detects which Claude hosts are
+        on the machine, prompts for each server's credentials (masked, never echoed), and writes
+        the right entry into the right config file for Desktop, Code, and Cowork; idempotently,
+        with a <code>--dry-run</code> flag. The twenty minutes of config spelunking is now a
+        single command.
+      </p>
+      <p>
+        The installer also solves the problem that not everything can be public. Work servers
+        stay in private repos, but each one ships a register command that writes a small
+        versioned descriptor into <code>~/.mpurdon-mcp/servers.d/</code>. The configurator
+        discovers those at runtime and offers them in the same list as the npm packages, marked{' '}
+        <code>(private)</code> and launched from local disk. The public CLI ships no knowledge of
+        them at all; one install experience, two tiers of secrecy.
+      </p>
+
+      <Callout variant="takeaway" title="The house rule">
+        A tool earns its slot by answering a question I actually ask, in one call, with the
+        context already inside it: the source categories, the connection strings, the schema, the
+        rate limits. If the tool list reads like the API's table of contents, it is an adapter,
+        and it goes back in the oven.
+      </Callout>
+      <p>
+        There is a familiar shape in all of this. A tool result is a summary of an API response,
+        written for the reader who has to act on it; the facade decides what the model needs the
+        way a good brief decides what an exec needs. I wrote a whole{' '}
+        <a href="/notes/summaries-all-the-way-down">Field Note</a> about layering information for
+        its reader. It turns out the argument holds when the reader is a machine.
+      </p>
+    </>
+  );
+}
+
 export const PROJECT_BODIES = {
   'grey-eminence': GreyEminenceBody,
   'tcc': TccBody,
   'matthewpurdon-design-system': DsBody,
+  'mcp-servers': McpServersBody,
 };
