@@ -56,6 +56,11 @@ export const POSTS = [
   },
 ];
 
+// Field Note issue number shown on covers: chronological rank (oldest = 01),
+// stable as new posts ship, regardless of display order.
+const POSTS_BY_DATE = [...POSTS].sort((a, b) => new Date(a.dateLong || a.date) - new Date(b.dateLong || b.date));
+export const postNumber = (post) => String(POSTS_BY_DATE.findIndex(p => p.slug === post.slug) + 1).padStart(2, '0');
+
 // Lab — things built. type: 'Software' | 'Process'. ai: was AI a build partner?
 export const PROJECTS = [
   {

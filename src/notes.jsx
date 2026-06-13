@@ -1,7 +1,7 @@
 /* matthewpurdon.me — Field Notes index + Topic landing. */
 import DS from './ds/index.js';
 import { SectionLabel, Cover, TopicChip, pad, kicker } from './shared.jsx';
-import { POSTS, TOPICS, PROFILE } from './data.js';
+import { POSTS, TOPICS, PROFILE, postNumber } from './data.js';
 import { LEAF } from './chrome.jsx';
 
 const { ArticleCard, Byline } = DS;
@@ -30,7 +30,7 @@ export function NotesIndex({ t, openPost, openTopic }) {
         <ArticleCard variant="hero" accent={featured.accent} category={featured.category}
           href={'/notes/' + featured.slug} onClick={(e) => { e.preventDefault(); openPost(featured); }}
           title={featured.title} dek={featured.dek} meta={meta(featured)}
-          cover={<Cover id="notes-feat" t={t} category={featured.category} accent={featured.accent} ratio="4 / 3" big="01" />} />
+          cover={<Cover id="notes-feat" t={t} category={featured.category} accent={featured.accent} ratio="4 / 3" big={postNumber(featured)} />} />
       </section>
 
       {grid.length > 0 && (
@@ -41,7 +41,7 @@ export function NotesIndex({ t, openPost, openTopic }) {
               <ArticleCard key={p.slug} variant="grid" accent={p.accent} category={p.category}
                 href={'/notes/' + p.slug} onClick={(e) => { e.preventDefault(); openPost(p); }}
                 title={p.title} dek={p.dek} meta={meta(p)}
-                cover={<Cover id={'notes-g' + i} t={t} category={p.category} accent={p.accent} big={'0' + (i + 2)} />} />
+                cover={<Cover id={'notes-g' + i} t={t} category={p.category} accent={p.accent} big={postNumber(p)} />} />
             ))}
           </div>
         </section>

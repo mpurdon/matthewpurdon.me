@@ -1,7 +1,7 @@
 /* matthewpurdon.me — Home. Leads with Matthew. */
 import DS from './ds/index.js';
 import { SectionLabel, Cover, TopicChip, pad, TypeBadge, AIBadge, kicker, accent } from './shared.jsx';
-import { PROFILE, POSTS, PROJECTS, TOPICS } from './data.js';
+import { PROFILE, POSTS, PROJECTS, TOPICS, postNumber } from './data.js';
 
 const { Button, ArticleCard, Byline } = DS;
 
@@ -76,7 +76,7 @@ function FeaturedCard({ post, t, onClick }) {
           <span style={{ display: 'block', fontFamily: 'var(--font-label)', fontSize: 'var(--text-xs)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: 'var(--tracking-widest)', color: c.edge }}>{post.category}</span>
           <span style={{ display: 'block', marginTop: 12, fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: 'clamp(28px, 3.4vw, 38px)', lineHeight: 1.1, letterSpacing: '-0.03em', color: 'var(--text-primary)', textWrap: 'balance' }}>{post.title}</span>
         </div>
-        <span aria-hidden="true" style={{ alignSelf: 'flex-end', fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: 'clamp(2rem, 4.5vw, 2.8rem)', lineHeight: 0.95, letterSpacing: '-0.04em', color: 'var(--text-primary)', opacity: 0.92 }}>01</span>
+        <span aria-hidden="true" style={{ alignSelf: 'flex-end', fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: 'clamp(2rem, 4.5vw, 2.8rem)', lineHeight: 0.95, letterSpacing: '-0.04em', color: 'var(--text-primary)', opacity: 0.92 }}>{postNumber(post)}</span>
       </div>
       <div style={{ flex: '1 1 320px', minWidth: 0 }}>
         <p style={{ fontFamily: 'var(--font-prose)', fontSize: 'var(--text-lg)', lineHeight: 1.55, color: 'var(--text-secondary)', margin: 0, textWrap: 'pretty' }}>{post.dek}</p>
@@ -117,7 +117,7 @@ export default function Home({ t, go, openPost, openProject, openTopic }) {
               <ArticleCard key={p.slug} variant="grid" accent={p.accent} category={p.category}
                 href={'/notes/' + p.slug} onClick={(e) => { e.preventDefault(); openPost(p); }}
                 title={p.title} dek={p.dek} meta={meta(p)}
-                cover={<Cover id={'home-r' + i} t={t} category={p.category} accent={p.accent} big={'0' + (i + 2)} />} />
+                cover={<Cover id={'home-r' + i} t={t} category={p.category} accent={p.accent} big={postNumber(p)} />} />
             ))}
           </div>
         </section>
