@@ -39,10 +39,18 @@ export const TOPICS = {
 // Field Notes (the writing). Hand-written bodies live in article.jsx, keyed by slug.
 export const POSTS = [
   {
+    slug: 'judgement-is-the-job-now',
+    title: 'Judgement is the job now',
+    dek: 'Hand ten engineers the same model and the work comes back in two piles. AI removed the effort filter, and judgement is what is left. On taste, the dependency graph that wasn\'t, and the audit my vacation is about to run.',
+    category: 'AI-Assisted Engineering', accent: 'indigo', featured: true,
+    date: 'Jun 12, 2026', dateLong: 'June 12, 2026', time: '11 min read',
+    tags: ['AI-Assisted Engineering', 'Hiring', 'Opinion'],
+  },
+  {
     slug: 'summaries-all-the-way-down',
     title: 'Summaries all the way down',
     dek: 'An engineer writes the truth. Four summaries later, an exec reads a guess. Field notes on the compression chain, and the layered artifact I build instead.',
-    category: 'Teams & Process', accent: 'amber', featured: true,
+    category: 'Teams & Process', accent: 'amber', featured: false,
     date: 'Apr 10, 2026', dateLong: 'April 10, 2026', time: '10 min read',
     tags: ['Teams & Process', 'AI-Assisted Engineering', 'Opinion'],
   },
