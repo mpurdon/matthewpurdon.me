@@ -43,7 +43,7 @@ export const POSTS = [
     title: 'Judgement is the job now',
     dek: 'Hand ten engineers the same model and the work comes back in two piles. AI removed the effort filter, and judgement is what is left. On taste, the dependency graph that wasn\'t, and the audit my vacation is about to run.',
     category: 'AI-Assisted Engineering', accent: 'indigo', featured: true,
-    date: 'Jun 12, 2026', dateLong: 'June 12, 2026', time: '11 min read',
+    date: 'Jun 1, 2026', dateLong: 'June 1, 2026', time: '11 min read',
     tags: ['AI-Assisted Engineering', 'Hiring', 'Opinion'],
   },
   {
