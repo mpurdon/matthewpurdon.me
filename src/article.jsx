@@ -5,7 +5,7 @@ import { Cover, kicker, useDeepAnchors } from "./shared.jsx";
 import { AVATAR, PROFILE } from "./data.js";
 import { LEAF } from "./chrome.jsx";
 
-const { Prose, Soapbox, Callout, PullQuote, Byline } = DS;
+const { Prose, Soapbox, Callout, PullQuote, Byline, CodeBlock } = DS;
 
 // Collapsed-by-default Soapbox for end-of-article rants. One card: the header
 // is always visible (and pulses gently while closed — see .soap-fold rules in
@@ -978,29 +978,74 @@ function DocsForModelBody() {
       </p>
       <p>I review a lot of the skills my team writes, and I keep distilling the same handful of rules out of them.</p>
       <Callout variant="note" title="Rules of thumb for a skill">
-        <div style={{ display: 'grid', gridTemplateColumns: 'auto 1fr', gap: '0.75rem 0.85rem', marginTop: '0.35rem' }}>
-          <span style={{ color: 'var(--callout-note-accent)', fontFamily: 'var(--font-mono)', fontWeight: 'bold', fontSize: '0.95em' }}>01</span>
+        <div style={{ display: "grid", gridTemplateColumns: "auto 1fr", gap: "0.75rem 0.85rem", marginTop: "0.35rem" }}>
+          <span
+            style={{
+              color: "var(--callout-note-accent)",
+              fontFamily: "var(--font-mono)",
+              fontWeight: "bold",
+              fontSize: "0.95em",
+            }}
+          >
+            01
+          </span>
           <div>
             <strong>Order the steps sequentially:</strong> The model reads top to bottom, so lay out the steps in the
             order the work happens (before you start, while you build, after you are done).
           </div>
 
-          <span style={{ color: 'var(--callout-note-accent)', fontFamily: 'var(--font-mono)', fontWeight: 'bold', fontSize: '0.95em' }}>02</span>
+          <span
+            style={{
+              color: "var(--callout-note-accent)",
+              fontFamily: "var(--font-mono)",
+              fontWeight: "bold",
+              fontSize: "0.95em",
+            }}
+          >
+            02
+          </span>
           <div>
             <strong>Design precise, varied triggers:</strong> People ask in half-sentences and with worse spelling.
           </div>
 
-          <span style={{ color: 'var(--callout-note-accent)', fontFamily: 'var(--font-mono)', fontWeight: 'bold', fontSize: '0.95em' }}>03</span>
+          <span
+            style={{
+              color: "var(--callout-note-accent)",
+              fontFamily: "var(--font-mono)",
+              fontWeight: "bold",
+              fontSize: "0.95em",
+            }}
+          >
+            03
+          </span>
           <div>
             <strong>Include self-verification:</strong> Always give the skill a way to verify its own work.
           </div>
 
-          <span style={{ color: 'var(--callout-note-accent)', fontFamily: 'var(--font-mono)', fontWeight: 'bold', fontSize: '0.95em' }}>04</span>
+          <span
+            style={{
+              color: "var(--callout-note-accent)",
+              fontFamily: "var(--font-mono)",
+              fontWeight: "bold",
+              fontSize: "0.95em",
+            }}
+          >
+            04
+          </span>
           <div>
             <strong>Write "must" or delete it:</strong> A soft rule is wasted space that the model will skip.
           </div>
 
-          <span style={{ color: 'var(--callout-note-accent)', fontFamily: 'var(--font-mono)', fontWeight: 'bold', fontSize: '0.95em' }}>05</span>
+          <span
+            style={{
+              color: "var(--callout-note-accent)",
+              fontFamily: "var(--font-mono)",
+              fontWeight: "bold",
+              fontSize: "0.95em",
+            }}
+          >
+            05
+          </span>
           <div>
             <strong>Keep it under 500 words:</strong> If it climbs past 1500 words, break it into sub-agents.
           </div>
@@ -1018,10 +1063,11 @@ function DocsForModelBody() {
         <p>
           Every few weeks someone with a decade in traditional ML explains to a room that prompting is really a craft
           you need their kind of background to get. I will be generous, because the internals knowledge is real:
-          understanding how quantization degrades reasoning in a 4-bit GGUF, how a LoRA or QLoRA adapter steers attention
-          without bloating the base model, or how attention heads route tokens through key-value caches. That stuff is
-          hard, and it matters. But knowing how a model is built is not the same as knowing how to work with one, the
-          way knowing how to tune a piano is not the same as being able to play it. The wiring is not the music.
+          understanding how quantization degrades reasoning in a 4-bit GGUF, how a LoRA or QLoRA adapter steers
+          attention without bloating the base model, or how attention heads route tokens through key-value caches. That
+          stuff is hard, and it matters. But knowing how a model is built is not the same as knowing how to work with
+          one, the way knowing how to tune a piano is not the same as being able to play it. The wiring is not the
+          music.
         </p>
         <p>
           I mean ... here's the uncomfortable version. The person who knows the most about getting real work out of one
@@ -1075,6 +1121,405 @@ function DocsForModelBody() {
   );
 }
 
+function TimelineItem({ time, title, isLast, children }) {
+  return (
+    <div style={{ display: "flex", gap: "1.5rem", position: "relative" }}>
+      {/* Left side: Time indicator */}
+      <div
+        style={{
+          width: "4.5rem",
+          flexShrink: 0,
+          textAlign: "right",
+          fontFamily: "var(--font-mono)",
+          fontSize: "0.9rem",
+          color: "var(--canada-300)",
+          fontWeight: 700,
+          paddingBlockStart: "0.15rem",
+        }}
+      >
+        {time}
+      </div>
+
+      {/* Middle: Bullet and Line */}
+      <div
+        style={{ display: "flex", flexDirection: "column", alignItems: "center", flexShrink: 0, position: "relative" }}
+      >
+        <div
+          style={{
+            width: "12px",
+            height: "12px",
+            borderRadius: "50%",
+            background: "var(--canada-bg)",
+            border: "2.5px solid var(--canada-300)",
+            zIndex: 1,
+            boxShadow: "0 0 0 4px var(--bg-primary, var(--bg-body, #121214))",
+          }}
+        />
+        {!isLast && (
+          <div
+            style={{
+              position: "absolute",
+              top: "12px",
+              bottom: "-2.5rem",
+              width: "2px",
+              background: "rgba(244, 131, 122, 0.22)",
+            }}
+          />
+        )}
+      </div>
+
+      {/* Right side: Content */}
+      <div style={{ flex: 1, paddingBottom: isLast ? 0 : "2.5rem" }}>
+        <h3
+          style={{
+            margin: "0 0 0.5rem",
+            fontSize: "1.15rem",
+            fontFamily: "var(--font-mono)",
+            fontWeight: 700,
+            color: "var(--text-primary)",
+          }}
+        >
+          {title}
+        </h3>
+        <div style={{ fontSize: "1.025rem", lineHeight: "1.55", color: "var(--text-secondary)" }}>{children}</div>
+      </div>
+    </div>
+  );
+}
+
+function Timeline({ items }) {
+  return (
+    <div style={{ margin: "2.5rem 0", paddingInlineStart: "0.5rem" }}>
+      {items.map((item, i) => (
+        <TimelineItem key={i} time={item.time} title={item.title} isLast={i === items.length - 1}>
+          {item.content}
+        </TimelineItem>
+      ))}
+    </div>
+  );
+}
+
+function InterviewingBody() {
+  return (
+    <Prose dropcap style={{ maxWidth: "100%" }}>
+      <Callout variant="takeaway" title="The glance">
+        Whiteboard syntax and memorized algorithms are screens for typing speed, not engineering capability. When AI can
+        generate code instantly, the critical skill is no longer production, but curation. Shift your interview to a
+        <strong> live AI-assisted challenge</strong>: hand the candidate a real-world task seeded with quiet logic
+        traps, and calibrate for <strong>judgement</strong> (the ability to translate the true requirements into a
+        rigorous spec), <strong>verification</strong> (can they quickly find where the LLM went off the rails or even
+        better, is about to), and finally <strong>taste</strong> (is the thing that got built actually good in the sense
+        that it's simple, easy to reason about, follows the standards from the rest of the codebase). You will find the
+        engineers whose judgement you would actually trust to run full speed and not take production down at 3 in the
+        morning.
+      </Callout>
+
+      <p>
+        For a long time, the coding interview measured one thing reasonably well: can you, alone, in a quiet room, turn
+        a problem into working code under time pressure. It was never a great proxy for the job; software development
+        has always been a team sport of building, integration, and maintaining. But it was something. That proxy is now
+        dead. The frontier model in the candidate's editor would ace the take-home.
+      </p>
+
+      <Soapbox variant="aside" label="Hot take" signoff="and I mean it">
+        <p>
+          If your interview can be passed by pasting the prompt into an assistant, you are not screening for engineers.
+          You are screening for people who own a keyboard.
+        </p>
+      </Soapbox>
+
+      <p>
+        I have no interest in making people work in a sterile sandbox, or spending hours on unpaid take-home homework.
+        Instead, we run a live, forty-five-minute coding exercise. We hand them a small, real-world task: fetch data
+        from a public API, transform it, and display it in a clean format. Do the actual job we want you to do. And we
+        explicitly tell them to use AI assistance (Copilot, Cursor, Claude, or whatever feels best).
+      </p>
+
+      <p>
+        But there is a catch: that forty-five minutes has to cover both the building <em>and</em> the judging. How long
+        the candidate spends coaxing the model to generate the solution eats directly into their review time. The brutal
+        reality of the round is that most candidates never even reach the review; they spend so long navigating the spec
+        and fighting with the model's first drafts that the clock runs out before they can verify a single line of
+        output. The standouts are the ones who steer the model efficiently, get to a stable draft in fifteen minutes,
+        and leave the remaining half-hour to audit the model's silent assumptions and write tests.
+      </p>
+
+      <h2>How they build is how they think</h2>
+      <p>
+        Watching someone review the code after the LLM has built something is how you know whether they actually know
+        code, and whether they can spot a failure from the model. It is a pure window into their decision-making. Do
+        they notice the test that asserts nothing? Do they trust the confident, model-generated comment or check the
+        actual API payload? The candidates I want are the ones who can look at what the model produced and find where
+        its logic falls over.
+      </p>
+
+      <p>
+        But the most important signal in the entire forty-five minutes is at the very start:{" "}
+        <strong>how they translate the challenge description into a specification.</strong> A mediocre candidate copies
+        the raw, messy requirements and pastes them into the prompt window. The standout candidate stops. They reframe,
+        clarify, and translate the product description into a rigorous engineering spec before they ever touch the
+        model. They constrain the AI first, because they know that the quality of the spec determines the fidelity of
+        the generation.
+      </p>
+
+      <Callout variant="note">
+        The skill I am hiring for is no longer "can you produce a solution." It is "can you tell, quickly, which of
+        several plausible solutions is the right one — and prove it."
+      </Callout>
+
+      <p>
+        Conversely, if they spend too much time on the spec, it is a waste of time. We are not writing a treaty; we are
+        coding on a forty-five-minute clock. The candidate needs a sharp sense of "good enough" — the threshold where
+        planning ends and execution starts — and then fall back on the old IRC advice: <em>TIAS</em> (try it and see).
+        Build the spec, get the first draft on disk, and run it. You cannot verify a model's assumptions from the chat
+        history; you have to look at the logs of the live environment.
+      </p>
+
+      <p>
+        During interview seasons, I sit in these rounds with my local meeting recorder running in developer mode (I
+        built <a href="/lab/grey-eminence">Grey Eminence</a> specifically to keep these transcripts on my own disk).
+        Reading the transcripts later is a masterclass in calibration. The candidates who "talk the talk" with perfect
+        jargon often fail so friggin hard when they meet the real code, because they are just running their own
+        pattern-matching retrieval loops. But the candidates who can actually ship are different; they are the ones who
+        look at what the model typed and instantly spot the load-bearing flaw.
+      </p>
+
+      <p>I script the entire panel as a ninety-minute, high-signal loop so every interviewer runs it the same way:</p>
+
+      <Timeline
+        items={[
+          {
+            time: "15 min",
+            title: "01. The oblique warmup",
+            content: (
+              <>
+                <p style={{ margin: 0 }}>
+                  Resumes are fiction, so I never read them before the round. Instead, we spend fifteen minutes talking
+                  about recent work, things they built that were genuinely fun, or what they want to learn next. I ask
+                  questions based on their answers and I come at them obliquely.
+                </p>
+                <p style={{ margin: "0.5rem 0 0" }}>
+                  For example, rather than asking how much experience they have with Python, I ask:{" "}
+                  <em>"What do you hate about Python?"</em> If they do not have anything they dislike about their
+                  primary tool, they have not been using it long enough. A senior who has spent years in a language
+                  carries scar tissue; they should be able to rattle off personal pain points in seconds.
+                </p>
+              </>
+            ),
+          },
+          {
+            time: "45 min",
+            title: "02. The live challenge & review",
+            content: (
+              <>
+                <p style={{ margin: 0 }}>
+                  This is the API-fetch-and-transform core. How fast the candidate gets the AI to generate the first
+                  draft determines how much time is left for the review. If they spend forty minutes fighting the spec,
+                  they have five minutes to judge the code. Managing the model is part of the test.
+                </p>
+                <p style={{ margin: "0.5rem 0 0" }}>
+                  A mediocre candidate dumps the spec into the chat box, hits enter, and prays the first output runs.
+                  The standouts operate differently: they treat the model like an assistant, not a magic box. They take
+                  the challenge, feed it to the model, and ask it to summarize and probe the spec for understanding
+                  first. Only when they are comfortable that they and the model agree on a plan do they execute.
+                </p>
+                <p style={{ margin: "0.5rem 0 0" }}>
+                  And they do not look away while it is typing. They watch the scrolly bits. If their gut gets triggered
+                  by something in the stream, they halt generation instantly to ask what it is doing, or remember the
+                  line for when the model stops typing. Once they have a draft, they have the model generate tests to
+                  verify the build, run a refactoring task to simplify the code, and only then do they roll up their
+                  sleeves to inspect the code.
+                </p>
+                <p style={{ margin: "0.5rem 0 0" }}>
+                  This is where we measure real taste: do they let the model ship a monolithic, eighty-line function
+                  where all operations live together, or do they force it to separate fetching from transformation? Do
+                  they audit how it handles API failures or missing payloads? And do they catch the absurd AI
+                  hallucinations? (I have watched models bafflingly throw an infinite <code>for(;;)</code> loop into
+                  TypeScript code processing a finite array of data, and watched careless candidates wave it through.)
+                  The standout catches the infinite loop, rejects the monolith, and refuses to ship until the boundaries
+                  are verified.
+                </p>
+              </>
+            ),
+          },
+          {
+            time: "25 min",
+            title: "03. System design",
+            content: (
+              <>
+                <p style={{ margin: 0 }}>
+                  The system design is an entirely new thing that we expect them to draw out using some drawing tool.
+                  The prompt is practical: design a system that takes user surveys and tries to match them up to
+                  benefits.
+                </p>
+                <p style={{ margin: "0.5rem 0 0" }}>
+                  It is incredibly interesting to see if they use the models to help them with this part. They are
+                  completely free to use AI as a sparring partner (asking it to brainstorm components, validate DB
+                  schemas, or outline the data flow). But it is exceedingly rare that they do. It makes me sad, honestly;
+                  it shows how deeply candidates still compartmentalize the model as a mere syntax typewriter,
+                  forgetting that its highest and best use is as a cognitive partner for architectural trade-offs.
+                </p>
+              </>
+            ),
+          },
+          {
+            time: "5 min",
+            title: "04. The handoff",
+            content: (
+              <p style={{ margin: 0 }}>
+                The final five minutes are for the candidates to ask us anything they want. It is a soft-looking
+                segment, but it carries a massive signal. A candidate who says, "I don't really have any questions" is
+                prolly not going to make the cut. Inquisitive engineers are the only ones who survive in a world where
+                the machine answers the easy questions; if you cannot think of a single thing to ask a future peer about
+                their platform, your curiosity is already retired.
+              </p>
+            ),
+          },
+        ]}
+      />
+
+      <PullQuote cite="Matthew Purdon">
+        Generation is cheap now. The expensive thing (the thing they earn a salary for) is judgement about which
+        generated thing to keep.
+      </PullQuote>
+
+      <h2>Seeding the spec with traps</h2>
+      <p>
+        A great interview challenge doesn't need to be massive. We keep the core task simple (fetch, transform, display)
+        but we seed the requirements description with a few quiet, highly plausible logic traps. We want to see if the
+        candidate's translated specification catches these before they prompt, and whether their code review catches
+        where the model fails them:
+      </p>
+
+      <Callout variant="note" title="Seeding the requirements">
+        <div style={{ display: "grid", gridTemplateColumns: "auto 1fr", gap: "0.75rem 0.85rem", marginTop: "0.35rem" }}>
+          <span
+            style={{
+              color: "var(--callout-note-accent)",
+              fontFamily: "var(--font-mono)",
+              fontWeight: "bold",
+              fontSize: "0.95em",
+            }}
+          >
+            01
+          </span>
+          <div>
+            <strong>Seed dynamic windows:</strong> Requirements that demand deriving ranges from the input data rather
+            than hard-coding values. This is the baseline; anyone paying attention finds it.
+          </div>
+
+          <span
+            style={{
+              color: "var(--callout-note-accent)",
+              fontFamily: "var(--font-mono)",
+              fontWeight: "bold",
+              fontSize: "0.95em",
+            }}
+          >
+            02
+          </span>
+          <div>
+            <strong>Seed silent traps:</strong> Edge cases (like off-by-one errors, timezone mismatches, or unhandled
+            empty states) that run fine but yield wrong data. This is where the signal lives.
+          </div>
+
+          <span
+            style={{
+              color: "var(--callout-note-accent)",
+              fontFamily: "var(--font-mono)",
+              fontWeight: "bold",
+              fontSize: "0.95em",
+            }}
+          >
+            03
+          </span>
+          <div>
+            <strong>Seed false alarms:</strong> Something that looks like a bug but is actually a deliberate, documented
+            workaround. We want to see if they verify before they react.
+          </div>
+
+          <span
+            style={{
+              color: "var(--callout-note-accent)",
+              fontFamily: "var(--font-mono)",
+              fontWeight: "bold",
+              fontSize: "0.95em",
+            }}
+          >
+            04
+          </span>
+          <div>
+            <strong>Check the tests:</strong> A model will confidently generate tests that assert nothing (like an empty
+            try-catch block wrapping an assertion, or <code>expect(true).toBe(true)</code>). We watch to see if they
+            inspect the test assertions.
+          </div>
+        </div>
+      </Callout>
+
+      <p>
+        The candidate's job isn't to nitpick the formatting or complain about the naming style. I want the ones who
+        reframe the spec, find the load-bearing logic bug during review, and refuse to ship until it is verified.
+        Nitpicking is cheap; triage is the job.
+      </p>
+
+      <h2>What I stopped weighting</h2>
+      <p>
+        I no longer care about speed of typing. I have never felt any value in LeetCode-like challenges; I have always
+        valued real-world examples (fetch data from this API, process and display it). Do the job we actually want you
+        to do. None of those abstract puzzle algorithms predict who is good on a team where most first drafts arrive
+        from a model.
+      </p>
+      <p>
+        What predicts it is simple: knowing when a thing is done, knowing when it is wrong, and being honest about which
+        of the two you are looking at.
+      </p>
+
+      <Callout variant="tip" title="Make it concrete">
+        Always run the exercise against a small, working local dev environment. If the candidate says "I think this
+        would crash if the array is empty," do not just agree. Say: "Let's run it and see." Watch how they debug the
+        live feedback.
+      </Callout>
+
+      <p>
+        None of this is a clean science. I am still calibrating, still arguing with my own panel about what a "strong
+        no" looks like. But the shape is clear enough to commit to: hire for taste and judgement, interview by handing
+        people work to evaluate instead of work to produce, and stop pretending the keyboard is the bottleneck.
+      </p>
+
+      <p>
+        It is exhausting, of course. Interviewing is heavy, non-linear work, and when you are staring at your third
+        panel of the week while your own backlog is pile-up high, it is easy to treat it like overhead. That is a
+        dangerous mistake. Hiring someone onto your team is the single most important thing you can do as an engineer.
+        Much like jury duty, it can often feel like a waste of time, a chore that takes you away from your "real" work.
+        But you cannot let fatigue win out. Safeguarding who joins your team is a necessary part of engineering culture
+        and team cohesion, the same way participating in a jury is a key underpinning for a functioning society. You are
+        guarding the joy of delivering surprises that make your users love the work you do. You are guarding the
+        work/life balance of yourself and your teammates.
+      </p>
+
+      <SoapboxFold title="Stop asking for the steak knives" signoff="hire the judge, not the keyboard">
+        <p>
+          OMG, I am so tired of the whiteboard puzzle interview. We are hiring people to build systems, not to
+          re-implement Dijkstra's algorithm from memory on a virtual wall while three people pretend to watch while
+          checking their email. If a model can do that in two shakes of a lamb's tail, what are we even testing? We are
+          testing if they spent two weeks memorizing Leetcode.
+        </p>
+        <p>
+          I mean ... the typing is never the bottleneck. It never was! But we spent twenty years pretending it was
+          because it was easy to count. Now the machine can type ten thousand lines of absolute crap a minute, and we're
+          still screening for typing speed. It's friggin' embarrassing.
+        </p>
+        <p>
+          If you keep testing people on how fast they can spit out syntax, you'll end up with a team that can generate
+          code they can't explain, and review processes that turn into rubber stamps. Stop treating your interview loop
+          like a Glengarry boiler room. Put the whiteboard down. Coffee is for coders, but the Cadillac is for curators.
+          Stop asking for the steak knives. ABC: Always Be Curating.
+        </p>
+      </SoapboxFold>
+    </Prose>
+  );
+}
+
 function DefaultBody({ post }) {
   return (
     <Prose dropcap style={{ maxWidth: "100%" }}>
@@ -1108,6 +1553,7 @@ function DefaultBody({ post }) {
 
 // Hand-written essay bodies, keyed by slug. Everything else gets DefaultBody.
 const BODIES = {
+  "interviewing-the-ai-assisted-engineer": InterviewingBody,
   "summaries-all-the-way-down": SummariesBody,
   "judgement-is-the-job-now": JudgementBody,
   "build-the-model-a-map": DocsForModelBody,

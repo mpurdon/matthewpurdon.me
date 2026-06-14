@@ -39,10 +39,18 @@ export const TOPICS = {
 // Field Notes (the writing). Hand-written bodies live in article.jsx, keyed by slug.
 export const POSTS = [
   {
+    slug: 'interviewing-the-ai-assisted-engineer',
+    title: 'Interviewing the AI-assisted engineer',
+    dek: 'For a decade, the coding interview measured whether you could produce syntax under pressure. That proxy is broken. If we want to find engineers who can actually ship, we have to stop asking them to write code and start asking them to judge it. On the review round, seeding quiet landmines, and hiring for taste.',
+    category: 'Hiring', accent: 'canada', featured: true,
+    date: 'Jun 3, 2026', dateLong: 'June 3, 2026', time: '10 min read',
+    tags: ['Hiring', 'AI-Assisted Engineering', 'Opinion'],
+  },
+  {
     slug: 'judgement-is-the-job-now',
     title: 'Judgement is the job now',
     dek: 'Hand ten engineers the same model and the work comes back in two piles. AI removed the effort filter, and judgement is what is left. On taste, the dependency graph that wasn\'t, and the audit my vacation is about to run.',
-    category: 'AI-Assisted Engineering', accent: 'indigo', featured: true,
+    category: 'AI-Assisted Engineering', accent: 'indigo', featured: false,
     date: 'Jun 1, 2026', dateLong: 'June 1, 2026', time: '11 min read',
     tags: ['AI-Assisted Engineering', 'Hiring', 'Opinion'],
   },
