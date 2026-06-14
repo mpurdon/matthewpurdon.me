@@ -715,11 +715,11 @@ function JudgementBody() {
 
       <h2>The graph and the progress bar</h2>
       <p>
-        I have been messing with a PR review tool lately, a collaboration with a few engineers I work with. The idea is not subtle. The era of
-        the small pull request is over; an ordinary agent-assisted change arrives as fifty files now, and most of those
-        files are boilerplate that a reviewer's attention should never touch. The tool has one job: make a PR cleaner
-        and more focused to review. Hide the noise, surface the intent. (The fifty-file era deserves its own write-up,
-        and it will get one.)
+        I have been messing with a PR review tool lately, a collaboration with a few engineers I work with. The idea is
+        not subtle. The era of the small pull request is over; an ordinary agent-assisted change arrives as fifty files
+        now, and most of those files are boilerplate that a reviewer's attention should never touch. The tool has one
+        job: make a PR cleaner and more focused to review. Hide the noise, surface the intent. (The fifty-file era
+        deserves its own write-up, and it will get one.)
       </p>
       <p>
         One morning a ping landed in my DMs, excitement about a new feature taking shape in the repo - a dependency
@@ -735,10 +735,10 @@ function JudgementBody() {
       </p>
       <p>
         That is the entire gap, in one tool. One of us was building what the tool could be; the other was fixing what
-        using it felt like. And notice the shape of the failure, because it is not laziness, and it is not
-        incompetence; the graph was the most ambitious thing anyone proposed. Poor judgement almost never looks like cutting corners. It looks
-        like ambition pointed slightly off the goal, it sounds like "you know what would be cool?" and the model has
-        made that ambition free.
+        using it felt like. And notice the shape of the failure, because it is not laziness, and it is not incompetence;
+        the graph was the most ambitious thing anyone proposed. Poor judgement almost never looks like cutting corners.
+        It looks like ambition pointed slightly off the goal, it sounds like "you know what would be cool?" and the
+        model has made that ambition free.
       </p>
 
       <h2>The ask, the accept, and the look</h2>
@@ -785,15 +785,19 @@ function JudgementBody() {
         never felt it, because the graph was a feature for the demo in their head. Use the thing you build, every day,
         and taste accumulates on its own; build at arm's length and it never starts. It is also why I make a habit of
         building the things I ask other people to build; not to check up on anyone, but because building it is how you
-        find out where the hard parts live. I cannot know what to look for in someone else's version until I have had
-        to look for it in mine. Second, named misses. The
-        dependency graph became a lesson the moment we talked it through and shelved it; unexamined, it would have just
-        been a feature that shipped. Every miss that gets named is a rep. Third, and this is the one nobody does: write the taste down.
-        For the platform I steward at work, I keep a philosophy document; not a spec, a set of beliefs that every design
-        decision can be checked against, with lines like "if a feature requires explanation, it is not finished" and
-        "dashboards are for reporting; the primary surface is a task queue". It is externalized taste. It has the
-        shelving conversation with people when I am not in the room. I have{" "}
-        <a href="https://gist.github.com/mpurdon/69a7ba21f2bd6f2a86f8775e1efd2a9d" target="_blank" rel="noopener noreferrer">
+        find out where the hard parts live. I cannot know what to look for in someone else's version until I have had to
+        look for it in mine. Second, named misses. The dependency graph became a lesson the moment we talked it through
+        and shelved it; unexamined, it would have just been a feature that shipped. Every miss that gets named is a rep.
+        Third, and this is the one nobody does: write the taste down. For the platform I steward at work, I keep a
+        philosophy document; not a spec, a set of beliefs that every design decision can be checked against, with lines
+        like "if a feature requires explanation, it is not finished" and "dashboards are for reporting; the primary
+        surface is a task queue". It is externalized taste. It has the shelving conversation with people when I am not
+        in the room. I have{" "}
+        <a
+          href="https://gist.github.com/mpurdon/69a7ba21f2bd6f2a86f8775e1efd2a9d"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           whitelabeled it
         </a>{" "}
         if you want the shape.
@@ -833,11 +837,238 @@ function JudgementBody() {
         </p>
         <p>
           I mean... the slide isn't even harmless. Believe it and you'll staff like it's true, measure like it's true,
-          and your review process quietly turns into a rubber stamp for confident output ... right up until the
-          incident where nobody in the room can explain the code that's on fire. One question keeps a team honest,
-          and it costs nothing to ask: who actually understands this change? To be clear, I'm not
-          against the tools; I built half my Lab with them and I'm not going back. I'm against the slide. The price of
-          looking competent dropped to zero and the price of being right didn't move. Mind the gap.
+          and your review process quietly turns into a rubber stamp for confident output ... right up until the incident
+          where nobody in the room can explain the code that's on fire. One question keeps a team honest, and it costs
+          nothing to ask: who actually understands this change? To be clear, I'm not against the tools; I built half my
+          Lab with them and I'm not going back. I'm against the slide. The price of looking competent dropped to zero
+          and the price of being right didn't move. Mind the gap.
+        </p>
+      </SoapboxFold>
+    </Prose>
+  );
+}
+
+function DocsForModelBody() {
+  return (
+    <Prose dropcap style={{ maxWidth: "100%" }}>
+      <Callout variant="takeaway" title="The glance">
+        The model is your most literal reader, and it does not read your documentation so much as navigate it. So write
+        for how it actually moves: an index of what exists, stubs that describe a thing without loading it, skills that
+        encode how you work, and cached constants it can stop re-deriving. You get three payoffs at once (faster,
+        cheaper, and fewer hallucinations), and the map you built for the machine turns out to be the onboarding your
+        people never got.
+      </Callout>
+
+      <p>
+        Watch an agent work against a database nobody has told it about and it does the same thing every session: SHOW
+        TABLES, then DESCRIBE this and DESCRIBE that, feeling its way across the schema one metadata query at a time,
+        like someone crossing a dark house with their hands out. It is a house they have walked before and do not
+        remember, and one that may have been quietly renovated since their last visit (a table added, a column renamed),
+        with no note left on the counter to say so. It is not lost, exactly; it just wakes up every session having
+        forgotten it was ever here.
+      </p>
+      <p>
+        The first time this genuinely bothered me, I was wiring up an MCP server against an internal database, and I
+        typed something at the agent that turned out to be the whole idea: could we cache the list-tables and describe
+        results and keep the structure written down on disk, so the model could make its decisions before we ran a
+        single live query. I did not invent that thought; I just happened to have it. The same idea was loose in the
+        world at the same moment. Andrej Karpathy published a version of it and supplied the name that stuck, the{" "}
+        <a
+          href="https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          LLM wiki
+        </a>{" "}
+        (a knowledge base the model compiles once and keeps current instead of re-deriving on every query), and within
+        weeks dozens of people had built their own.
+      </p>
+      <p>
+        An idea, once enough minds accept that it is even possible, becomes a building block left lying around for
+        whoever is standing close enough to pick it up; what we call genius is often just proximity to the right
+        unfinished thought.
+      </p>
+
+      <Callout variant="note" title="The wheel of time">
+        Public-key cryptography, the math behind every secure login and payment online, was invented twice. Once in the
+        open, in the mid-1970s, by the Stanford and MIT academics whose names ended up on the algorithms
+        (Diffie-Hellman, RSA); and once in secret, years earlier, by James Ellis, Clifford Cocks, and Malcolm Williamson
+        at Britain's GCHQ, who had worked it out and were not allowed to tell a living soul until 1997. The same locks,
+        cut by two sets of hands that never met.
+      </Callout>
+
+      <p>
+        And these models came with no manual. Nobody shipped a guide to working with them, so everything we know we have
+        had to find by experiment, out loud, and hand to each other; the whole field is people poking at a black box and
+        posting what fell out. There is a quiet joke in that, given where this is going: we spend our days writing the
+        manual the machine reads, and we never got one for the machine. The model's reading problem and the warehouse's
+        cost problem turned out to be the same problem, and the answer to both is a map.
+      </p>
+
+      <h2>The model navigates; it does not skim</h2>
+      <Soapbox variant="aside" label="Hot take" signoff="plausible gets the ones that aren't judging">
+        <p>
+          A model with no map does not fail loudly. It free-associates a table name that sounds right, writes a
+          confident query against a column that was never there, and hands you a number with no warning label. The
+          hallucination that hurts you is never the obvious one; it is the plausible one.
+        </p>
+      </Soapbox>
+      <p>
+        A person reads documentation the way they read a map of a city they half-know already: skim it, jump to the
+        unfamiliar part, fill the rest from memory and a quick question to whoever sits nearby. The model has none of
+        that. It reads top to bottom, literally, every word, every session, from a cold start, and there is nobody
+        nearby to ask. So the first line of this project's instructions is not a friendly welcome; it is an order:
+        always read the memory files below before you start anything. Underneath it sits an index (a few databases, a
+        couple of hundred tables, counts, and links down into the detail), and the model reads that map and knows where
+        it stands before it touches anything live.
+      </p>
+      <p>
+        The shape underneath is deliberately dull. One index at the top; one folder per database; inside each, the
+        tables sorted by kind (the dimension tables that hold entities, the big event tables, the pre-aggregated
+        rollups), every table a single row with its size and a link down to its full column list. Nothing loads until it
+        is needed. The model reads a hundred lines to understand a warehouse it would otherwise have interrogated with a
+        hundred queries.
+      </p>
+
+      <h2>A map, not a tour</h2>
+      <p>
+        The temptation, when documenting a system for a model, is to give it the tour: dump every table and every column
+        into one enormous file and let the context window sort it out. That is not a map; it is the territory,
+        photocopied. The entire value of a map is that it is smaller than the place it describes. So the index carries
+        only enough to choose with: a name, a type, a row count, one line of what lives in the table, and a pointer to
+        the rest. The model reads the index, forms a plan, and opens precisely the two files the plan calls for. I built
+        the same thing once as <a href="/lab/mcp-servers">a single MCP tool</a> that returns a whole schema as one
+        document instead of twenty describe-table round-trips; this is that idea, grown to a warehouse.
+      </p>
+      <p>
+        A colleague, Olek, had made the same move on a different project, for the agent that drove a design system:
+        summarize what is available, build an index of it with pointers and examples, then aim the work at the index
+        instead of the raw thing. His reason for it has stuck with me. It is faster, and you get fewer hallucinations,
+        because you have handed the model a guided path instead of a dark house. A model that is guessing is a model
+        that is free-associating, and a map is the whole difference between remembering and inventing.
+      </p>
+
+      <h2>The cheapest query is the one you didn't make</h2>
+      <p>
+        None of this is abstract thrift; the rediscovery has a bill. One month of an agent working that warehouse ran
+        about twenty-six hundred queries: cheap per query and quick (a third of a second on average, seventy-odd dollars
+        all in), but a real fraction of that was the model re-asking what it had already been told, in a fresh session
+        that remembered nothing. The skill that wraps the index says the quiet part in its own instructions: read the
+        local index first, because it is faster than a live query and spares the compute.
+      </p>
+      <p>
+        Reference data gets the same treatment one level down. The constants a warehouse leans on (status codes, call
+        dispositions, the dozen lookup values every query joins against) do not change between Tuesday and Wednesday,
+        but a mapless agent re-derives them on every run. So they are written into memory once and read from there, and
+        the model stops asking the warehouse to remind it what it already established last week. For a decade compute
+        was free enough to ignore one call at a time; an agent that pays by the token and the warehouse-second puts the
+        meter back in your eyeline, and not making it look up what it can read off disk stops being hygiene and becomes
+        the budget.
+      </p>
+      <PullQuote cite="Matthew Purdon">The cheapest, fastest query is the one you never had to make.</PullQuote>
+
+      <h2>Skills ate the coding-standards document</h2>
+      <p>
+        A map tells the model where the tables are; it does not tell it that the big event tables will hurt you if you
+        forget a date filter, or which key joins across databases, or that we do not SELECT-star in anger. That
+        knowledge used to live in a coding-standards document: the one linked in onboarding, skimmed once, and never
+        opened again while the real standards lived in code review and in a few senior heads. Now it lives in a skill,
+        and the difference is everything, because a skill is executed rather than referenced. The model loads it and
+        does the thing; there is no step where a human was supposed to remember.
+      </p>
+      <p>I review a lot of the skills my team writes, and I keep distilling the same handful of rules out of them.</p>
+      <Callout variant="note" title="Rules of thumb for a skill">
+        <div style={{ display: 'grid', gridTemplateColumns: 'auto 1fr', gap: '0.75rem 0.85rem', marginTop: '0.35rem' }}>
+          <span style={{ color: 'var(--callout-note-accent)', fontFamily: 'var(--font-mono)', fontWeight: 'bold', fontSize: '0.95em' }}>01</span>
+          <div>
+            <strong>Order the steps sequentially:</strong> The model reads top to bottom, so lay out the steps in the
+            order the work happens (before you start, while you build, after you are done).
+          </div>
+
+          <span style={{ color: 'var(--callout-note-accent)', fontFamily: 'var(--font-mono)', fontWeight: 'bold', fontSize: '0.95em' }}>02</span>
+          <div>
+            <strong>Design precise, varied triggers:</strong> People ask in half-sentences and with worse spelling.
+          </div>
+
+          <span style={{ color: 'var(--callout-note-accent)', fontFamily: 'var(--font-mono)', fontWeight: 'bold', fontSize: '0.95em' }}>03</span>
+          <div>
+            <strong>Include self-verification:</strong> Always give the skill a way to verify its own work.
+          </div>
+
+          <span style={{ color: 'var(--callout-note-accent)', fontFamily: 'var(--font-mono)', fontWeight: 'bold', fontSize: '0.95em' }}>04</span>
+          <div>
+            <strong>Write "must" or delete it:</strong> A soft rule is wasted space that the model will skip.
+          </div>
+
+          <span style={{ color: 'var(--callout-note-accent)', fontFamily: 'var(--font-mono)', fontWeight: 'bold', fontSize: '0.95em' }}>05</span>
+          <div>
+            <strong>Keep it under 500 words:</strong> If it climbs past 1500 words, break it into sub-agents.
+          </div>
+        </div>
+      </Callout>
+      <p>
+        This is the same move as the philosophy document from{" "}
+        <a href="/notes/judgement-is-the-job-now">the last note</a>: taste you cannot teach in the room, written down
+        where the model (and the new hire) can follow it. We have gone a step further and built a skill whose only job
+        is to write other skills to this standard. The coding-standards document did not die. It grew hands and started
+        doing the work itself.
+      </p>
+
+      <Soapbox label="Hot take" title="There is no prompt priesthood" signoff="the hours, not the credential">
+        <p>
+          Every few weeks someone with a decade in traditional ML explains to a room that prompting is really a craft
+          you need their kind of background to get. I will be generous, because the internals knowledge is real:
+          understanding how quantization degrades reasoning in a 4-bit GGUF, how a LoRA or QLoRA adapter steers attention
+          without bloating the base model, or how attention heads route tokens through key-value caches. That stuff is
+          hard, and it matters. But knowing how a model is built is not the same as knowing how to work with one, the
+          way knowing how to tune a piano is not the same as being able to play it. The wiring is not the music.
+        </p>
+        <p>
+          I mean ... here's the uncomfortable version. The person who knows the most about getting real work out of one
+          of these things is usually whoever has asked it the most questions, on the hardest problems, and watched the
+          most answers fall over. Not the researcher running single turns through an eval harness; the engineer halfway
+          through a fifty-file change who has negotiated with the thing all day, every day, for a year. That knowledge
+          is empirical, it is earned in the loop, and it keeps getting condescended to because it does not arrive with a
+          credential. There is no priesthood here. There are hours in the seat, and whoever has put in the most of them
+          knows the most, you know?
+        </p>
+      </Soapbox>
+
+      <h2>Document once, and it becomes the standard</h2>
+      <p>
+        The instinct is to treat all this mapping as overhead, the thing you do at the end if there is time, which means
+        never. That is backwards. On a new project you do it first: build the index, write the skill, set the
+        conventions, get one thing genuinely right. Because the first thing you build well becomes the template the
+        model copies. On a greenfield project the map is not a record of how the work was done; it is the first draft of
+        how the work will be done, and once you have refined it by hand, with taste, every session afterward inherits it
+        for free.
+      </p>
+      <p>
+        Here is the part that stays with me. I built every piece of this for the machine (the index, the stubs, the
+        cached constants, the skill) because the machine was the one paying the toll for not having them. But the thing
+        I ended up holding was the document I should have handed every person who ever opened that warehouse, saw two
+        hundred tables, and had no idea where to start. The map a model needs and the map a newcomer needs are the same
+        map. We just never got around to writing it down, because people muddle through and machines will not, and for
+        years muddling through was cheap enough to hide what we had failed to write.
+      </p>
+
+      <SoapboxFold title="The standards doc was always fiction" signoff="skills don't rot, they run">
+        <p>
+          Be honest about the coding-standards document, the real one at your last job. Did anyone read it? You linked
+          it in the onboarding wiki, somebody skimmed it on day two, and then it sat there rotting while the actual
+          standards lived in pull-request comments and in three people's heads. We called it the source of truth because
+          the alternative, admitting the standards were folklore passed down by whoever reviewed your first PR, was a
+          little embarrassing. The doc was a monument to a thing we wished we did. And I am not pointing from higher
+          ground here: I write hundreds of these, link someone to one mid-sentence with total confidence, and only while
+          pasting the URL do I clock that the thing is three years old and I am probably the last soul who opened it.
+        </p>
+        <p>
+          I mean ... the machine is what finally called the bluff. A skill can't be aspirational; it fires and changes
+          the output or it doesn't, and you find out in a single session. Turns out the test of whether you actually had
+          standards was never "is it written down somewhere," it was "does anything happen when someone ignores it," and
+          for years the honest answer was nothing, nothing at all. Now the model reads the skill and does the thing, and
+          the standard is real for the first time in its life, you know? It's a bit humbling that it took a reader made
+          of math to get us to write the docs our own people always deserved. I'll take it though.
         </p>
       </SoapboxFold>
     </Prose>
@@ -879,6 +1110,7 @@ function DefaultBody({ post }) {
 const BODIES = {
   "summaries-all-the-way-down": SummariesBody,
   "judgement-is-the-job-now": JudgementBody,
+  "build-the-model-a-map": DocsForModelBody,
 };
 
 export default function Article({ post, t, openTopic, go }) {

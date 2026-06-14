@@ -47,6 +47,14 @@ export const POSTS = [
     tags: ['AI-Assisted Engineering', 'Hiring', 'Opinion'],
   },
   {
+    slug: 'build-the-model-a-map',
+    title: 'Build the model a map',
+    dek: 'An agent will rediscover your whole database every session, and pay for it. The fix is not a better prompt; it is writing the map down. On indexes, stubs, skills, and the documentation your teammates never got.',
+    category: 'AI-Assisted Engineering', accent: 'teal', featured: false,
+    date: 'Jun 9, 2026', dateLong: 'June 9, 2026', time: '12 min read',
+    tags: ['AI-Assisted Engineering', 'Teams & Process', 'Opinion'],
+  },
+  {
     slug: 'summaries-all-the-way-down',
     title: 'Summaries all the way down',
     dek: 'An engineer writes the truth. Four summaries later, an exec reads a guess. Field notes on the compression chain, and the layered artifact I build instead.',
