@@ -132,3 +132,10 @@ h2:hover > .anchor-copy,
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.45);
   border: 1px solid var(--border-strong);
 }
+
+/* Fix double horizontal rules: remove top border from the first list card 
+   following a bordered header section */
+header + section .mp-acard--list:first-of-type {
+  border-top: none;
+  padding-top: 0.5rem;
+}
