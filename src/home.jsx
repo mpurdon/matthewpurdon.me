@@ -101,6 +101,30 @@ export default function Home({ t, go, openPost, openProject, openTopic }) {
         <HeroPortrait t={t} go={go} />
       </section>
 
+      {/* Focus Areas / Proof Blocks */}
+      <section style={{ padding: pad(t, '40px 0 44px', '28px 0 32px'), borderBottom: '1px solid var(--border)' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 24 }}>
+          <div style={{ border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', background: 'var(--bg-surface)', padding: 24 }}>
+            <h3 style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: 'var(--text-lg)', letterSpacing: '-0.02em', color: 'var(--text-primary)', margin: '0 0 10px' }}>AI-assisted engineering</h3>
+            <p style={{ fontFamily: 'var(--font-prose)', fontSize: 'var(--text-base)', lineHeight: 1.55, color: 'var(--text-secondary)', margin: 0 }}>
+              Designing workflows where agents help with requirements, specs, code, review, testing, and release.
+            </p>
+          </div>
+          <div style={{ border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', background: 'var(--bg-surface)', padding: 24 }}>
+            <h3 style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: 'var(--text-lg)', letterSpacing: '-0.02em', color: 'var(--text-primary)', margin: '0 0 10px' }}>Platform architecture</h3>
+            <p style={{ fontFamily: 'var(--font-prose)', fontSize: 'var(--text-base)', lineHeight: 1.55, color: 'var(--text-secondary)', margin: 0 }}>
+              Building internal systems, standards, APIs, event-driven workflows, observability, and deployment patterns.
+            </p>
+          </div>
+          <div style={{ border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', background: 'var(--bg-surface)', padding: 24 }}>
+            <h3 style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: 'var(--text-lg)', letterSpacing: '-0.02em', color: 'var(--text-primary)', margin: '0 0 10px' }}>Engineering operating systems</h3>
+            <p style={{ fontFamily: 'var(--font-prose)', fontSize: 'var(--text-base)', lineHeight: 1.55, color: 'var(--text-secondary)', margin: 0 }}>
+              RFCs, review loops, team rituals, quality gates, reliability practices, and delivery governance.
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* Latest Field Notes */}
       <section style={{ padding: pad(t, '48px 0 8px', '34px 0 4px') }}>
         <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: 12 }}>
