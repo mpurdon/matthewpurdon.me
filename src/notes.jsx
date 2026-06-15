@@ -88,13 +88,33 @@ export function TopicPage({ topic, t, openPost, openTopic, go }) {
           </h1>
         </div>
         <p style={{ fontFamily: 'var(--font-prose)', fontSize: 'var(--prose-lead)', lineHeight: 1.5, color: 'var(--text-secondary)', maxWidth: 600, margin: 0 }}>{info.blurb}</p>
-        <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--text-muted)', marginTop: 14, textTransform: 'uppercase', letterSpacing: 'var(--tracking-wide)' }}>
+        
+        {info.keyConcepts && (
+          <div style={{ marginTop: 22 }}>
+            <p style={{ fontFamily: 'var(--font-label)', textTransform: 'uppercase', letterSpacing: 'var(--tracking-widest)', fontSize: '11px', fontWeight: 700, color: 'var(--text-muted)', margin: '0 0 10px' }}>Core themes explored</p>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+              {info.keyConcepts.map(c => (
+                <span key={c} style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--text-secondary)', padding: '0.35rem 0.75rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border)', background: 'var(--bg-surface)' }}>{c}</span>
+              ))}
+            </div>
+          </div>
+        )}
+
+        <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--text-muted)', marginTop: info.keyConcepts ? 24 : 14, textTransform: 'uppercase', letterSpacing: 'var(--tracking-wide)' }}>
           {posts.length} {posts.length === 1 ? 'post' : 'posts'}
         </p>
       </header>
 
       <section style={{ paddingTop: 8 }}>
-        {posts.map((p) => (
+        {posts.length > 0 && (
+          <div style={{ marginBottom: 32 }}>
+            <ArticleCard variant="hero" accent={posts[0].accent} category={posts[0].category}
+              href={'/notes/' + posts[0].slug} onClick={openPost ? (e) => { e.preventDefault(); openPost(posts[0]); } : undefined}
+              title={posts[0].title} dek={posts[0].dek} meta={meta(posts[0])}
+              cover={<Cover id={'topic-feat-' + posts[0].slug} t={t} category={posts[0].category} accent={posts[0].accent} ratio="4 / 3" big={postNumber(posts[0])} />} />
+          </div>
+        )}
+        {posts.slice(1).map((p) => (
           <ArticleCard key={p.slug} variant="list" category={p.category}
             href={'/notes/' + p.slug} onClick={openPost ? (e) => { e.preventDefault(); openPost(p); } : undefined}
             title={p.title} dek={p.dek} meta={meta(p)} />

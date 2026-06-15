@@ -1,5 +1,5 @@
 ---
-import { TOPICS } from '../../data.js';
+import { TOPICS, POSTS } from '../../data.js';
 import Layout from '../../layouts/Layout.astro';
 import { TopicPage } from '../../notes.jsx';
 
@@ -11,6 +11,32 @@ export async function getStaticPaths() {
 }
 
 const { topic } = Astro.props;
+const info = TOPICS[topic] || { blurb: 'Posts on this topic.', accent: 'amber' };
+const posts = POSTS.filter(p => p.tags.includes(topic) || p.category === topic);
+
+const pageTitle = `${topic} — Field Notes by Matthew Purdon`;
+const pageDescription = info.blurb 
+  ? `${info.blurb} Explore articles and insights on ${topic.toLowerCase()} by principal engineer and AI platform builder Matthew Purdon.`
+  : `Field Notes, articles, and thoughts on ${topic} by Matthew Purdon.`;
+
+const topicJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": pageTitle,
+  "description": pageDescription,
+  "url": `https://matthewpurdon.me/topic/${encodeURIComponent(topic)}`,
+  "mainEntity": {
+    "@type": "ItemList",
+    "numberOfItems": posts.length,
+    "itemListElement": posts.map((p, index) => ({
+      "@type": "ListItem",
+      "position": index + 1,
+      "url": `https://matthewpurdon.me/notes/${p.slug}`,
+      "name": p.title,
+      "description": p.dek
+    }))
+  }
+};
 
 const SETTINGS = {
   hero: 'portrait',
@@ -22,8 +48,9 @@ const SETTINGS = {
 ---
 
 <Layout
-  title={`#${topic} — Matthew Purdon`}
-  description={`${topic} posts by Matthew Purdon.`}
+  title={pageTitle}
+  description={pageDescription}
+  jsonLd={[topicJsonLd]}
   view="notes"
 >
   <TopicPage

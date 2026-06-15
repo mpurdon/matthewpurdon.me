@@ -8,7 +8,7 @@ export const AVATAR = 'https://avatars.githubusercontent.com/u/132956?v=4';
 
 export const PROFILE = {
   name: 'Matthew Purdon',
-  role: 'Principal Software Engineer',
+  role: 'Principal Engineer & AI Platform Builder',
   // SEO-friendly, true-to-his-interests one-liner. Edit freely.
   tagline: 'Principal engineer and AI platform builder in Toronto with twenty-five years of experience turning messy software delivery into repeatable systems. I write about AI-assisted engineering, the new SDLC, code review, developer workflows, and how teams actually ship.',
   bio: 'I help engineering organizations adopt AI-assisted delivery without turning the SDLC into chaos: platform architecture, developer workflows, agentic tooling, review systems, governance, and the process changes needed to make it stick.',
@@ -25,16 +25,48 @@ export const PROFILE = {
   },
 };
 
-// Topic registry — name → { blurb, accent }. Used by chips, topic pages, covers.
+// Topic registry — name → { blurb, accent, keyConcepts }. Used by chips, topic pages, covers.
 export const TOPICS = {
-  'AI-Assisted Engineering': { blurb: 'Building software when a model is in the loop for every commit.', accent: 'amber' },
-  'The New SDLC': { blurb: 'What the development lifecycle looks like once agents sit inside it.', accent: 'indigo' },
-  'Product': { blurb: 'How the product role shifts when generation is cheap and judgement is scarce.', accent: 'teal' },
-  'Hiring': { blurb: 'Interviewing and leveling engineers for the model era.', accent: 'canada' },
-  'Teams & Process': { blurb: 'Field notes on how real teams reshape their habits — for better and worse.', accent: 'amber' },
-  'Industry': { blurb: 'Where we have been, what is coming, and the news worth slowing down for.', accent: 'indigo' },
-  'Opinion': { blurb: 'The soap-box archive. Read at your own risk.', accent: 'canada' },
-  'Notes': { blurb: 'Short, dated, half-formed. Thinking out loud.', accent: 'teal' },
+  'AI-Assisted Engineering': {
+    blurb: 'Building software when a model is in the loop for every commit.',
+    accent: 'amber',
+    keyConcepts: ['Model-in-the-loop workflows', 'Bespoke context maps and stubs', 'Evaluations & quality pipelines', 'Agentic developer harnesses']
+  },
+  'The New SDLC': {
+    blurb: 'What the development lifecycle looks like once agents sit inside it.',
+    accent: 'indigo',
+    keyConcepts: ['Continuous PR background watches', 'Review as the principal engineering gear', 'Automated second-opinion gates', 'Budget and token monitoring']
+  },
+  'Product': {
+    blurb: 'How the product role shifts when generation is cheap and judgement is scarce.',
+    accent: 'teal',
+    keyConcepts: ['The scarcity of human judgement', 'Designing generator facades', 'Maintaining taste and direction', 'Low-effort feature filtering']
+  },
+  'Hiring': {
+    blurb: 'Interviewing and leveling engineers for the model era.',
+    accent: 'canada',
+    keyConcepts: ['Seeding quiet interview landmines', 'Hiring for taste and code-reading', 'Leveling engineers for model collaboration', 'The death of syntax-under-pressure tests']
+  },
+  'Teams & Process': {
+    blurb: 'Field notes on how real teams reshape their habits — for better and worse.',
+    accent: 'amber',
+    keyConcepts: ['Lightweight RFC formats (TE Proposals)', 'The commit-to-executive compression chain', 'Fostering healthy engineering habits', 'Continuous process evolution']
+  },
+  'Industry': {
+    blurb: 'Where we have been, what is coming, and the news worth slowing down for.',
+    accent: 'indigo',
+    keyConcepts: ['Architectures that hold up', 'The reality behind the hype', 'Ecosystem shifts and model cost curves']
+  },
+  'Opinion': {
+    blurb: 'The soap-box archive. Read at your own risk.',
+    accent: 'canada',
+    keyConcepts: ['Busting industry myths', 'Rants on standard practices', 'The unpolished version of reality']
+  },
+  'Notes': {
+    blurb: 'Short, dated, half-formed. Thinking out loud.',
+    accent: 'teal',
+    keyConcepts: ['Half-formed thoughts on development', 'Quick code snippets and configs', 'Thinking in public']
+  },
 };
 
 // Field Notes (the writing). Hand-written bodies live in article.jsx, keyed by slug.

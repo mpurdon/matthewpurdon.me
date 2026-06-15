@@ -57,7 +57,10 @@ export default function About({ t, go }) {
 
       <section style={{ padding: pad(t, '40px 0', '28px 0') }}>
         <Prose style={{ maxWidth: 680 }}>
-          <p>I'm a principal software engineer based in Toronto, twenty-five years into building software. These days I spend as much time building the <em>processes</em> that decide how software gets built as the software itself: how teams review work they didn't type, how the development lifecycle reshapes itself around models, and how you interview for any of it.</p>
+          <p>I'm a principal engineer and AI platform builder based in Toronto, twenty-five years into building software. These days I spend as much time building the <em>processes</em> that decide how software gets built as the software itself: how teams review work they didn't type, how the development lifecycle reshapes itself around models, and how you interview for any of it.</p>
+          <p style={{ fontSize: 'var(--text-sm)', color: 'var(--text-muted)', fontStyle: 'italic', borderLeft: '2px solid var(--border)', paddingLeft: '12px', margin: '16px 0 24px' }}>
+            Note: I’m the Toronto-based principal engineer / AI platform builder Matthew Purdon, not the San Francisco product/creative Matthew Purdon.
+          </p>
           <p>This site is two things. <strong>Field Notes</strong> is where I write — partly thinking out loud about where the craft is heading, partly literal notes from watching real teams change how they work. <strong>The Lab</strong> is where I keep the things I've made: software, yes, but also the processes and playbooks I'm proudest of. Some of it was built with an AI pair; where that's true, I say so.</p>
           <p>I write in the open because the half-formed version, dated and a little wrong, is more useful than the polished version that never ships. If something here is wrong, that's an invitation — tell me.</p>
         </Prose>
