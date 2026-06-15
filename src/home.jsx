@@ -201,15 +201,31 @@ export default function Home({ t, go, openPost, openProject, openTopic }) {
         <SectionLabel t={t} style={{ marginBottom: 20 }}>Start Here</SectionLabel>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 24 }}>
           {[
-            { title: 'AI-assisted engineering', desc: 'Transforming requirements, specs, testing, and delivery once a model sits in the loop.' },
-            { title: 'Code review as the main event', desc: 'Refocusing the team\'s execution standards from typing speed to high-fidelity validation.' },
-            { title: 'The new SDLC', desc: 'Inventing and stabilizing the process changes needed when agents enter the workflow.' },
-            { title: 'Developer tools and platform systems', desc: 'Building the local harnesses, telemetry, and frameworks that make it actually stick.' }
+            { title: 'AI-assisted engineering', desc: 'Transforming requirements, specs, testing, and delivery once a model sits in the loop.', topic: 'AI-Assisted Engineering', href: '/topic/AI-Assisted Engineering' },
+            { title: 'Code review as the main event', desc: 'Refocusing the team\'s execution standards from typing speed to high-fidelity validation.', topic: 'Opinion', href: '/topic/Opinion' },
+            { title: 'The new SDLC', desc: 'Inventing and stabilizing the process changes needed when agents enter the workflow.', topic: 'The New SDLC', href: '/topic/The New SDLC' },
+            { title: 'Developer tools and platform systems', desc: 'Building the local harnesses, telemetry, and frameworks that make it actually stick.', topic: 'Teams & Process', href: '/topic/Teams & Process' }
           ].map((item, i) => (
-            <div key={i} style={{ borderLeft: '2px solid var(--canada-300)', paddingLeft: 16 }}>
-              <h4 style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, color: 'var(--text-primary)', margin: '0 0 6px' }}>{item.title}</h4>
+            <a key={i} href={item.href} onClick={openTopic ? (e) => { e.preventDefault(); openTopic(item.topic); } : undefined}
+               style={{
+                 display: 'block',
+                 textDecoration: 'none',
+                 borderLeft: '2px solid var(--canada-300)',
+                 paddingLeft: 16,
+                 cursor: 'pointer',
+                 transition: 'all var(--duration-base) var(--ease)',
+               }}
+               onMouseEnter={(e) => {
+                 e.currentTarget.style.borderLeftColor = 'var(--canada-500)';
+                 e.currentTarget.style.paddingLeft = '20px';
+               }}
+               onMouseLeave={(e) => {
+                 e.currentTarget.style.borderLeftColor = 'var(--canada-300)';
+                 e.currentTarget.style.paddingLeft = '16px';
+               }}>
+              <h4 style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, color: 'var(--text-primary)', margin: '0 0 6px', transition: 'color var(--duration-base) var(--ease)' }}>{item.title}</h4>
               <p style={{ fontFamily: 'var(--font-prose)', fontSize: 'var(--text-xs)', lineHeight: 1.55, color: 'var(--text-secondary)', margin: 0 }}>{item.desc}</p>
-            </div>
+            </a>
           ))}
         </div>
       </section>
