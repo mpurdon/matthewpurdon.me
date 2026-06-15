@@ -1361,8 +1361,8 @@ function PrincipalBody() {
         When you run all four gears on a single horizontal initiative, you realize something fundamental: the true role
         of a Principal Engineer is stewardship. It is the responsibility to bridge C-suite business objectives with
         low-level technical realities: translating long-term strategy into the concrete human processes (like
-        hypothesis-driven tiger teams) that scale those technical standards organically across the department. You are
-        not just guiding code; you are guiding the technical standards of the entire department.
+        hypothesis-driven tiger teams) that scale those architectural beliefs organically. You are not just guiding
+        code; you are guiding the vision and belief of everyone building for the organization.
       </p>
       <p>
         This four-gear cycle is how platforms get built. It is how paradigms get shifted. And it is why leading an engineering
