@@ -1365,11 +1365,6 @@ function PrincipalBody() {
         code; you are guiding the vision and belief of everyone building for the organization.
       </p>
       <p>
-        This four-gear cycle is how platforms get built. It is how paradigms get shifted. And it is why leading an engineering
-        organization is not about managing lines of code, but about managing the collective vision for the direction and
-        beliefs of everyone involved in building things for the organization.
-      </p>
-      <p>
         We successfully launched our autonomous agent platform using this exact four-gear cycle. How we actually built those
         agentic workflows (the specific Strands SDK graph topologies, the AgentCore telemetry patterns, and the exact reasons
         why ninety-five percent of multi-agent architectures fall over in production) is the subject of my next note.
