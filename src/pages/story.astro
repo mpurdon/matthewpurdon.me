@@ -1,0 +1,16 @@
+---
+import Layout from '../layouts/Layout.astro';
+import StoryView from '../story.jsx';
+
+const SETTINGS = {
+  hero: 'portrait',
+  labStyle: 'cards',
+  density: 'comfortable',
+  covers: 'typographic',
+  red: 'bold',
+};
+---
+
+<Layout view="about">
+  <StoryView t={SETTINGS} client:load />
+</Layout>

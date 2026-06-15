@@ -28,7 +28,7 @@ export function NotesIndex({ t, openPost, openTopic }) {
       <section style={{ padding: pad(t, '40px 0', '28px 0') }}>
         <SectionLabel t={t}>Featured</SectionLabel>
         <ArticleCard variant="hero" accent={featured.accent} category={featured.category}
-          href={'/notes/' + featured.slug} onClick={(e) => { e.preventDefault(); openPost(featured); }}
+          href={'/notes/' + featured.slug} onClick={openPost ? (e) => { e.preventDefault(); openPost(featured); } : undefined}
           title={featured.title} dek={featured.dek} meta={meta(featured)}
           cover={<Cover id="notes-feat" t={t} category={featured.category} accent={featured.accent} ratio="4 / 3" big={postNumber(featured)} />} />
       </section>
@@ -39,7 +39,7 @@ export function NotesIndex({ t, openPost, openTopic }) {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 28 }}>
             {grid.map((p, i) => (
               <ArticleCard key={p.slug} variant="grid" accent={p.accent} category={p.category}
-                href={'/notes/' + p.slug} onClick={(e) => { e.preventDefault(); openPost(p); }}
+                href={'/notes/' + p.slug} onClick={openPost ? (e) => { e.preventDefault(); openPost(p); } : undefined}
                 title={p.title} dek={p.dek} meta={meta(p)}
                 cover={<Cover id={'notes-g' + i} t={t} category={p.category} accent={p.accent} big={postNumber(p)} />} />
             ))}
@@ -53,7 +53,7 @@ export function NotesIndex({ t, openPost, openTopic }) {
           <div>
             {list.map((p) => (
               <ArticleCard key={p.slug} variant="list" category={p.category}
-                href={'/notes/' + p.slug} onClick={(e) => { e.preventDefault(); openPost(p); }}
+                href={'/notes/' + p.slug} onClick={openPost ? (e) => { e.preventDefault(); openPost(p); } : undefined}
                 title={p.title} dek={p.dek} meta={meta(p)} />
             ))}
           </div>
@@ -80,7 +80,7 @@ export function TopicPage({ topic, t, openPost, openTopic, go }) {
   return (
     <main style={{ maxWidth: 880, margin: '0 auto', padding: '0 32px 96px' }}>
       <header style={{ padding: pad(t, '56px 0 32px', '40px 0 26px'), borderBottom: '1px solid var(--border)' }}>
-        <a href="/notes" onClick={(e) => { e.preventDefault(); go('notes'); }} style={{ fontFamily: 'var(--font-label)', textTransform: 'uppercase', letterSpacing: 'var(--tracking-wider)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--text-muted)', textDecoration: 'none' }}>← All Field Notes</a>
+        <a href="/notes" onClick={go ? (e) => { e.preventDefault(); go('notes'); } : undefined} style={{ fontFamily: 'var(--font-label)', textTransform: 'uppercase', letterSpacing: 'var(--tracking-wider)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--text-muted)', textDecoration: 'none' }}>← All Field Notes</a>
         <div style={{ display: 'flex', alignItems: 'center', gap: 14, margin: '18px 0 12px' }}>
           <svg width="30" height="30" viewBox="-2015 -2000 4030 4030" fill="currentColor" style={{ color: 'var(--canada-500)', flexShrink: 0 }}><path d={LEAF} /></svg>
           <h1 style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: 'clamp(28px, 4vw, 44px)', letterSpacing: '-0.03em', margin: 0, color: 'var(--text-primary)' }}>
@@ -96,7 +96,7 @@ export function TopicPage({ topic, t, openPost, openTopic, go }) {
       <section style={{ paddingTop: 8 }}>
         {posts.map((p) => (
           <ArticleCard key={p.slug} variant="list" category={p.category}
-            href={'/notes/' + p.slug} onClick={(e) => { e.preventDefault(); openPost(p); }}
+            href={'/notes/' + p.slug} onClick={openPost ? (e) => { e.preventDefault(); openPost(p); } : undefined}
             title={p.title} dek={p.dek} meta={meta(p)} />
         ))}
         {posts.length === 0 && <p style={{ fontFamily: 'var(--font-prose)', color: 'var(--text-muted)', padding: '32px 0' }}>No posts here yet — check back after the next one.</p>}
@@ -105,7 +105,7 @@ export function TopicPage({ topic, t, openPost, openTopic, go }) {
       <section style={{ marginTop: 48, paddingTop: 28, borderTop: '1px solid var(--border)' }}>
         <SectionLabel t={t} style={{ marginBottom: 16 }}>Related topics</SectionLabel>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-          {related.map(x => <TopicChip key={x} label={x} t={t} size="sm" onClick={openTopic} />)}
+          {related.map(x => <TopicChip key={x} label={x} t={t} size="sm" onClick={openTopic ? () => openTopic(x) : undefined} />)}
         </div>
       </section>
     </main>

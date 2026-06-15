@@ -1,0 +1,52 @@
+---
+import { POSTS } from '../../data.js';
+import Layout from '../../layouts/Layout.astro';
+import ArticleView from '../../article.jsx';
+
+export async function getStaticPaths() {
+  return POSTS.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+
+const noteSchema = {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": post.title,
+  "description": post.dek,
+  "datePublished": new Date(post.dateLong || post.date).toISOString().slice(0, 10),
+  "author": {
+    "@type": "Person",
+    "name": "Matthew Purdon"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": Astro.url.href
+  }
+};
+
+const SETTINGS = {
+  hero: 'portrait',
+  labStyle: 'cards',
+  density: 'comfortable',
+  covers: 'typographic',
+  red: 'bold',
+};
+---
+
+<Layout
+  title={`${post.title} — Matthew Purdon`}
+  description={post.dek}
+  ogType="article"
+  view="notes"
+  jsonLd={[noteSchema]}
+>
+  <ArticleView
+    post={post}
+    t={SETTINGS}
+    client:load
+  />
+</Layout>

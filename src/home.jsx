@@ -47,11 +47,33 @@ function HeroPortrait({ t, go }) {
       <div style={{ flex: '1 1 360px', minWidth: 0 }}>
         <Eyebrow t={t}>{PROFILE.role} · {PROFILE.location}</Eyebrow>
         <h1 style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: 'clamp(34px, 5vw, 56px)', lineHeight: 1.04, letterSpacing: '-0.035em', margin: '0 0 18px', color: 'var(--text-primary)' }}>Matthew Purdon</h1>
-        <p style={{ fontFamily: 'var(--font-prose)', fontSize: 'var(--prose-lead)', lineHeight: 1.5, color: 'var(--text-secondary)', maxWidth: 620, margin: 0 }}>{PROFILE.tagline}</p>
+        <p style={{
+          fontFamily: 'var(--font-prose)',
+          fontSize: 'var(--prose-lead)',
+          lineHeight: 1.55,
+          fontWeight: 600,
+          color: 'var(--text-primary)',
+          maxWidth: 680,
+          margin: '0 0 16px',
+          textWrap: 'pretty'
+        }}>
+          {PROFILE.tagline}
+        </p>
+        <p style={{
+          fontFamily: 'var(--font-prose)',
+          fontSize: 'var(--text-base)',
+          lineHeight: 1.6,
+          color: 'var(--text-secondary)',
+          maxWidth: 640,
+          margin: '0 0 18px',
+          textWrap: 'pretty'
+        }}>
+          {PROFILE.bio}
+        </p>
         <SocialRow />
         <div style={{ display: 'flex', gap: 12, marginTop: 22, flexWrap: 'wrap' }}>
           <Button variant="solid" onClick={() => go('notes')}>Read Field Notes</Button>
-          <Button variant="outline" onClick={() => go('lab')}>See the Lab</Button>
+          <Button variant="outline" onClick={() => go('lab')}>See Lab Reports</Button>
         </div>
       </div>
     </div>
@@ -102,23 +124,48 @@ export default function Home({ t, go, openPost, openProject, openTopic }) {
       </section>
 
       {/* Focus Areas / Proof Blocks */}
-      <section style={{ padding: pad(t, '40px 0 44px', '28px 0 32px'), borderBottom: '1px solid var(--border)' }}>
+      <section style={{ padding: pad(t, '48px 0 52px', '34px 0 38px'), borderBottom: '1px dashed var(--border)' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 26 }}>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--canada-300)', letterSpacing: '0.12em', textTransform: 'uppercase', fontWeight: 700 }}>[ CORE FOCUS AREAS // STACK CAPABILITY ]</span>
+          <div style={{ flex: 1, height: 1, background: 'linear-gradient(90deg, var(--border) 0%, transparent 100%)' }} />
+        </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 24 }}>
-          <div style={{ border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', background: 'var(--bg-surface)', padding: 24 }}>
-            <h3 style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: 'var(--text-lg)', letterSpacing: '-0.02em', color: 'var(--text-primary)', margin: '0 0 10px' }}>AI-assisted engineering</h3>
-            <p style={{ fontFamily: 'var(--font-prose)', fontSize: 'var(--text-base)', lineHeight: 1.55, color: 'var(--text-secondary)', margin: 0 }}>
+          <div style={{
+            border: '1px solid var(--border)',
+            borderTop: '3px solid rgba(252,172,60,0.85)',
+            borderRadius: 'var(--radius-lg)',
+            background: 'linear-gradient(180deg, rgba(36,34,32,0.6) 0%, rgba(26,24,22,0.4) 100%)',
+            padding: 24,
+            boxShadow: '0 4px 20px rgba(0,0,0,0.15)',
+          }}>
+            <h3 style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: 'var(--text-base)', letterSpacing: '-0.02em', color: 'var(--text-primary)', margin: '0 0 12px' }}>AI-assisted engineering</h3>
+            <p style={{ fontFamily: 'var(--font-prose)', fontSize: 'var(--text-sm)', lineHeight: 1.6, color: 'var(--text-secondary)', margin: 0 }}>
               Designing workflows where agents help with requirements, specs, code, review, testing, and release.
             </p>
           </div>
-          <div style={{ border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', background: 'var(--bg-surface)', padding: 24 }}>
-            <h3 style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: 'var(--text-lg)', letterSpacing: '-0.02em', color: 'var(--text-primary)', margin: '0 0 10px' }}>Platform architecture</h3>
-            <p style={{ fontFamily: 'var(--font-prose)', fontSize: 'var(--text-base)', lineHeight: 1.55, color: 'var(--text-secondary)', margin: 0 }}>
+          <div style={{
+            border: '1px solid var(--border)',
+            borderTop: '3px solid rgba(129,140,248,0.85)',
+            borderRadius: 'var(--radius-lg)',
+            background: 'linear-gradient(180deg, rgba(36,34,32,0.6) 0%, rgba(26,24,22,0.4) 100%)',
+            padding: 24,
+            boxShadow: '0 4px 20px rgba(0,0,0,0.15)',
+          }}>
+            <h3 style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: 'var(--text-base)', letterSpacing: '-0.02em', color: 'var(--text-primary)', margin: '0 0 12px' }}>Platform architecture</h3>
+            <p style={{ fontFamily: 'var(--font-prose)', fontSize: 'var(--text-sm)', lineHeight: 1.6, color: 'var(--text-secondary)', margin: 0 }}>
               Building internal systems, standards, APIs, event-driven workflows, observability, and deployment patterns.
             </p>
           </div>
-          <div style={{ border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', background: 'var(--bg-surface)', padding: 24 }}>
-            <h3 style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: 'var(--text-lg)', letterSpacing: '-0.02em', color: 'var(--text-primary)', margin: '0 0 10px' }}>Engineering operating systems</h3>
-            <p style={{ fontFamily: 'var(--font-prose)', fontSize: 'var(--text-base)', lineHeight: 1.55, color: 'var(--text-secondary)', margin: 0 }}>
+          <div style={{
+            border: '1px solid var(--border)',
+            borderTop: '3px solid var(--canada-300)',
+            borderRadius: 'var(--radius-lg)',
+            background: 'linear-gradient(180deg, rgba(36,34,32,0.6) 0%, rgba(26,24,22,0.4) 100%)',
+            padding: 24,
+            boxShadow: '0 4px 20px rgba(0,0,0,0.15)',
+          }}>
+            <h3 style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: 'var(--text-base)', letterSpacing: '-0.02em', color: 'var(--text-primary)', margin: '0 0 12px' }}>Engineering operating systems</h3>
+            <p style={{ fontFamily: 'var(--font-prose)', fontSize: 'var(--text-sm)', lineHeight: 1.6, color: 'var(--text-secondary)', margin: 0 }}>
               RFCs, review loops, team rituals, quality gates, reliability practices, and delivery governance.
             </p>
           </div>
@@ -129,9 +176,9 @@ export default function Home({ t, go, openPost, openProject, openTopic }) {
       <section style={{ padding: pad(t, '48px 0 8px', '34px 0 4px') }}>
         <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: 12 }}>
           <SectionLabel t={t}>From Field Notes</SectionLabel>
-          <a href="/notes" onClick={(e) => { e.preventDefault(); go('notes'); }} style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--text-muted)', textDecoration: 'none' }}>All writing →</a>
+          <a href="/notes" onClick={go ? (e) => { e.preventDefault(); go('notes'); } : undefined} style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--text-muted)', textDecoration: 'none' }}>All writing →</a>
         </div>
-        <FeaturedCard post={featured} t={t} onClick={(e) => { e.preventDefault(); openPost(featured); }} />
+        <FeaturedCard post={featured} t={t} onClick={openPost ? (e) => { e.preventDefault(); openPost(featured); } : undefined} />
       </section>
 
       {recent.length > 0 && (
@@ -139,7 +186,7 @@ export default function Home({ t, go, openPost, openProject, openTopic }) {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 28 }}>
             {recent.map((p, i) => (
               <ArticleCard key={p.slug} variant="grid" accent={p.accent} category={p.category}
-                href={'/notes/' + p.slug} onClick={(e) => { e.preventDefault(); openPost(p); }}
+                href={'/notes/' + p.slug} onClick={openPost ? (e) => { e.preventDefault(); openPost(p); } : undefined}
                 title={p.title} dek={p.dek} meta={meta(p)}
                 cover={<Cover id={'home-r' + i} t={t} category={p.category} accent={p.accent} big={postNumber(p)} />} />
             ))}
@@ -150,12 +197,12 @@ export default function Home({ t, go, openPost, openProject, openTopic }) {
       {/* From the Lab */}
       <section style={{ padding: pad(t, '24px 0 40px', '16px 0 30px'), borderTop: '1px solid var(--border)' }}>
         <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: 12, paddingTop: pad(t, 36, 26) }}>
-          <SectionLabel t={t} style={{ marginBottom: 20 }}>From the Lab</SectionLabel>
-          <a href="/lab" onClick={(e) => { e.preventDefault(); go('lab'); }} style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--text-muted)', textDecoration: 'none' }}>Everything built →</a>
+          <SectionLabel t={t} style={{ marginBottom: 20 }}>From Lab Reports</SectionLabel>
+          <a href="/lab" onClick={go ? (e) => { e.preventDefault(); go('lab'); } : undefined} style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--text-muted)', textDecoration: 'none' }}>Everything built →</a>
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 24 }}>
           {labFeat.map((pr) => (
-            <a key={pr.slug} href={'/lab/' + pr.slug} onClick={(e) => { e.preventDefault(); openProject(pr); }}
+            <a key={pr.slug} href={'/lab/' + pr.slug} onClick={openProject ? (e) => { e.preventDefault(); openProject(pr); } : undefined}
               style={{ display: 'block', textDecoration: 'none', border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', background: 'var(--bg-surface)', padding: 24, transition: 'border-color var(--duration-base) var(--ease)' }}
               onMouseEnter={(e) => e.currentTarget.style.borderColor = 'var(--border-strong)'}
               onMouseLeave={(e) => e.currentTarget.style.borderColor = 'var(--border)'}>

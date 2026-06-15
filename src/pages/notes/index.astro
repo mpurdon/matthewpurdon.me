@@ -1,0 +1,19 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { NotesIndex } from '../../notes.jsx';
+
+const SETTINGS = {
+  hero: 'portrait',
+  labStyle: 'cards',
+  density: 'comfortable',
+  covers: 'typographic',
+  red: 'bold',
+};
+---
+
+<Layout view="notes">
+  <NotesIndex
+    t={SETTINGS}
+    client:load
+  />
+</Layout>

@@ -2,4 +2,8 @@
    global `React`. This module must be imported before it. */
 import React from 'react';
 
+if (typeof window === 'undefined') {
+  global.window = global;
+}
+
 window.React = React;

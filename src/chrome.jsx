@@ -19,7 +19,7 @@ export function Wordmark({ size = 19, leaf = 22 }) {
 
 const NAV = [
   { key: 'notes', label: 'Field Notes' },
-  { key: 'lab', label: 'Lab' },
+  { key: 'lab', label: 'Lab Reports' },
   { key: 'about', label: 'About' },
 ];
 
@@ -93,7 +93,7 @@ export function Footer({ go }) {
         </div>
         <FooterCol title="Read">
           <FLink href="/notes" onClick={() => go('notes')}>Field Notes</FLink>
-          <FLink href="/lab" onClick={() => go('lab')}>Lab</FLink>
+          <FLink href="/lab" onClick={() => go('lab')}>Lab Reports</FLink>
           <FLink href="/about" onClick={() => go('about')}>About</FLink>
         </FooterCol>
         <FooterCol title="Elsewhere">

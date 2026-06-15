@@ -28,7 +28,29 @@ export default function About({ t, go }) {
           <div style={{ flex: '1 1 340px', minWidth: 0 }}>
             <p style={{ fontFamily: 'var(--font-label)', textTransform: 'uppercase', letterSpacing: 'var(--tracking-wider)', fontSize: 'var(--text-xs)', color: kicker(t), margin: '0 0 12px' }}>About · {PROFILE.location}</p>
             <h1 style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: 'clamp(30px, 4.4vw, 48px)', lineHeight: 1.05, letterSpacing: '-0.03em', margin: '0 0 14px', color: 'var(--text-primary)' }}>Matthew Purdon</h1>
-            <p style={{ fontFamily: 'var(--font-prose)', fontSize: 'var(--prose-lead)', lineHeight: 1.5, color: 'var(--text-secondary)', maxWidth: 560, margin: 0 }}>{PROFILE.tagline}</p>
+            <p style={{
+              fontFamily: 'var(--font-prose)',
+              fontSize: 'var(--prose-lead)',
+              lineHeight: 1.55,
+              fontWeight: 600,
+              color: 'var(--text-primary)',
+              maxWidth: 580,
+              margin: '0 0 12px',
+              textWrap: 'pretty'
+            }}>
+              {PROFILE.tagline}
+            </p>
+            <p style={{
+              fontFamily: 'var(--font-prose)',
+              fontSize: 'var(--text-base)',
+              lineHeight: 1.6,
+              color: 'var(--text-secondary)',
+              maxWidth: 540,
+              margin: 0,
+              textWrap: 'pretty'
+            }}>
+              {PROFILE.bio}
+            </p>
           </div>
         </div>
       </section>
@@ -53,7 +75,7 @@ export default function About({ t, go }) {
             a Caribbean island, and zero job interviews in twenty-five years.
           </p>
           <p>
-            <a href="/story" onClick={(e) => { e.preventDefault(); go('story'); }}>Read the whole story →</a>
+            <a href="/story" onClick={go ? (e) => { e.preventDefault(); go('story'); } : undefined}>Read the whole story →</a>
           </p>
         </Soapbox>
 

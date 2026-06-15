@@ -17,6 +17,43 @@ function StackRow({ stack }) {
   );
 }
 
+function FeaturedProjectCard({ pr, openProject, t }) {
+  const m = TYPE_META[pr.type] || TYPE_META.Software;
+  return (
+    <a href={'/lab/' + pr.slug} onClick={(e) => { e.preventDefault(); openProject(pr); }}
+      style={{
+        display: 'block',
+        textDecoration: 'none',
+        border: '1px solid var(--border)',
+        borderTop: '4px solid ' + m.color,
+        borderRadius: 'var(--radius-lg)',
+        background: 'linear-gradient(180deg, rgba(36,34,32,0.6) 0%, rgba(26,24,22,0.4) 100%)',
+        padding: 32,
+        transition: 'border-color var(--duration-base) var(--ease)',
+        boxShadow: '0 4px 20px rgba(0,0,0,0.15)',
+        marginBottom: 32,
+      }}
+      onMouseEnter={(e) => e.currentTarget.style.borderColor = m.color}
+      onMouseLeave={(e) => e.currentTarget.style.borderColor = 'var(--border)'}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 18 }}>
+        <div style={{ display: 'flex', gap: 8 }}>
+          <TypeBadge type={pr.type} />
+          {pr.ai && <AIBadge />}
+        </div>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--text-muted)' }}>{pr.year}</span>
+      </div>
+      <h2 style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: 'clamp(24px, 3.5vw, 32px)', letterSpacing: '-0.025em', color: 'var(--text-primary)', margin: '0 0 12px', lineHeight: 1.15 }}>{pr.name}</h2>
+      <p style={{ fontFamily: 'var(--font-prose)', fontSize: 'var(--prose-lead)', lineHeight: 1.5, color: 'var(--text-secondary)', margin: '0 0 18px', textWrap: 'pretty' }}>{pr.tagline}</p>
+      <p style={{ fontFamily: 'var(--font-prose)', fontSize: 'var(--text-base)', lineHeight: 1.6, color: 'var(--text-muted)', margin: '0 0 24px', maxWidth: 820 }}>
+        {pr.summary}
+      </p>
+      <div style={{ borderTop: '1px dashed var(--border)', paddingTop: 20 }}>
+        <StackRow stack={pr.stack} />
+      </div>
+    </a>
+  );
+}
+
 function CardsGrid({ items, openProject }) {
   return (
     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 24 }}>
@@ -24,16 +61,30 @@ function CardsGrid({ items, openProject }) {
         const m = TYPE_META[pr.type] || TYPE_META.Software;
         return (
           <a key={pr.slug} href={'/lab/' + pr.slug} onClick={(e) => { e.preventDefault(); openProject(pr); }}
-            style={{ display: 'flex', flexDirection: 'column', textDecoration: 'none', border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', background: 'var(--bg-surface)', overflow: 'hidden', transition: 'border-color var(--duration-base) var(--ease)' }}
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              textDecoration: 'none',
+              border: '1px solid var(--border)',
+              borderTop: '3px solid ' + m.color,
+              borderRadius: 'var(--radius-lg)',
+              background: 'linear-gradient(180deg, rgba(36,34,32,0.6) 0%, rgba(26,24,22,0.4) 100%)',
+              padding: 24,
+              transition: 'border-color var(--duration-base) var(--ease)',
+              boxShadow: '0 4px 20px rgba(0,0,0,0.12)',
+            }}
             onMouseEnter={(e) => e.currentTarget.style.borderColor = m.color}
             onMouseLeave={(e) => e.currentTarget.style.borderColor = 'var(--border)'}>
-            <div style={{ height: 116, borderBottom: '1px solid var(--border)', background: `radial-gradient(120% 160% at 100% 0%, ${m.color}22 0%, transparent 55%), linear-gradient(135deg, var(--bg-elevated), var(--bg-surface))`, display: 'flex', alignItems: 'flex-end', padding: 16 }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
+              <div style={{ display: 'flex', gap: 8 }}>
+                <TypeBadge type={pr.type} />
+                {pr.ai && <AIBadge />}
+              </div>
               <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--text-muted)' }}>{pr.year}</span>
             </div>
-            <div style={{ padding: 22 }}>
-              <div style={{ display: 'flex', gap: 8, marginBottom: 14 }}><TypeBadge type={pr.type} />{pr.ai && <AIBadge />}</div>
-              <h2 style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: 'var(--text-xl)', letterSpacing: '-0.02em', color: 'var(--text-primary)', margin: '0 0 8px' }}>{pr.name}</h2>
-              <p style={{ fontFamily: 'var(--font-prose)', fontSize: 'var(--text-base)', lineHeight: 1.55, color: 'var(--text-secondary)', margin: '0 0 16px' }}>{pr.tagline}</p>
+            <h2 style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: 'var(--text-xl)', letterSpacing: '-0.02em', color: 'var(--text-primary)', margin: '0 0 10px' }}>{pr.name}</h2>
+            <p style={{ fontFamily: 'var(--font-prose)', fontSize: 'var(--text-base)', lineHeight: 1.55, color: 'var(--text-secondary)', margin: '0 0 18px' }}>{pr.tagline}</p>
+            <div style={{ marginTop: 'auto' }}>
               <StackRow stack={pr.stack} />
             </div>
           </a>
@@ -44,10 +95,12 @@ function CardsGrid({ items, openProject }) {
 }
 
 export function LabIndex({ t, openProject, go }) {
+  const featured = PROJECTS.find(p => p.featured) || PROJECTS[0];
+  const rest = PROJECTS.filter(p => p !== featured);
   return (
     <main style={{ maxWidth: 1080, margin: '0 auto', padding: '0 32px 96px' }}>
       <section style={{ padding: pad(t, '64px 0 40px', '44px 0 30px'), borderBottom: '1px solid var(--border)' }}>
-        <p style={{ fontFamily: 'var(--font-label)', textTransform: 'uppercase', letterSpacing: 'var(--tracking-wider)', fontSize: 'var(--text-xs)', color: kicker(t), margin: '0 0 14px' }}>The Lab</p>
+        <p style={{ fontFamily: 'var(--font-label)', textTransform: 'uppercase', letterSpacing: 'var(--tracking-wider)', fontSize: 'var(--text-xs)', color: kicker(t), margin: '0 0 14px' }}>Lab Reports</p>
         <h1 style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: 'clamp(32px, 4.5vw, 52px)', lineHeight: 1.08, letterSpacing: '-0.03em', margin: '0 0 18px', color: 'var(--text-primary)', maxWidth: 760, textWrap: 'balance' }}>
         Things I've built — software and process.
         </h1>
@@ -61,9 +114,17 @@ export function LabIndex({ t, openProject, go }) {
         </div>
       </section>
 
-      <section style={{ padding: pad(t, '40px 0', '28px 0') }}>
-        <CardsGrid items={PROJECTS} openProject={openProject} />
+      <section style={{ padding: pad(t, '40px 0 0', '28px 0 0') }}>
+        <SectionLabel t={t}>Featured Report</SectionLabel>
+        <FeaturedProjectCard pr={featured} openProject={openProject} t={t} />
       </section>
+
+      {rest.length > 0 && (
+        <section style={{ padding: pad(t, '24px 0 40px', '16px 0 30px') }}>
+          <SectionLabel t={t}>Other Lab Reports</SectionLabel>
+          <CardsGrid items={rest} openProject={openProject} />
+        </section>
+      )}
 
     </main>
   );
@@ -77,7 +138,7 @@ export function ProjectDetail({ project: pr, t, go, openProject }) {
   return (
     <main style={{ maxWidth: 820, margin: '0 auto', padding: '0 32px 96px' }}>
       <header style={{ padding: '56px 0 28px' }}>
-        <a href="/lab" onClick={(e) => { e.preventDefault(); go('lab'); }} style={{ fontFamily: 'var(--font-label)', textTransform: 'uppercase', letterSpacing: 'var(--tracking-wider)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--text-muted)', textDecoration: 'none' }}>← The Lab</a>
+        <a href="/lab" onClick={(e) => { e.preventDefault(); go('lab'); }} style={{ fontFamily: 'var(--font-label)', textTransform: 'uppercase', letterSpacing: 'var(--tracking-wider)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--text-muted)', textDecoration: 'none' }}>← Lab Reports</a>
         <div style={{ display: 'flex', gap: 8, margin: '20px 0 16px' }}><TypeBadge type={pr.type} />{pr.ai && <AIBadge />}</div>
         <h1 style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: 'clamp(30px, 4.4vw, 48px)', lineHeight: 1.06, letterSpacing: '-0.03em', margin: '0 0 18px', color: 'var(--text-primary)', textWrap: 'balance' }}>{pr.name}</h1>
         <p style={{ fontFamily: 'var(--font-prose)', fontSize: 'var(--prose-lead)', lineHeight: 1.5, color: 'var(--text-secondary)', maxWidth: 640, margin: 0 }}>{pr.tagline}</p>
@@ -103,7 +164,7 @@ export function ProjectDetail({ project: pr, t, go, openProject }) {
       </div>
 
       <section style={{ marginTop: 48, paddingTop: 28, borderTop: '1px solid var(--border)' }}>
-        <SectionLabel t={t} style={{ marginBottom: 16 }}>More from the Lab</SectionLabel>
+        <SectionLabel t={t} style={{ marginBottom: 16 }}>More Lab Reports</SectionLabel>
         <div>
           {others.map((o, i) => {
             const m = TYPE_META[o.type] || TYPE_META.Software;

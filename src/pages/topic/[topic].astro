@@ -1,0 +1,34 @@
+---
+import { TOPICS } from '../../data.js';
+import Layout from '../../layouts/Layout.astro';
+import { TopicPage } from '../../notes.jsx';
+
+export async function getStaticPaths() {
+  return Object.keys(TOPICS).map((topic) => ({
+    params: { topic },
+    props: { topic },
+  }));
+}
+
+const { topic } = Astro.props;
+
+const SETTINGS = {
+  hero: 'portrait',
+  labStyle: 'cards',
+  density: 'comfortable',
+  covers: 'typographic',
+  red: 'bold',
+};
+---
+
+<Layout
+  title={`#${topic} — Matthew Purdon`}
+  description={`${topic} posts by Matthew Purdon.`}
+  view="notes"
+>
+  <TopicPage
+    topic={topic}
+    t={SETTINGS}
+    client:load
+  />
+</Layout>

@@ -10,7 +10,8 @@ export const PROFILE = {
   name: 'Matthew Purdon',
   role: 'Principal Software Engineer',
   // SEO-friendly, true-to-his-interests one-liner. Edit freely.
-  tagline: 'Principal engineer and AI platform builder with 25 years of experience turning messy software delivery into repeatable systems. I write about AI-assisted engineering, the new SDLC, and how teams actually ship. I help engineering organizations adopt AI-assisted delivery without turning the SDLC into chaos: platform architecture, developer workflows, agentic tooling, review systems, governance, and the process changes needed to make it stick.',
+  tagline: 'Principal engineer and AI platform builder with twenty-five years of experience turning messy software delivery into repeatable systems. I write about AI-assisted engineering, the new SDLC, and how teams actually ship.',
+  bio: 'I help engineering organizations adopt AI-assisted delivery without turning the SDLC into chaos: platform architecture, developer workflows, agentic tooling, review systems, governance, and the process changes needed to make it stick.',
   location: 'Toronto, Canada',
   avatar: AVATAR,
   email: 'hello@matthewpurdon.me',
@@ -100,7 +101,7 @@ export const PROJECTS = [
   },
   {
     slug: 'tcc',
-    name: 'tcc',
+    name: 'TCC',
     type: 'Software', ai: true, status: 'Live', accent: 'indigo', featured: true,
     tagline: 'An experiment with the tiny pi coding agent that became my daily-driver harness: AWS Bedrock underneath, twenty-five extensions on top, every behaviour mine to change.',
     summary: 'A weekend experiment with the open-source pi coding agent that grew into a daily-driver harness on AWS Bedrock: persistent memory, per-branch checkpoints, secret scanning, budget caps, background PR watches, and a second-opinion review gate. Built for a corporate account, where every wasted token is a line item.',
@@ -108,17 +109,6 @@ export const PROJECTS = [
     link: 'https://github.com/mpurdon/tcc-harness',
     linkLabel: 'Source on GitHub',
     year: '2026', date: 'June 7, 2026',
-  },
-  {
-    slug: 'technical-evolution-proposals',
-    name: 'Technical Evolution (TE) Proposals',
-    type: 'Process', ai: false, status: 'In use', accent: 'amber', featured: true,
-    tagline: 'A lightweight RFC format for engineering teams — small enough that people actually write them.',
-    summary: 'A numbered, plain-text proposal process for evolving how a team works. TE-0001 standardizes Conventional Commits; later notes cover branching, review SLAs, and how AI tools enter the workflow.',
-    stack: ['Markdown', 'Git', 'Process'],
-    link: 'https://gist.github.com/mpurdon/9b55728297987219db25a48ad53aaf65',
-    linkLabel: 'Read TE-0001',
-    year: '2025',
   },
   {
     slug: 'mcp-servers',
@@ -152,5 +142,16 @@ export const PROJECTS = [
     link: 'https://github.com/mpurdon/matthewpurdon.me',
     linkLabel: 'Source on GitHub',
     year: '2026', date: 'June 11, 2026',
+  },
+  {
+    slug: 'technical-evolution-proposals',
+    name: 'Technical Evolution (TE) Proposals',
+    type: 'Process', ai: false, status: 'In use', accent: 'amber', featured: true,
+    tagline: 'A lightweight RFC format for engineering teams — small enough that people actually write them.',
+    summary: 'A numbered, plain-text proposal process for evolving how a team works. TE-0001 standardizes Conventional Commits; later notes cover branching, review SLAs, and how AI tools enter the workflow.',
+    stack: ['Markdown', 'Git', 'Process'],
+    link: 'https://gist.github.com/mpurdon/9b55728297987219db25a48ad53aaf65',
+    linkLabel: 'Read TE-0001',
+    year: '2025',
   },
 ];

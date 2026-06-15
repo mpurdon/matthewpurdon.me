@@ -4,9 +4,9 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build && node scripts/generate-feed.mjs && node scripts/generate-pages.mjs",
-    "preview": "vite preview",
+    "dev": "astro dev",
+    "build": "astro build && node scripts/generate-feed.mjs && node scripts/generate-sitemap.mjs",
+    "preview": "astro preview",
     "deploy": "npm run build && wrangler pages deploy dist --project-name matthewpurdon-me"
   },
   "dependencies": {
@@ -14,7 +14,9 @@
     "react-dom": "^18.3.1"
   },
   "devDependencies": {
+    "@astrojs/react": "^5.0.7",
     "@vitejs/plugin-react": "^4.3.4",
+    "astro": "^6.4.6",
     "vite": "^6.0.0",
     "wrangler": "^4.99.0"
   }

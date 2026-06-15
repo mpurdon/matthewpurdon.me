@@ -1,0 +1,16 @@
+---
+import Layout from '../layouts/Layout.astro';
+import AboutView from '../about.jsx';
+
+const SETTINGS = {
+  hero: 'portrait',
+  labStyle: 'cards',
+  density: 'comfortable',
+  covers: 'typographic',
+  red: 'bold',
+};
+---
+
+<Layout view="about">
+  <AboutView t={SETTINGS} client:load />
+</Layout>

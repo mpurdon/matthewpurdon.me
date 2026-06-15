@@ -1,0 +1,44 @@
+---
+import { PROJECTS } from '../../data.js';
+import Layout from '../../layouts/Layout.astro';
+import { ProjectDetail } from '../../lab.jsx';
+
+export async function getStaticPaths() {
+  return PROJECTS.map((project) => ({
+    params: { slug: project.slug },
+    props: { project },
+  }));
+}
+
+const { project } = Astro.props;
+
+const appSchema = {
+  "@context": "https://schema.org",
+  "@type": project.type === "Software" ? "SoftwareApplication" : "CreativeWork",
+  "name": project.name,
+  "description": project.tagline,
+  "softwareRequirements": project.stack.join(", "),
+  "downloadUrl": project.link
+};
+
+const SETTINGS = {
+  hero: 'portrait',
+  labStyle: 'cards',
+  density: 'comfortable',
+  covers: 'typographic',
+  red: 'bold',
+};
+---
+
+<Layout
+  title={`${project.name} — Matthew Purdon · Lab`}
+  description={project.tagline}
+  view="lab"
+  jsonLd={[appSchema]}
+>
+  <ProjectDetail
+    project={project}
+    t={SETTINGS}
+    client:load
+  />
+</Layout>
