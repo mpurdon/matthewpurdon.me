@@ -2,6 +2,14 @@
 import Layout from '../../layouts/Layout.astro';
 import { LabIndex } from '../../lab.jsx';
 
+const labSchema = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "Lab Reports — Matthew Purdon",
+  "description": "Software, process experiments, tools, and AI-assisted engineering systems built by Matthew Purdon.",
+  "url": Astro.url.href
+};
+
 const SETTINGS = {
   hero: 'portrait',
   labStyle: 'cards',
@@ -11,7 +19,12 @@ const SETTINGS = {
 };
 ---
 
-<Layout view="lab">
+<Layout
+  title="Lab Reports — Matthew Purdon"
+  description="Software, process experiments, tools, and AI-assisted engineering systems built by Matthew Purdon: software, process, developer tools, and experiments."
+  view="lab"
+  jsonLd={[labSchema]}
+>
   <LabIndex
     t={SETTINGS}
     client:load

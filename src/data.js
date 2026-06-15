@@ -10,7 +10,7 @@ export const PROFILE = {
   name: 'Matthew Purdon',
   role: 'Principal Software Engineer',
   // SEO-friendly, true-to-his-interests one-liner. Edit freely.
-  tagline: 'Principal engineer and AI platform builder with twenty-five years of experience turning messy software delivery into repeatable systems. I write about AI-assisted engineering, the new SDLC, and how teams actually ship.',
+  tagline: 'Principal engineer and AI platform builder in Toronto with twenty-five years of experience turning messy software delivery into repeatable systems. I write about AI-assisted engineering, the new SDLC, code review, developer workflows, and how teams actually ship.',
   bio: 'I help engineering organizations adopt AI-assisted delivery without turning the SDLC into chaos: platform architecture, developer workflows, agentic tooling, review systems, governance, and the process changes needed to make it stick.',
   location: 'Toronto, Canada',
   avatar: AVATAR,

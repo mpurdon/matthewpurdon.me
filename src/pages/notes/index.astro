@@ -2,6 +2,18 @@
 import Layout from '../../layouts/Layout.astro';
 import { NotesIndex } from '../../notes.jsx';
 
+const notesSchema = {
+  "@context": "https://schema.org",
+  "@type": "Blog",
+  "name": "Field Notes — Matthew Purdon",
+  "description": "Essays and field notes by Matthew Purdon on AI-assisted engineering, code review, the new SDLC, and how teams actually ship.",
+  "url": Astro.url.href,
+  "publisher": {
+    "@type": "Person",
+    "name": "Matthew Purdon"
+  }
+};
+
 const SETTINGS = {
   hero: 'portrait',
   labStyle: 'cards',
@@ -11,7 +23,12 @@ const SETTINGS = {
 };
 ---
 
-<Layout view="notes">
+<Layout
+  title="Field Notes — Matthew Purdon"
+  description="Essays and field notes by Matthew Purdon on AI-assisted engineering, code review, the new SDLC, and how teams actually ship."
+  view="notes"
+  jsonLd={[notesSchema]}
+>
   <NotesIndex
     t={SETTINGS}
     client:load

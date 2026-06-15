@@ -71,9 +71,33 @@ function HeroPortrait({ t, go }) {
           {PROFILE.bio}
         </p>
         <SocialRow />
-        <div style={{ display: 'flex', gap: 12, marginTop: 22, flexWrap: 'wrap' }}>
-          <Button variant="solid" onClick={() => go('notes')}>Read Field Notes</Button>
-          <Button variant="outline" onClick={() => go('lab')}>See Lab Reports</Button>
+        <div style={{ display: 'flex', gap: 12, marginTop: 22, flexWrap: 'wrap', alignItems: 'center' }}>
+          <Button variant="solid" onClick={go ? () => go('notes') : undefined} href="/notes">Read Field Notes</Button>
+          <Button variant="outline" onClick={go ? () => go('lab') : undefined} href="/lab">See Lab Reports</Button>
+          <a href="/about" onClick={go ? (e) => { e.preventDefault(); go('about'); } : undefined}
+             style={{
+               fontFamily: 'var(--font-mono)',
+               fontSize: 'var(--text-xs)',
+               fontWeight: 700,
+               textTransform: 'uppercase',
+               letterSpacing: 'var(--tracking-wider)',
+               color: 'var(--text-secondary)',
+               textDecoration: 'none',
+               padding: '8px 16px',
+               border: '1px solid var(--border)',
+               borderRadius: 'var(--radius-md)',
+               transition: 'all var(--duration-base) var(--ease)',
+             }}
+             onMouseEnter={(e) => {
+               e.currentTarget.style.color = 'var(--text-primary)';
+               e.currentTarget.style.borderColor = 'var(--border-strong)';
+             }}
+             onMouseLeave={(e) => {
+               e.currentTarget.style.color = 'var(--text-secondary)';
+               e.currentTarget.style.borderColor = 'var(--border)';
+             }}>
+            About Matthew
+          </a>
         </div>
       </div>
     </div>
@@ -169,6 +193,24 @@ export default function Home({ t, go, openPost, openProject, openTopic }) {
               RFCs, review loops, team rituals, quality gates, reliability practices, and delivery governance.
             </p>
           </div>
+        </div>
+      </section>
+
+      {/* Start Here / Core Beliefs */}
+      <section style={{ padding: pad(t, '40px 0 44px', '28px 0 32px'), borderBottom: '1px solid var(--border)' }}>
+        <SectionLabel t={t} style={{ marginBottom: 20 }}>Start Here</SectionLabel>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 24 }}>
+          {[
+            { title: 'AI-assisted engineering', desc: 'Transforming requirements, specs, testing, and delivery once a model sits in the loop.' },
+            { title: 'Code review as the main event', desc: 'Refocusing the team\'s execution standards from typing speed to high-fidelity validation.' },
+            { title: 'The new SDLC', desc: 'Inventing and stabilizing the process changes needed when agents enter the workflow.' },
+            { title: 'Developer tools and platform systems', desc: 'Building the local harnesses, telemetry, and frameworks that make it actually stick.' }
+          ].map((item, i) => (
+            <div key={i} style={{ borderLeft: '2px solid var(--canada-300)', paddingLeft: 16 }}>
+              <h4 style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, color: 'var(--text-primary)', margin: '0 0 6px' }}>{item.title}</h4>
+              <p style={{ fontFamily: 'var(--font-prose)', fontSize: 'var(--text-xs)', lineHeight: 1.55, color: 'var(--text-secondary)', margin: 0 }}>{item.desc}</p>
+            </div>
+          ))}
         </div>
       </section>
 
