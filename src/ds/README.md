@@ -225,3 +225,23 @@ Design System tab.
   Canadian identity in the source. Swap it if you have an official mark.
 - **Canada red** (`#d52b1e`) is a design decision for the blog, not extracted from a source —
   tune the ramp in `tokens/colors.css` to taste.
+
+---
+
+## SEO, SSG, and Accessibility Mandates (matthewpurdon.me)
+
+To ensure `matthewpurdon.me` remains "best in breed" regarding indexability, search engine ranking, AI crawler scraping, and WCAG 2.1 AA accessibility, any future additions, notes, projects, or refactors must adhere strictly to these architectural mandates:
+
+1. **HTML-First Static Pre-Rendering (SSG):**
+   - The website operates on **Astro 5 SSG**. 100% of the textual content, article bodies, and core layout elements must compile to statically pre-rendered semantic HTML in the initial HTTP response.
+   - Client-side React routing click intercepts are forbidden unless a routing function (`go`, `openPost`, etc.) is explicitly passed as a prop. All standard navigation links must fallback natively to standard browser `href` anchors so that search crawlers and social unfurlers can traverse pages seamlessly.
+2. **SSR/SSG Compatibility for React Components:**
+   - The design system IIFE bundle (`bundle.js`) binds to `window`. Because Node.js has no `window` object during static compilation, `src/ds/react-global.js` shims `global.window = global`.
+   - Any new React components must remain SSR-safe. Always guard browser-only globals (like `document`, `window`, `navigator`, `localStorage`) behind conditional `typeof object !== 'undefined'` checks before accessing them.
+3. **Structured Data JSON-LD Schemas:**
+   - Standalone article/note routes must inject a dynamic `BlogPosting` schema.
+   - Lab Reports details must inject a dynamic `SoftwareApplication` (for Software types) or `CreativeWork` (for Process types) schema.
+   - These schemas must accurately map title, date, canonical URL, and authors to ensure optimal indexing by AI search engines.
+4. **Accessible Naming & Keyboard Navigation (a11y):**
+   - The global layout includes a hidden **"Skip to content"** link at the very top of the `<body>` pointing to `<main id="main-content" tabindex="-1">` to support keyboard-only screen readers.
+   - Every icon-only link (such as top-navigation icon anchors) must carry a highly descriptive, accessible name (`aria-label="Matthew Purdon on GitHub"`). Never leave pure icons bare.
