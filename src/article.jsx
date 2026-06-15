@@ -1356,16 +1356,13 @@ function PrincipalBody() {
         proved the fix with async tests, and codified that hard boundary back into the platform's core architecture.
       </p>
 
-      <h2>Guarding the gates of taste</h2>
+      <h2>Stewardship of the platform</h2>
       <p>
-        Hiring the right people, setting the standards, and protecting the technical bar is the single most important thing you
-        can do as an engineering leader. Much like jury duty, interviewing and code reviews can often feel like a waste of
-        time (a chore that takes you away from your "real" work).
-      </p>
-      <p>
-        But you cannot let fatigue win out. Safeguarding who joins your team and holding the line on technical quality is a
-        necessary part of engineering culture and team cohesion, the same way participating in a jury is a key underpinning for
-        a functioning society. As a Principal, you are guarding the gates of the collective taste.
+        When you run all four gears on a single horizontal initiative, you realize something fundamental: the true role
+        of a Principal Engineer is stewardship. It is the responsibility to bridge C-suite business objectives with
+        low-level technical realities: translating long-term strategy into the concrete human processes (like
+        hypothesis-driven tiger teams) that scale those technical standards organically across the department. You are
+        not just guiding code; you are guiding the technical standards of the entire department.
       </p>
       <p>
         This four-gear cycle is how platforms get built. It is how paradigms get shifted. And it is why leading an engineering
