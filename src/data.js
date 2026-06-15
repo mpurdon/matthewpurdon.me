@@ -10,7 +10,7 @@ export const PROFILE = {
   name: 'Matthew Purdon',
   role: 'Principal Software Engineer',
   // SEO-friendly, true-to-his-interests one-liner. Edit freely.
-  tagline: 'Principal software engineer in Toronto. Twenty-five years building software — now writing about AI-assisted engineering, the new SDLC, and how teams actually ship.',
+  tagline: 'Principal engineer and AI platform builder with 25 years of experience turning messy software delivery into repeatable systems. I write about AI-assisted engineering, the new SDLC, and how teams actually ship.',
   location: 'Toronto, Canada',
   avatar: AVATAR,
   email: 'hello@matthewpurdon.me',
@@ -39,10 +39,18 @@ export const TOPICS = {
 // Field Notes (the writing). Hand-written bodies live in article.jsx, keyed by slug.
 export const POSTS = [
   {
+    slug: 'what-is-a-principal-engineer',
+    title: 'What is a principal engineer?',
+    dek: 'Reaching Staff means specializing into one archetype. Reaching Principal means mastering the transition between all four. Why you cannot lead a platform (or an AI transition) from a single gear, and how we ran the engine on our largest multi-agent initiative.',
+    category: 'Teams & Process', accent: 'indigo', featured: true,
+    date: 'Jun 13, 2026', dateLong: 'June 13, 2026', time: '13 min read',
+    tags: ['Teams & Process', 'AI-Assisted Engineering', 'Opinion'],
+  },
+  {
     slug: 'interviewing-the-ai-assisted-engineer',
     title: 'Interviewing the AI-assisted engineer',
     dek: 'For a decade, the coding interview measured whether you could produce syntax under pressure. That proxy is broken. If we want to find engineers who can actually ship, we have to stop asking them to write code and start asking them to judge it. On the review round, seeding quiet landmines, and hiring for taste.',
-    category: 'Hiring', accent: 'canada', featured: true,
+    category: 'Hiring', accent: 'canada', featured: false,
     date: 'Jun 3, 2026', dateLong: 'June 3, 2026', time: '10 min read',
     tags: ['Hiring', 'AI-Assisted Engineering', 'Opinion'],
   },
