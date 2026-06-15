@@ -1917,8 +1917,9 @@ export default function Article({ post, t, openTopic, go }) {
                   maxWidth: 520,
                 }}
               >
-                Principal software engineer in Toronto, 25 years in. Writes Field Notes on AI-assisted engineering and
-                the new SDLC, and builds the occasional tool — and process — in the Lab.
+                Principal engineer and AI platform builder in Toronto with twenty-five years of experience turning messy
+                software delivery into repeatable systems. Writes Field Notes on AI-assisted engineering and the new
+                SDLC, and builds tools and processes in the Lab Reports.
               </p>
               <div style={{ display: "flex", gap: 14 }}>
                 <a
