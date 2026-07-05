@@ -133,6 +133,12 @@ h2:hover > .anchor-copy,
   border: 1px solid var(--border-strong);
 }
 
+/* Keep keyboard focus visible on the many inline-styled links and controls. */
+:where(a, button, input, select, textarea):focus-visible {
+  outline: 3px solid var(--amber-300);
+  outline-offset: 3px;
+}
+
 /* Fix double horizontal rules: remove top border from the first list card 
    following a bordered header section */
 header + section .mp-acard--list:first-of-type {

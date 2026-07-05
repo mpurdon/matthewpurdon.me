@@ -15,6 +15,11 @@ const SETTINGS = {
   title="The Scenic Route — Matthew Purdon"
   description="The long version of Matthew Purdon's path into software, engineering leadership, the Caribbean, and twenty-five years of building software."
   view="about"
+  breadcrumbs={[
+    { name: 'Home', path: '/' },
+    { name: 'About', path: '/about' },
+    { name: 'The Scenic Route', path: '/story' }
+  ]}
 >
   <StoryView t={SETTINGS} client:load />
 </Layout>

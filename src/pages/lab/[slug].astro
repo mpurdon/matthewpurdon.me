@@ -35,6 +35,11 @@ const SETTINGS = {
   description={project.tagline}
   view="lab"
   jsonLd={[appSchema]}
+  breadcrumbs={[
+    { name: 'Home', path: '/' },
+    { name: 'Lab Reports', path: '/lab' },
+    { name: project.name, path: `/lab/${project.slug}` }
+  ]}
 >
   <ProjectDetail
     project={project}

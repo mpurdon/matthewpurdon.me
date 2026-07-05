@@ -7,6 +7,7 @@ interface Props {
   description?: string;
   ogType?: string;
   jsonLd?: Record<string, any>[];
+  breadcrumbs?: { name: string; path: string }[];
   view?: string;
 }
 
@@ -15,10 +16,13 @@ const {
   description = "Matthew Purdon is a principal software engineer in Toronto with 25 years' experience, writing about AI-assisted engineering, the new SDLC, hiring, and how teams actually ship. Field Notes and a Lab of things built — software and process.",
   ogType = "website",
   jsonLd = [],
+  breadcrumbs = [],
   view = "home"
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site || SITE_URL).href;
+const socialImageURL = new URL('/images/matthew-purdon.webp', Astro.site || SITE_URL).href;
+const fontStylesheet = 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Serif:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&display=swap';
 const active = view === 'article' || view === 'topic' ? 'notes' : view === 'project' ? 'lab' : view === 'story' ? 'about' : view;
 
 const LEAF = 'm-90 2030 45-863a95 95 0 0 0-111-98l-859 151 116-320a65 65 0 0 0-20-73l-941-762 212-99a65 65 0 0 0 34-79l-186-572 542 115a65 65 0 0 0 73-38l105-247 423 454a65 65 0 0 0 111-57l-204-1052 327 189a65 65 0 0 0 91-27l332-652 332 652a65 65 0 0 0 91 27l327-189-204 1052a65 65 0 0 0 111 57l423-454 105 247a65 65 0 0 0 73 38l542-115-186 572a65 65 0 0 0 34 79l212 99-941 762a65 65 0 0 0-20 73l116 320-859-151a95 95 0 0 0-111 98l45 863z';
@@ -30,6 +34,22 @@ const NAV = [
 ];
 
 const L = PROFILE.links;
+const canonicalItemURL = (path: string) => {
+  const url = new URL(path, Astro.site || SITE_URL);
+  if (url.pathname !== '/' && !url.pathname.endsWith('/')) url.pathname += '/';
+  return url.href;
+};
+const breadcrumbSchema = breadcrumbs.length > 0 ? {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": breadcrumbs.map((crumb, index) => ({
+    "@type": "ListItem",
+    "position": index + 1,
+    "name": crumb.name,
+    "item": canonicalItemURL(crumb.path)
+  }))
+} : null;
+const pageSchemas = breadcrumbSchema ? [...jsonLd, breadcrumbSchema] : jsonLd;
 ---
 
 <!DOCTYPE html>
@@ -48,6 +68,9 @@ const L = PROFILE.links;
   <meta name="theme-color" content="#242220" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preload" as="style" href={fontStylesheet} />
+  <link rel="stylesheet" href={fontStylesheet} media="print" onload="this.media='all'" />
+  <noscript><link rel="stylesheet" href={fontStylesheet} /></noscript>
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="alternate" type="application/rss+xml" title="Matthew Purdon — Field Notes" href="/feed.xml" />
 
@@ -57,7 +80,7 @@ const L = PROFILE.links;
   <meta property="og:title" content={title} />
   <meta property="og:description" content={description} />
   <meta property="og:url" content={canonicalURL} />
-  <meta property="og:image" content="https://avatars.githubusercontent.com/u/132956?v=4" />
+  <meta property="og:image" content={socialImageURL} />
   <meta property="og:image:alt" content="Portrait of Matthew Purdon" />
   <meta property="og:locale" content="en_CA" />
 
@@ -66,7 +89,7 @@ const L = PROFILE.links;
   <meta name="twitter:creator" content="@mpurdon" />
   <meta name="twitter:title" content={title} />
   <meta name="twitter:description" content={description} />
-  <meta name="twitter:image" content="https://avatars.githubusercontent.com/u/132956?v=4" />
+  <meta name="twitter:image" content={socialImageURL} />
 
   <!-- Default Structured Data -->
   <script type="application/ld+json" is:inline>
@@ -78,7 +101,7 @@ const L = PROFILE.links;
       "familyName": "Purdon",
       "jobTitle": "Principal Engineer & AI Platform Builder",
       "url": "https://matthewpurdon.me/",
-      "image": "https://avatars.githubusercontent.com/u/132956?v=4",
+      "image": "https://matthewpurdon.me/images/matthew-purdon.webp",
       "description": "Principal engineer and AI platform builder in Toronto with 25 years' experience, writing about AI-assisted engineering, the new SDLC, and how teams build software.",
       "address": { "@type": "PostalAddress", "addressLocality": "Toronto", "addressRegion": "ON", "addressCountry": "CA" },
       "knowsAbout": ["AI-assisted engineering", "Software development lifecycle", "Developer tools", "Engineering hiring", "Code review", "Team process"],
@@ -102,7 +125,7 @@ const L = PROFILE.links;
     }
   </script>
 
-  {jsonLd.map((schema) => (
+  {pageSchemas.map((schema) => (
     <script type="application/ld+json" is:inline set:html={JSON.stringify(schema)} />
   ))}
 
@@ -147,7 +170,7 @@ const L = PROFILE.links;
         <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.73.5.5 5.73.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56v-2c-3.2.7-3.88-1.54-3.88-1.54-.53-1.34-1.29-1.7-1.29-1.7-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.8 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.69 5.39-5.25 5.68.41.36.78 1.07.78 2.16v3.2c0 .31.21.68.8.56A11.51 11.51 0 0 0 23.5 12C23.5 5.73 18.27.5 12 .5z"/></svg>
       </a>
       <span style="width: 8px" />
-      <a href="/notes" class="mp-btn mp-btn--solid" style="display: inline-flex; align-items: center; justify-content: center; font-family: var(--font-label); font-weight: 700; text-transform: uppercase; letter-spacing: var(--tracking-wider); border-radius: var(--radius-md); font-size: var(--text-xs); height: 32px; padding: 0 16px; border: 1px solid transparent; text-decoration: none; color: #fff; background: var(--indigo-500); cursor: pointer;">Read</a>
+      <a href="/notes" class="mp-btn mp-btn--solid" style="display: inline-flex; align-items: center; justify-content: center; font-family: var(--font-label); font-weight: 700; text-transform: uppercase; letter-spacing: var(--tracking-wider); border-radius: var(--radius-md); font-size: var(--text-xs); height: 32px; padding: 0 16px; border: 1px solid transparent; text-decoration: none; color: #fff; background: var(--indigo-700); cursor: pointer;">Read</a>
     </nav>
   </header>
 
@@ -189,7 +212,7 @@ const L = PROFILE.links;
       </div>
     </div>
     <div style="border-top: 1px solid var(--border)">
-      <div style="max-width: 1080px; margin: 0 auto; padding: 18px 32px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; font-family: var(--font-mono); font-size: var(--text-xs); color: var(--text-disabled)">
+      <div style="max-width: 1080px; margin: 0 auto; padding: 18px 32px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; font-family: var(--font-mono); font-size: var(--text-xs); color: var(--text-muted)">
         <span>© 2026 Matthew Purdon · Toronto, Canada</span>
         <span>Set in IBM Plex Serif &amp; Mono · Made in Canada</span>
       </div>

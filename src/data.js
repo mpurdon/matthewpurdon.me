@@ -4,7 +4,7 @@
 
 export const SITE_URL = 'https://matthewpurdon.me';
 
-export const AVATAR = 'https://avatars.githubusercontent.com/u/132956?v=4';
+export const AVATAR = '/images/matthew-purdon.webp';
 
 export const PROFILE = {
   name: 'Matthew Purdon',

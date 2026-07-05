@@ -31,7 +31,7 @@ const topicJsonLd = {
     "itemListElement": posts.map((p, index) => ({
       "@type": "ListItem",
       "position": index + 1,
-      "url": `https://matthewpurdon.me/notes/${p.slug}`,
+      "url": `https://matthewpurdon.me/notes/${p.slug}/`,
       "name": p.title,
       "description": p.dek
     }))
@@ -51,6 +51,11 @@ const SETTINGS = {
   title={pageTitle}
   description={pageDescription}
   jsonLd={[topicJsonLd]}
+  breadcrumbs={[
+    { name: 'Home', path: '/' },
+    { name: 'Field Notes', path: '/notes' },
+    { name: topic, path: `/topic/${encodeURIComponent(topic)}` }
+  ]}
   view="notes"
 >
   <TopicPage

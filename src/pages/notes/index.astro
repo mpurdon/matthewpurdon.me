@@ -28,6 +28,10 @@ const SETTINGS = {
   description="Essays and field notes by Matthew Purdon on AI-assisted engineering, code review, the new SDLC, and how teams actually ship."
   view="notes"
   jsonLd={[notesSchema]}
+  breadcrumbs={[
+    { name: 'Home', path: '/' },
+    { name: 'Field Notes', path: '/notes' }
+  ]}
 >
   <NotesIndex
     t={SETTINGS}

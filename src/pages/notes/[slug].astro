@@ -11,16 +11,29 @@ export async function getStaticPaths() {
 }
 
 const { post } = Astro.props;
+const publishedDate = new Date(post.dateLong || post.date).toISOString();
+const modifiedDate = new Date(post.updatedLong || post.dateLong || post.date).toISOString();
 
 const noteSchema = {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
   "headline": post.title,
   "description": post.dek,
-  "datePublished": new Date(post.dateLong || post.date).toISOString().slice(0, 10),
+  "datePublished": publishedDate,
+  "dateModified": modifiedDate,
+  "url": Astro.url.href,
+  "articleSection": post.category,
+  "keywords": post.tags,
+  "inLanguage": "en-CA",
   "author": {
     "@type": "Person",
-    "name": "Matthew Purdon"
+    "name": "Matthew Purdon",
+    "url": "https://matthewpurdon.me/about/"
+  },
+  "isPartOf": {
+    "@type": "Blog",
+    "name": "Field Notes — Matthew Purdon",
+    "url": "https://matthewpurdon.me/notes/"
   },
   "mainEntityOfPage": {
     "@type": "WebPage",
@@ -43,6 +56,11 @@ const SETTINGS = {
   ogType="article"
   view="notes"
   jsonLd={[noteSchema]}
+  breadcrumbs={[
+    { name: 'Home', path: '/' },
+    { name: 'Field Notes', path: '/notes' },
+    { name: post.title, path: `/notes/${post.slug}` }
+  ]}
 >
   <ArticleView
     post={post}
