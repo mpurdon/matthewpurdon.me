@@ -32,14 +32,24 @@ const ACCENT = {
   canada: { edge: '#f4837a', glow: 'rgba(213,43,30,0.20)' },
 };
 
-// Card blurb: substantive part of the dek (drop the trailing "On X, Y, Z"), trimmed to ~2 lines.
+// Card blurb: drop the dek's trailing "On X, Y, Z", then keep as many whole
+// sentences as fit (~2-3 lines). Never ends mid-clause; only ellipsizes if a
+// single sentence overflows the budget.
 const blurb = (text) => {
-  const s = (text || '').split(/\.\s+On\s/)[0].trim();
-  const withDot = /[.!?:]$/.test(s) ? s : s + '.';
-  if (withDot.length <= 158) return withDot;
-  const cut = withDot.slice(0, 156);
-  const lastStop = Math.max(cut.lastIndexOf('. '), cut.lastIndexOf('? '), cut.lastIndexOf('! '));
-  return (lastStop > 90 ? cut.slice(0, lastStop + 1) : cut.slice(0, cut.lastIndexOf(' ')) + '…');
+  const MAX = 170;
+  let base = (text || '').split(/\.\s+On\s/)[0].trim();
+  if (base && !/[.!?]$/.test(base)) base += '.';
+  const sentences = base.match(/[^.!?]+[.!?]+/g);
+  if (sentences) {
+    let out = '';
+    for (const s of sentences) {
+      if ((out + s).trim().length > MAX) break;
+      out += s;
+    }
+    if (out.trim()) return out.trim();
+  }
+  const cut = base.slice(0, MAX);
+  return cut.slice(0, cut.lastIndexOf(' ')).replace(/[\s.,:;–—-]+$/, '') + '…';
 };
 
 function card({ eyebrow, category, title, dek, footer, accent }) {
