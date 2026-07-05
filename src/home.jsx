@@ -144,25 +144,32 @@ function TheWork() {
   );
 }
 
+// Curated "Start Here" — the evergreen best-of, tuned for the Director-of-AI
+// positioning (AI + leadership fusion first). Kept OUT of "Recent Field Notes"
+// (see Home) so no article appears twice on the homepage. Audit quarterly; see
+// the homepage-featured-strategy memory for the ranking + staleness rules.
+const START_HERE = [
+  { slug: 'judgement-is-the-job-now', copy: 'AI removed the effort filter. Taste, review, and technical judgement are what remain.' },
+  { slug: 'what-is-a-principal-engineer', copy: 'Principal engineering is not one archetype. It is the ability to shift between all four without losing the thread.' },
+  { slug: 'interviewing-the-ai-assisted-engineer', copy: 'Syntax under pressure is a dead proxy. Hire for the AI era by testing judgement and taste: a real task, a few quiet traps, and the review round.' },
+];
+const START_HERE_SLUGS = START_HERE.map((s) => s.slug);
+
 function StartHere({ openPost }) {
-  const slugs = ['what-is-a-principal-engineer', 'judgement-is-the-job-now', 'build-the-model-a-map'];
-  const copy = {
-    'what-is-a-principal-engineer': 'Principal engineering is not one archetype. It is the ability to shift between all four without losing the thread.',
-    'judgement-is-the-job-now': 'AI removed the effort filter. Taste, review, and technical judgement are what remain.',
-    'build-the-model-a-map': 'Agents do not need better vibes. They need written-down context, stable boundaries, and fewer rediscovery loops.',
-  };
-  const posts = slugs.map((slug) => POSTS.find((p) => p.slug === slug)).filter(Boolean);
+  const items = START_HERE
+    .map(({ slug, copy }) => ({ post: POSTS.find((p) => p.slug === slug), copy }))
+    .filter((x) => x.post);
 
   return (
     <NumberedSection number="02" title="Start Here">
       <div style={{ display: 'grid', gap: 0, borderTop: '1px solid var(--border)' }}>
-        {posts.map((post) => (
+        {items.map(({ post, copy }) => (
           <a key={post.slug} href={'/notes/' + post.slug} onClick={openPost ? (e) => { e.preventDefault(); openPost(post); } : undefined}
              style={{ display: 'grid', gridTemplateColumns: '64px 1fr 18px', gap: 18, padding: '20px 0', borderBottom: '1px solid var(--border)', textDecoration: 'none', color: 'inherit' }}>
             <span aria-hidden="true" style={{ color: 'var(--text-muted)', fontFamily: 'var(--font-mono)', fontWeight: 700, letterSpacing: '-0.04em', fontSize: '32px', lineHeight: 1 }}>{postNumber(post)}</span>
             <span>
               <h3 style={{ margin: '0 0 7px', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-lg)', color: 'var(--text-primary)', letterSpacing: '-0.025em' }}>{post.title}</h3>
-              <p style={{ margin: 0, maxWidth: 730, fontFamily: 'var(--font-prose)', fontSize: 'var(--text-base)', lineHeight: 1.55, color: 'var(--text-secondary)' }}>{copy[post.slug]}</p>
+              <p style={{ margin: 0, maxWidth: 730, fontFamily: 'var(--font-prose)', fontSize: 'var(--text-base)', lineHeight: 1.55, color: 'var(--text-secondary)' }}>{copy}</p>
             </span>
             <span aria-hidden="true" style={{ color: 'var(--canada-300)', fontSize: 18, paddingTop: 2 }}>→</span>
           </a>
@@ -224,7 +231,9 @@ function SelectedLabReports({ openProject }) {
 
 export default function Home({ t, go, openPost, openProject, openTopic }) {
   const featured = POSTS.find(p => p.featured) || POSTS[0];
-  const recent = POSTS.filter(p => p !== featured).slice(0, 3);
+  // "Recent" excludes the hero AND the curated Start Here picks, so no article
+  // appears twice on the homepage.
+  const recent = POSTS.filter(p => p !== featured && !START_HERE_SLUGS.includes(p.slug)).slice(0, 3);
 
   return (
     <main style={{ maxWidth: 1080, margin: '0 auto', padding: '0 32px 96px' }}>
