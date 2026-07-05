@@ -1,8 +1,7 @@
 /* matthewpurdon.me — Field Notes index + Topic landing. */
 import DS from './ds/index.js';
-import { SectionLabel, Cover, TopicChip, pad, kicker } from './shared.jsx';
+import { SectionLabel, Cover, TopicChip, pad, kicker, LEAF } from './shared.jsx';
 import { POSTS, TOPICS, PROFILE, postNumber } from './data.js';
-import { LEAF } from './chrome.jsx';
 
 const { ArticleCard, Byline } = DS;
 

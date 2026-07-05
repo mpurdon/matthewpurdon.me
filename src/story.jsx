@@ -2,7 +2,7 @@
 import DS from './ds/index.js';
 import { kicker, pad } from './shared.jsx';
 
-const { Button, Prose, Soapbox, Callout, PullQuote } = DS;
+const { Prose, Soapbox, Callout, PullQuote } = DS;
 
 export default function Story({ t, go }) {
   return (
@@ -167,8 +167,12 @@ export default function Story({ t, go }) {
         </Prose>
 
         <div style={{ display: 'flex', gap: 12, marginTop: 44, flexWrap: 'wrap' }}>
-          <Button variant="outline" onClick={() => go('about')}>← Back to About</Button>
-          <Button variant="solid" onClick={() => go('notes')}>Read Field Notes</Button>
+          <a className="mp-btn mp-btn--outline mp-btn--md" href="/about"
+             onClick={go ? (e) => { e.preventDefault(); go('about'); } : undefined}
+             style={{ textDecoration: 'none' }}>← Back to About</a>
+          <a className="mp-btn mp-btn--solid mp-btn--md" href="/notes"
+             onClick={go ? (e) => { e.preventDefault(); go('notes'); } : undefined}
+             style={{ textDecoration: 'none' }}>Read Field Notes</a>
         </div>
       </section>
     </main>

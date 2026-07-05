@@ -5,7 +5,7 @@ import { SectionLabel, pad, TypeBadge, AIBadge, kicker, TYPE_META, useDeepAnchor
 import { PROJECTS } from './data.js';
 import { PROJECT_BODIES } from './lab-bodies.jsx';
 
-const { Button, Prose } = DS;
+const { Prose } = DS;
 
 function StackRow({ stack }) {
   return (
@@ -158,9 +158,8 @@ export function ProjectDetail({ project: pr, t, go, openProject }) {
           {Body ? <Body /> : <p>{pr.summary}</p>}
         </Prose>
         <div style={{ margin: '26px 0' }}><StackRow stack={pr.stack} /></div>
-        <a href={pr.link} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
-          <Button variant="solid">{pr.linkLabel} ↗</Button>
-        </a>
+        <a href={pr.link} target="_blank" rel="noopener noreferrer"
+           className="mp-btn mp-btn--solid mp-btn--md" style={{ textDecoration: 'none' }}>{pr.linkLabel} ↗</a>
       </div>
 
       <section style={{ marginTop: 48, paddingTop: 28, borderTop: '1px solid var(--border)' }}>

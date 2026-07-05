@@ -1,6 +1,9 @@
 /* matthewpurdon.me — shared view helpers (covers, labels, chips, accents). */
 import { useEffect } from 'react';
 
+// Maple-leaf SVG path — the brand mark, shared across article and notes views.
+export const LEAF = 'm-90 2030 45-863a95 95 0 0 0-111-98l-859 151 116-320a65 65 0 0 0-20-73l-941-762 212-99a65 65 0 0 0 34-79l-186-572 542 115a65 65 0 0 0 73-38l105-247 423 454a65 65 0 0 0 111-57l-204-1052 327 189a65 65 0 0 0 91-27l332-652 332 652a65 65 0 0 0 91 27l327-189-204 1052a65 65 0 0 0 111 57l423-454 105 247a65 65 0 0 0 73 38l542-115-186 572a65 65 0 0 0 34 79l212 99-941 762a65 65 0 0 0-20 73l116 320-859-151a95 95 0 0 0-111 98l45 863z';
+
 const ACCENTS = {
   amber:  { fill: 'rgba(252,172,60,0.22)', edge: 'var(--amber-300)', solid: '#fcac3c' },
   canada: { fill: 'rgba(213,43,30,0.30)', edge: 'var(--canada-300)', solid: '#f4837a' },

@@ -3,7 +3,7 @@ import DS from './ds/index.js';
 import { kicker, pad } from './shared.jsx';
 import { PROFILE } from './data.js';
 
-const { Button, Prose, Soapbox } = DS;
+const { Prose, Soapbox } = DS;
 
 function LinkCard({ label, value, href }) {
   return (
@@ -102,8 +102,12 @@ export default function About({ t, go }) {
           <LinkCard label="Email" value={PROFILE.email} href={'mailto:' + PROFILE.email} />
         </div>
         <div style={{ display: 'flex', gap: 12, marginTop: 28, flexWrap: 'wrap' }}>
-          <Button variant="solid" onClick={() => go('notes')}>Read Field Notes</Button>
-          <Button variant="outline" onClick={() => go('lab')}>See the Lab</Button>
+          <a className="mp-btn mp-btn--solid mp-btn--md" href="/notes"
+             onClick={go ? (e) => { e.preventDefault(); go('notes'); } : undefined}
+             style={{ textDecoration: 'none' }}>Read Field Notes</a>
+          <a className="mp-btn mp-btn--outline mp-btn--md" href="/lab"
+             onClick={go ? (e) => { e.preventDefault(); go('lab'); } : undefined}
+             style={{ textDecoration: 'none' }}>See the Lab</a>
         </div>
       </section>
     </main>

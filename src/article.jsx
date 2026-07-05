@@ -1,9 +1,8 @@
 /* matthewpurdon.me — single article view. */
 import { useRef, useState } from "react";
 import DS from "./ds/index.js";
-import { Cover, kicker, useDeepAnchors } from "./shared.jsx";
+import { Cover, kicker, useDeepAnchors, LEAF } from "./shared.jsx";
 import { AVATAR, PROFILE } from "./data.js";
-import { LEAF } from "./chrome.jsx";
 
 const { Prose, Soapbox, Callout, PullQuote, Byline, CodeBlock } = DS;
 
@@ -1715,6 +1714,166 @@ function InterviewingBody() {
   );
 }
 
+function CultureBody() {
+  return (
+    <Prose dropcap style={{ maxWidth: "100%" }}>
+      <Callout variant="takeaway" title="The glance">
+        The popular take is that culture is what you tolerate, and a leader's job is to police the edges. I keep landing
+        on the opposite, and from humility more than pride: the best teams I have watched ran on how little the leader
+        had to do. You do not enforce a culture, you grow one, by making the good thing easy, feeding people autonomy,
+        mastery, and purpose on a bed of trust, and tending the confidence it all rides on. The only catch is that it
+        starts with who you hired.
+      </Callout>
+
+      <p>
+        A post about culture goes around every few months, and it came past me again last week: culture is not what you
+        say, it is what you tolerate; what you permit, you promote. It is sharp, quotable, and built to be screenshotted,
+        and every time it lands in my feed I nod along for a sentence and then find myself arguing with the whole shape
+        of it. Not because I have leadership solved. Closer to the opposite.
+      </p>
+      <p>
+        It is not that the post is wrong; the observation under it is real. A top performer who gets a pass nobody else
+        would get does erode something, the quiet belief that greatness on this team is even reachable. But my
+        disagreement comes from a humbler place than the post does. That version of culture flatters the leader, casting
+        you as the bouncer at the door, the one thing standing between the team and chaos; what I keep learning, mostly
+        from carefully watching the teams that felt smooth and effortless in their delivery, is that it was less about
+        what I did and more about what the individual contributors on the team did. The
+        post is not wrong, then, just half the picture: all of its wisdom goes to what a leader should refuse to
+        tolerate, and none to what a leader should grow. You cannot punish a team into being great. You can only punish
+        it into being quiet.
+      </p>
+
+      <h2>Every rule is a confession</h2>
+      <p>
+        Here is something I believe and can only half-defend: whenever you have to write a rule, it is because you
+        already failed. The rule is a patch stuck over the exact spot where the wrong thing was easier than the right
+        thing. "Assume good intent." "There are no dumb questions." "Give credit where it is due." Every one of those is
+        an admission that, left to the path of least resistance, people did the other thing, and rather than move the
+        path you printed a sign and checked a box.
+      </p>
+      <Soapbox variant="aside" label="Hot take" signoff="the sign is not the fix">
+        <p>
+          Values on a wall are vanity. If your culture only survives because you are standing at the door personally
+          refusing to tolerate things, you do not have a culture, buddy, you have a hall monitor with a lanyard ... and
+          the second you leave the hallway it is gone. I mean... a real value is one you built into the terrain so
+          thoroughly that violating it takes effort. Nobody screenshots that, because it is boring, and boring is exactly
+          what "it just works" is supposed to feel like.
+        </p>
+      </Soapbox>
+      <p>
+        The good version of a rule is almost never a poster; it is a change to the terrain. You do not put "give credit"
+        on the wall and hope; you make the person who did the work the one who stands up and presents it, so the credit
+        has nowhere else to go. My own version of that is a credo I have led by for years: <em>we have succeeded, I have
+        failed</em>. When the work lands, it was the team; when it goes sideways, and eventually it always does, that one
+        is on me. It is not modesty; it is terrain. If credit reliably flows down and blame reliably stops at my desk,
+        people will take the swings that real growth requires, because I have made the downside safe and left the upside
+        theirs.
+      </p>
+      <p>
+        That is the move. Make the correct thing the default, the easy thing, the thing that happens when someone is
+        tired and just wants to go home, and you do not have to tolerate or not-tolerate anything, because the behaviour
+        you wanted is simply what falls out of the path of least resistance. Enforcement is what is left over when you
+        could not be bothered to fix the terrain.
+      </p>
+
+      <h2>AMP, and the trust it sits on</h2>
+      <p>
+        So if not enforcement, then what? The honest answer did not come from a management book. It came from a
+        parenting book about toddlers, of all places (Joanna Faber and Julie King's{" "}
+        <em>How to Talk So Little Kids Will Listen</em>), which is really one long argument for listening to a small
+        person instead of managing them. The frame I took from it has never left me: autonomy, mastery, purpose. AMP.
+        Autonomy is handing someone the task and genuinely trusting them to build something good; that trust is not a
+        courtesy, it is where their confidence starts. Mastery is giving people the room to learn and grow: space to
+        explore an idea, to float a proposal and not have it shot down out of hand. And purpose is the belief that the
+        work actually matters, that a thing gets built because there is a hypothesis and a real bet on value behind it,
+        not because someone needed to be kept busy. Feed those three and people do not need to be policed, because they
+        are already pulling in the direction you wanted.
+      </p>
+      <p>
+        But AMP does not run on good vibes and a values deck; hope is not a strategy. It runs on trust, and
+        specifically in a room where people know they can say the
+        thing: the half-formed idea, the disagreement, the quiet "I think this is actually wrong," without getting bitten
+        for it. A genuinely free space. That is the soil; autonomy, mastery, and purpose are what you plant in it. Skip
+        the soil and none of the rest takes, because a person who does not feel safe saying the true thing will just say
+        the safe thing, and now you are back to a quiet team, which the enforcement crowd mistook for a healthy one.
+      </p>
+      <PullQuote cite="Matthew Purdon">
+        A quiet team is not a healthy team. It is a frightened one that has learned to say the safe thing.
+      </PullQuote>
+
+      <h2>Confidence is a flappy bird</h2>
+      <p>
+        There is a variable underneath all of this that never makes it onto the values wall, and it is confidence. Not
+        arrogance, and not a fixed trait you either have or you do not. Confidence is a level, and the level never holds
+        still. It behaves, and I am only half joking, like Flappy Bird. Gravity is constant and it is always pulling down. Left
+        alone, confidence sinks: the deploy that failed, the review that came back brutal, the feature nobody used, the
+        imposter voice on an ordinary Tuesday. It falls, and it keeps falling, until something gives it a bump: a shipped
+        thing that worked, a hard bug actually resolved, praise from someone whose opinion you value. Then it rises, clears the pipe,
+        and gravity takes back over and it starts sinking toward the next one.
+      </p>
+      <p>
+        Which means praise is not a nicety you hand out when you happen to remember. It is the stimulus. It is the tap
+        that keeps the bird in the air long enough to clear the next gap, and a team full of people whose confidence is
+        quietly on the floor is a team that has stopped taking the swings that grow anyone. The catch is that the bump
+        has to be real and specific to land; everyone can feel the difference between "good job team" and "the way you
+        went and killed the twenty-minute build the whole team had just learned to live with, no ticket, nobody asking;
+        that is the part I never had to assign." One is noise. The other is fuel, because it tells the person
+        exactly which thing they did was good, so they, and everyone watching, can do it on purpose next time.
+        That is the same signal I said I hunt for when I{" "}
+        <a href="/notes/interviewing-the-ai-assisted-engineer">interview</a>; the difference is that in the interview I
+        am measuring it, and on the team I am trying to grow it.
+      </p>
+
+      <h2>Only works on the willing</h2>
+      <p>
+        Do this across a whole team (AMP, the trust under it, the confidence bumps landed at the right moments) and the
+        culture drifts upward more or less on its own. It is slow. It moves on the timescale of seasons, not sprints, the
+        same as <a href="/notes/judgement-is-the-job-now">judgement</a> does, and for the same reason: you are growing
+        something, not installing it.
+      </p>
+      <p>
+        But here is the catch, and it is the one place the tolerance post and I actually shake hands, just reaching from
+        opposite ends. All of it (AMP, trust, the bumps) only works on people who wanted to grow in the first place. You
+        cannot AMP someone who is phoning it in. Autonomy is wasted on them, mastery is not something they were chasing,
+        and purpose bounces off. And they do not just fail to rise; they sap the room. Energy on a team is finite, and
+        one person coasting on everyone else's effort is a slow leak that drags every bird in the flock down toward the
+        pipe. That is the rot the original post was actually pointing at, and it was right that it spreads; it was just
+        wrong that the answer is a bouncer.
+      </p>
+      <p>
+        The answer is upstream of all of it. Every leadership philosophy, mine very much included, eventually comes down
+        to one unglamorous decision: who you let in the door. Hire people who want to build something and be part of
+        something, and AMP has something to work on. Hire people who want a paycheque and a quiet life, and no amount of
+        culture-tending saves you; you will spend your leadership standing at the edge of the room refusing to tolerate
+        things, which is to say you will have proven the post right by hiring in a way that made it true. So, fine: what
+        you permit, you promote. But culture is not what you forbid; it is what you make easy. What you celebrate, you
+        cultivate. And what you hire is what you get.
+      </p>
+
+      <SoapboxFold title="You are not the hero" signoff="let them shine">
+        <p>
+          Every couple of weeks LinkedIn coughs up another stern, screenshottable leadership post, and underneath every
+          one of them is the same fantasy: that leadership is control. That somewhere there is a firm hand, a hard call,
+          a moment you step in and save the day and everyone finally sees the hero was you the whole time. WRONG! I
+          mean... you do have that power, it's just the power to destroy. You can absolutely sink a team from that
+          chair, with guilt trips and moving goalposts and the steady background hum of threat, and none of it makes
+          anyone better; it only makes them quiet and resentful. The beatings will continue until morale improves, except they've
+          never caught on it's a joke.
+        </p>
+        <p>
+          Nobody writes the other post because the other post does not make you look brilliant. Real leadership is trust
+          and patience, handing people the real work and then stepping out of their way, catching someone doing something
+          good and telling them exactly what it was, then doing all of that again, and again.
+          None of that fits on a slide and none of it makes you look like the hero, so it never gets screenshotted, and
+          the feed fills up with visionary decidinators instead. But the quiet way is the one that actually wins: slow, unglamorous,
+          mostly invisible, and the whole job. You are not the one who saves the team, buddy. You are the one who gets
+          out of their light.
+        </p>
+      </SoapboxFold>
+    </Prose>
+  );
+}
+
 function DefaultBody({ post }) {
   return (
     <Prose dropcap style={{ maxWidth: "100%" }}>
@@ -1753,6 +1912,7 @@ const BODIES = {
   "summaries-all-the-way-down": SummariesBody,
   "judgement-is-the-job-now": JudgementBody,
   "build-the-model-a-map": DocsForModelBody,
+  "punish-your-way-to-a-great-culture": CultureBody,
 };
 
 export default function Article({ post, t, openTopic, go }) {

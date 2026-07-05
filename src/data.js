@@ -72,6 +72,14 @@ export const TOPICS = {
 // Field Notes (the writing). Hand-written bodies live in article.jsx, keyed by slug.
 export const POSTS = [
   {
+    slug: 'punish-your-way-to-a-great-culture',
+    title: 'You cannot punish your way to a great culture',
+    dek: 'Every few months a leadership post makes the rounds insisting culture is what you tolerate. I keep landing on the opposite, from humility more than pride: the best teams I have watched ran on trust. On why punishment only buys you silence, the unglamorous work that actually grows a culture, and why it comes back to who you hired.',
+    category: 'Teams & Process', accent: 'teal', featured: false,
+    date: 'Jul 4, 2026', dateLong: 'July 4, 2026', time: '9 min read',
+    tags: ['Teams & Process', 'Hiring', 'Opinion'],
+  },
+  {
     slug: 'what-is-a-principal-engineer',
     title: 'What is a principal engineer?',
     dek: 'Reaching Staff means specializing into one archetype. Reaching Principal means mastering the transition between all four. Why you cannot lead a platform (or an AI transition) from a single gear, and how we ran the engine on our largest multi-agent initiative.',
