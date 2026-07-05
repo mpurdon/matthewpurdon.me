@@ -1,5 +1,6 @@
 ---
 import { PROJECTS } from '../../data.js';
+import { ogVersion } from '../../og-version.js';
 import Layout from '../../layouts/Layout.astro';
 import { ProjectDetail } from '../../lab.jsx';
 
@@ -33,7 +34,7 @@ const SETTINGS = {
 <Layout
   title={`${project.name} — Matthew Purdon · Lab`}
   description={project.tagline}
-  ogImage={`/og/lab/${project.slug}.png`}
+  ogImage={`/og/lab/${project.slug}.png?v=${ogVersion([project.name, project.type, project.tagline, project.accent, project.status])}`}
   view="lab"
   jsonLd={[appSchema]}
   breadcrumbs={[
