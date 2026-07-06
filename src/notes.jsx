@@ -22,6 +22,11 @@ export function NotesIndex({ t, openPost, openTopic }) {
         <p style={{ fontFamily: 'var(--font-prose)', fontSize: 'var(--prose-lead)', lineHeight: 1.5, color: 'var(--text-secondary)', maxWidth: 640, margin: 0 }}>
           Half of this is thinking out loud about where the craft is heading. The other half is field notes — what I actually watched happen when real teams changed how they work. New posts roughly monthly.
         </p>
+        <a href="/feed.xml" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, marginTop: 20, fontFamily: 'var(--font-label)', textTransform: 'uppercase', letterSpacing: 'var(--tracking-wider)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--text-muted)', textDecoration: 'none', transition: 'color var(--duration-base) var(--ease)' }}
+           onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--canada-300)'; }}
+           onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--text-muted)'; }}>
+          Subscribe via RSS →
+        </a>
       </section>
 
       <section style={{ padding: pad(t, '40px 0', '28px 0') }}>
