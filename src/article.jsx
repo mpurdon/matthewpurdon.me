@@ -1929,10 +1929,10 @@ export default function Article({ post, t, openTopic, go }) {
         <header style={{ maxWidth: 820, margin: "0 auto", padding: "56px 32px 32px", textAlign: "center" }}>
           <a
             href={"/topic/" + encodeURIComponent(back)}
-            onClick={(e) => {
+            onClick={openTopic ? (e) => {
               e.preventDefault();
               openTopic(back);
-            }}
+            } : undefined}
             style={{
               fontFamily: "var(--font-label)",
               textTransform: "uppercase",
@@ -2008,10 +2008,10 @@ export default function Article({ post, t, openTopic, go }) {
               <a
                 key={tag}
                 href={"/topic/" + encodeURIComponent(tag)}
-                onClick={(e) => {
+                onClick={openTopic ? (e) => {
                   e.preventDefault();
                   openTopic(tag);
-                }}
+                } : undefined}
                 style={{
                   display: "inline-flex",
                   alignItems: "center",
@@ -2084,10 +2084,10 @@ export default function Article({ post, t, openTopic, go }) {
               <div style={{ display: "flex", gap: 14 }}>
                 <a
                   href="/about"
-                  onClick={(e) => {
+                  onClick={go ? (e) => {
                     e.preventDefault();
                     go("about");
-                  }}
+                  } : undefined}
                   style={{
                     fontFamily: "var(--font-mono)",
                     fontSize: "var(--text-sm)",

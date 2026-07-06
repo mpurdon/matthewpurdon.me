@@ -51,7 +51,7 @@ export function TopicChip({ label, count, onClick, t, size = 'md' }) {
   const subtle = t && t.red === 'subtle';
   const pad = size === 'sm' ? '0.3rem 0.7rem' : '0.5rem 0.9rem';
   return (
-    <a href={'/topic/' + encodeURIComponent(label)} onClick={(e) => { e.preventDefault(); onClick && onClick(label); }}
+    <a href={'/topic/' + encodeURIComponent(label)} onClick={onClick ? (e) => { e.preventDefault(); onClick(label); } : undefined}
       style={{
         display: 'inline-flex', alignItems: 'center', gap: '0.5rem',
         fontFamily: 'var(--font-mono)', fontSize: size === 'sm' ? 'var(--text-xs)' : 'var(--text-sm)',

@@ -20,7 +20,7 @@ function StackRow({ stack }) {
 function FeaturedProjectCard({ pr, openProject, t }) {
   const m = TYPE_META[pr.type] || TYPE_META.Software;
   return (
-    <a href={'/lab/' + pr.slug} onClick={(e) => { e.preventDefault(); openProject(pr); }}
+    <a href={'/lab/' + pr.slug} onClick={openProject ? (e) => { e.preventDefault(); openProject(pr); } : undefined}
       style={{
         display: 'block',
         textDecoration: 'none',
@@ -60,7 +60,7 @@ function CardsGrid({ items, openProject }) {
       {items.map(pr => {
         const m = TYPE_META[pr.type] || TYPE_META.Software;
         return (
-          <a key={pr.slug} href={'/lab/' + pr.slug} onClick={(e) => { e.preventDefault(); openProject(pr); }}
+          <a key={pr.slug} href={'/lab/' + pr.slug} onClick={openProject ? (e) => { e.preventDefault(); openProject(pr); } : undefined}
             style={{
               display: 'flex',
               flexDirection: 'column',
@@ -138,7 +138,7 @@ export function ProjectDetail({ project: pr, t, go, openProject }) {
   return (
     <main style={{ maxWidth: 820, margin: '0 auto', padding: '0 32px 96px' }}>
       <header style={{ padding: '56px 0 28px' }}>
-        <a href="/lab" onClick={(e) => { e.preventDefault(); go('lab'); }} style={{ fontFamily: 'var(--font-label)', textTransform: 'uppercase', letterSpacing: 'var(--tracking-wider)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--text-muted)', textDecoration: 'none' }}>← Lab Reports</a>
+        <a href="/lab" onClick={go ? (e) => { e.preventDefault(); go('lab'); } : undefined} style={{ fontFamily: 'var(--font-label)', textTransform: 'uppercase', letterSpacing: 'var(--tracking-wider)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--text-muted)', textDecoration: 'none' }}>← Lab Reports</a>
         <div style={{ display: 'flex', gap: 8, margin: '20px 0 16px' }}><TypeBadge type={pr.type} />{pr.ai && <AIBadge />}</div>
         <h1 style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: 'clamp(30px, 4.4vw, 48px)', lineHeight: 1.06, letterSpacing: '-0.03em', margin: '0 0 18px', color: 'var(--text-primary)', textWrap: 'balance' }}>{pr.name}</h1>
         <p style={{ fontFamily: 'var(--font-prose)', fontSize: 'var(--prose-lead)', lineHeight: 1.5, color: 'var(--text-secondary)', maxWidth: 640, margin: 0 }}>{pr.tagline}</p>
@@ -168,7 +168,7 @@ export function ProjectDetail({ project: pr, t, go, openProject }) {
           {others.map((o, i) => {
             const m = TYPE_META[o.type] || TYPE_META.Software;
             return (
-              <a key={o.slug} href={'/lab/' + o.slug} onClick={(e) => { e.preventDefault(); openProject(o); }}
+              <a key={o.slug} href={'/lab/' + o.slug} onClick={openProject ? (e) => { e.preventDefault(); openProject(o); } : undefined}
                 style={{ display: 'flex', alignItems: 'center', gap: 14, textDecoration: 'none', padding: '14px 0', borderTop: i === 0 ? 'none' : '1px solid var(--border)' }}>
                 <span style={{ width: 8, height: 8, borderRadius: 9999, background: m.dot, flexShrink: 0 }} />
                 <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 600, fontSize: 'var(--text-base)', color: 'var(--text-primary)' }}>{o.name}</span>
