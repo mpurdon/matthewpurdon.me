@@ -1,0 +1,674 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Home Redesign Mockup</title>
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Serif:ital,wght@0,400;0,500;0,600;1,400&display=swap");
+
+    :root {
+      --bg: #242220;
+      --surface: #272325;
+      --surface-2: #2f2b28;
+      --cream: #fff6e6;
+      --text: rgba(255, 246, 229, 0.92);
+      --muted: rgba(255, 246, 229, 0.56);
+      --quiet: rgba(255, 246, 229, 0.34);
+      --border: rgba(255, 246, 229, 0.15);
+      --border-strong: rgba(255, 246, 229, 0.32);
+      --red: #f4837a;
+      --red-strong: #d52b1e;
+      --amber: #fcac3c;
+      --indigo: #a5b4fc;
+      --teal: #47cfed;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: #171615;
+      color: var(--text);
+      font-family: "IBM Plex Mono", ui-monospace, monospace;
+    }
+
+    .mockup-review {
+      width: 1179px;
+      margin: 0 auto;
+      padding: 18px 0 40px;
+    }
+
+    .mockup-toolbar {
+      display: grid;
+      grid-template-columns: 118px 1fr 118px;
+      gap: 18px;
+      align-items: center;
+      margin-bottom: 14px;
+      padding: 14px 18px;
+      border: 1px solid rgba(255, 246, 229, 0.13);
+      border-radius: 14px;
+      background:
+        radial-gradient(420px 120px at 80% 0%, rgba(213, 43, 30, 0.11), transparent 70%),
+        rgba(36, 34, 32, 0.92);
+      box-shadow: 0 18px 55px rgba(0, 0, 0, 0.32);
+    }
+
+    .mockup-btn {
+      appearance: none;
+      border: 1px solid rgba(255, 246, 229, 0.22);
+      border-radius: 9px;
+      background: rgba(39, 35, 37, 0.86);
+      color: var(--cream);
+      cursor: pointer;
+      font: 700 12px/1 "IBM Plex Mono", ui-monospace, monospace;
+      letter-spacing: 0.08em;
+      padding: 12px 13px;
+      text-transform: uppercase;
+    }
+
+    .mockup-btn:hover {
+      border-color: rgba(244, 131, 122, 0.7);
+      color: var(--red);
+    }
+
+    .mockup-copy {
+      min-width: 0;
+      text-align: center;
+    }
+
+    .mockup-kicker {
+      margin: 0 0 5px;
+      color: var(--red);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .mockup-title {
+      margin: 0 0 5px;
+      color: var(--cream);
+      font-size: 18px;
+      letter-spacing: -0.02em;
+    }
+
+    .mockup-desc {
+      margin: 0 auto;
+      max-width: 760px;
+      color: rgba(255, 246, 229, 0.64);
+      font-family: "IBM Plex Serif", Georgia, serif;
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    .mockup-viewport {
+      overflow: hidden;
+      border: 1px solid rgba(255, 246, 229, 0.12);
+      border-radius: 16px;
+      box-shadow: 0 24px 80px rgba(0, 0, 0, 0.38);
+    }
+
+    .page {
+      width: 1179px;
+      min-height: 720px;
+      margin: 0;
+      padding: 32px 48px 56px;
+      background:
+        radial-gradient(900px 260px at 78% -10%, rgba(213, 43, 30, 0.08), transparent 60%),
+        linear-gradient(180deg, #242220, #211f1d 78%);
+    }
+
+    .shell {
+      max-width: 1016px;
+      margin: 0 auto;
+    }
+
+    .rule {
+      height: 1px;
+      background: var(--border);
+      margin: 0 0 42px;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 132px 1fr;
+      gap: 28px;
+      padding-bottom: 46px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .avatar {
+      width: 120px;
+      height: 120px;
+      border-radius: 999px;
+      background:
+        linear-gradient(135deg, rgba(252, 172, 60, 0.2), rgba(213, 43, 30, 0.16)),
+        url("../public/images/matthew-purdon.webp") center / cover;
+      border: 2px solid var(--border-strong);
+      box-shadow: 0 0 0 5px rgba(252, 172, 60, 0.09);
+    }
+
+    .kicker {
+      color: var(--red);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+      margin: 0 0 13px;
+    }
+
+    h1 {
+      font-size: 54px;
+      line-height: 1.02;
+      letter-spacing: -0.045em;
+      margin: 0 0 16px;
+      color: var(--cream);
+    }
+
+    .lead {
+      max-width: 720px;
+      margin: 0;
+      font-family: "IBM Plex Serif", Georgia, serif;
+      font-size: 22px;
+      line-height: 1.48;
+      color: var(--cream);
+    }
+
+    .bio {
+      max-width: 670px;
+      margin: 14px 0 0;
+      font-family: "IBM Plex Serif", Georgia, serif;
+      font-size: 16px;
+      line-height: 1.65;
+      color: rgba(255, 246, 229, 0.72);
+    }
+
+    .links {
+      display: flex;
+      gap: 9px;
+      margin-top: 24px;
+      flex-wrap: wrap;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 8px 13px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: rgba(39, 35, 37, 0.72);
+      color: rgba(255, 246, 229, 0.76);
+      font-size: 13px;
+      text-decoration: none;
+    }
+
+    .section {
+      padding: 42px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .section-head {
+      display: grid;
+      grid-template-columns: 60px 1fr;
+      gap: 18px;
+      align-items: baseline;
+      margin-bottom: 22px;
+    }
+
+    .num {
+      color: var(--red);
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      font-size: 12px;
+    }
+
+    h2 {
+      margin: 0;
+      color: var(--cream);
+      font-size: 22px;
+      letter-spacing: -0.025em;
+    }
+
+    .work-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 46px;
+      align-items: start;
+    }
+
+    .thesis {
+      margin: 0;
+      font-family: "IBM Plex Serif", Georgia, serif;
+      font-size: 23px;
+      line-height: 1.48;
+      color: rgba(255, 246, 229, 0.88);
+      max-width: 650px;
+    }
+
+    .thesis strong {
+      color: var(--cream);
+      font-weight: 600;
+    }
+
+    .currently {
+      border-left: 2px solid var(--red-strong);
+      padding-left: 20px;
+      display: grid;
+      gap: 14px;
+      margin-top: 4px;
+    }
+
+    .current-row {
+      display: grid;
+      grid-template-columns: 88px 1fr;
+      gap: 14px;
+      line-height: 1.45;
+    }
+
+    .current-label {
+      color: var(--quiet);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-weight: 700;
+    }
+
+    .current-copy {
+      color: rgba(255, 246, 229, 0.76);
+      font-family: "IBM Plex Serif", Georgia, serif;
+      font-size: 16px;
+    }
+
+    .start-list {
+      display: grid;
+      gap: 0;
+      border-top: 1px solid var(--border);
+    }
+
+    .start-row {
+      display: grid;
+      grid-template-columns: 64px 1fr 18px;
+      gap: 18px;
+      padding: 20px 0;
+      border-bottom: 1px solid var(--border);
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .issue {
+      color: var(--quiet);
+      font-weight: 700;
+      letter-spacing: -0.04em;
+      font-size: 32px;
+      line-height: 1;
+    }
+
+    .start-row h3 {
+      margin: 0 0 7px;
+      font-size: 18px;
+      color: var(--cream);
+      letter-spacing: -0.025em;
+    }
+
+    .start-row p {
+      margin: 0;
+      max-width: 730px;
+      font-family: "IBM Plex Serif", Georgia, serif;
+      font-size: 16px;
+      line-height: 1.55;
+      color: rgba(255, 246, 229, 0.68);
+    }
+
+    .arrow {
+      color: var(--red);
+      font-size: 18px;
+      padding-top: 2px;
+    }
+
+    .writing-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    .feature {
+      min-height: 218px;
+      padding: 22px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background:
+        radial-gradient(120% 150% at 100% 0%, rgba(129, 140, 248, 0.18), transparent 55%),
+        linear-gradient(135deg, rgba(47, 43, 40, 0.72), rgba(39, 35, 37, 0.68));
+    }
+
+    .feature .meta {
+      color: var(--indigo);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-bottom: 52px;
+    }
+
+    .feature h3 {
+      margin: 0 0 10px;
+      color: var(--cream);
+      font-size: 28px;
+      line-height: 1.1;
+      letter-spacing: -0.04em;
+    }
+
+    .feature p {
+      margin: 0;
+      font-family: "IBM Plex Serif", Georgia, serif;
+      color: rgba(255, 246, 229, 0.72);
+      line-height: 1.55;
+    }
+
+    .mini-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .mini {
+      padding: 0 0 14px 16px;
+      border-left: 2px solid var(--border-strong);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .mini:nth-child(2) { border-left-color: rgba(213, 43, 30, 0.7); }
+    .mini:nth-child(3) { border-left-color: rgba(71, 207, 237, 0.7); }
+
+    .mini h3 {
+      margin: 0 0 6px;
+      font-size: 15px;
+      color: var(--cream);
+    }
+
+    .mini p {
+      margin: 0;
+      font-family: "IBM Plex Serif", Georgia, serif;
+      color: rgba(255, 246, 229, 0.62);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .lab-list {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+    }
+
+    .lab-card {
+      min-height: 184px;
+      display: flex;
+      flex-direction: column;
+      padding: 20px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background:
+        linear-gradient(180deg, rgba(47, 43, 40, 0.58), rgba(32, 30, 28, 0.35));
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .lab-meta {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 30px;
+    }
+
+    .lab-tag {
+      color: var(--teal);
+      border: 1px solid rgba(71, 207, 237, 0.42);
+      border-radius: 999px;
+      padding: 3px 8px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .lab-tag.ai {
+      color: var(--indigo);
+      border-color: rgba(165, 180, 252, 0.42);
+      background: rgba(129, 140, 248, 0.08);
+    }
+
+    .lab-card h3 {
+      margin: 0 0 9px;
+      color: var(--cream);
+      font-size: 21px;
+      letter-spacing: -0.03em;
+    }
+
+    .lab-card p {
+      margin: 0;
+      font-family: "IBM Plex Serif", Georgia, serif;
+      font-size: 15px;
+      line-height: 1.55;
+      color: rgba(255, 246, 229, 0.66);
+    }
+
+    .lab-card .lab-arrow {
+      margin-top: auto;
+      padding-top: 20px;
+      color: var(--red);
+      font-weight: 700;
+    }
+
+    body[data-version="1"] [data-version-min="2"] {
+      display: none;
+    }
+  </style>
+</head>
+<body data-version="2">
+  <div class="mockup-review">
+    <div class="mockup-toolbar" aria-label="Mockup version navigation">
+      <button class="mockup-btn" type="button" id="prev-version">← Back</button>
+      <div class="mockup-copy">
+        <p class="mockup-kicker" id="version-count">Version 2 of 2</p>
+        <h1 class="mockup-title" id="version-title">V2 · Editorial Home + Lab Signal</h1>
+        <p class="mockup-desc" id="version-desc">Adds a compact Selected Lab Reports section so Lab stays a homepage pillar without returning to the old random card grid.</p>
+      </div>
+      <button class="mockup-btn" type="button" id="next-version">Next →</button>
+    </div>
+
+    <div class="mockup-viewport">
+      <div class="page">
+        <div class="shell">
+      <div class="rule"></div>
+
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="avatar" aria-hidden="true"></div>
+        <div>
+          <p class="kicker">Principal Engineer & AI Platform Builder · Toronto, Canada</p>
+          <h1 id="hero-title">Matthew Purdon</h1>
+          <p class="lead">I build the systems around AI-assisted engineering: platform boundaries, review loops, agent workflows, and the team habits that keep generated software from turning into entropy.</p>
+          <p class="bio">Twenty-five years in software, writing Field Notes on the new SDLC, code review, hiring for judgement, and how teams actually ship.</p>
+          <nav class="links" aria-label="Primary actions">
+            <a class="pill" href="#">Read Field Notes</a>
+            <a class="pill" href="#">See Lab Reports</a>
+            <a class="pill" href="#">About Matthew</a>
+          </nav>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="work-title">
+        <div class="section-head">
+          <span class="num">01</span>
+          <h2 id="work-title">The Work</h2>
+        </div>
+        <div class="work-grid">
+          <p class="thesis">
+            My work sits at the intersection of <strong>architecture</strong>, <strong>process</strong>, and <strong>AI-assisted delivery</strong>. I care less about demos and more about the operating system that lets teams ship with models in the loop without lowering their standards.
+          </p>
+          <div class="currently" aria-label="Currently">
+            <div class="current-row">
+              <span class="current-label">writing</span>
+              <span class="current-copy">principal engineering, review, AI-assisted delivery</span>
+            </div>
+            <div class="current-row">
+              <span class="current-label">building</span>
+              <span class="current-copy">agentic tools, MCP servers, local-first review systems</span>
+            </div>
+            <div class="current-row">
+              <span class="current-label">arguing</span>
+              <span class="current-copy">review is now the main engineering act</span>
+            </div>
+            <div class="current-row">
+              <span class="current-label">based</span>
+              <span class="current-copy">Toronto, Canada</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="start-title">
+        <div class="section-head">
+          <span class="num">02</span>
+          <h2 id="start-title">Start Here</h2>
+        </div>
+        <div class="start-list">
+          <a class="start-row" href="#">
+            <span class="issue">05</span>
+            <span>
+              <h3>What is a principal engineer?</h3>
+              <p>Principal engineering is not one archetype. It is the ability to shift between all four without losing the thread.</p>
+            </span>
+            <span class="arrow">→</span>
+          </a>
+          <a class="start-row" href="#">
+            <span class="issue">02</span>
+            <span>
+              <h3>Judgement is the job now</h3>
+              <p>AI removed the effort filter. Taste, review, and technical judgement are what remain.</p>
+            </span>
+            <span class="arrow">→</span>
+          </a>
+          <a class="start-row" href="#">
+            <span class="issue">04</span>
+            <span>
+              <h3>Build the model a map</h3>
+              <p>Agents do not need better vibes. They need written-down context, stable boundaries, and fewer rediscovery loops.</p>
+            </span>
+            <span class="arrow">→</span>
+          </a>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="writing-title">
+        <div class="section-head">
+          <span class="num">03</span>
+          <h2 id="writing-title">Recent Field Notes</h2>
+        </div>
+        <div class="writing-grid">
+          <article class="feature">
+            <div class="meta">Teams & Process · 13 min read</div>
+            <h3>What is a principal engineer?</h3>
+            <p>Reaching Principal means mastering the transition between all four archetypes.</p>
+          </article>
+          <div class="mini-list">
+            <article class="mini">
+              <h3>Interviewing the AI-assisted engineer</h3>
+              <p>Stop asking candidates to type syntax under pressure. Ask them to judge code.</p>
+            </article>
+            <article class="mini">
+              <h3>Build the model a map</h3>
+              <p>The cheapest model query is the one your documentation prevents.</p>
+            </article>
+            <article class="mini">
+              <h3>Summaries all the way down</h3>
+              <p>An engineer writes the truth. Four summaries later, an exec reads a guess.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="lab-title" data-version-min="2">
+        <div class="section-head">
+          <span class="num">04</span>
+          <h2 id="lab-title">Selected Lab Reports</h2>
+        </div>
+        <div class="lab-list">
+          <a class="lab-card" href="#">
+            <div class="lab-meta">
+              <span class="lab-tag">Software</span>
+              <span class="lab-tag ai">AI-assisted</span>
+            </div>
+            <h3>Grey Eminence</h3>
+            <p>Native macOS meeting recorder with transcription, diarization, and Claude-powered memory.</p>
+            <span class="lab-arrow">View report →</span>
+          </a>
+          <a class="lab-card" href="#">
+            <div class="lab-meta">
+              <span class="lab-tag">Software</span>
+              <span class="lab-tag ai">AI-assisted</span>
+            </div>
+            <h3>TCC</h3>
+            <p>A daily-driver agent harness on AWS Bedrock with checkpoints, budget caps, and review gates.</p>
+            <span class="lab-arrow">View report →</span>
+          </a>
+          <a class="lab-card" href="#">
+            <div class="lab-meta">
+              <span class="lab-tag">Tooling</span>
+              <span class="lab-tag ai">MCP</span>
+            </div>
+            <h3>MCP servers</h3>
+            <p>Public Model Context Protocol servers built as facades over real engineering workflows.</p>
+            <span class="lab-arrow">View report →</span>
+          </a>
+        </div>
+      </section>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    const versions = [
+      {
+        id: 1,
+        title: 'V1 · Editorial Home, Writing First',
+        desc: 'Replaces the random capability cards with a stronger The Work thesis and a Start Here reading path. Lab is intentionally omitted to test a writing-first homepage.'
+      },
+      {
+        id: 2,
+        title: 'V2 · Editorial Home + Lab Signal',
+        desc: 'Adds a compact Selected Lab Reports section so Lab stays a homepage pillar without returning to the old random card grid.'
+      }
+    ];
+
+    let active = 1;
+    const count = document.getElementById('version-count');
+    const title = document.getElementById('version-title');
+    const desc = document.getElementById('version-desc');
+    const prev = document.getElementById('prev-version');
+    const next = document.getElementById('next-version');
+
+    function renderVersion() {
+      const version = versions[active];
+      document.body.dataset.version = String(version.id);
+      count.textContent = `Version ${active + 1} of ${versions.length}`;
+      title.textContent = version.title;
+      desc.textContent = version.desc;
+      prev.disabled = false;
+      next.disabled = false;
+    }
+
+    prev.addEventListener('click', () => {
+      active = (active + versions.length - 1) % versions.length;
+      renderVersion();
+    });
+
+    next.addEventListener('click', () => {
+      active = (active + 1) % versions.length;
+      renderVersion();
+    });
+
+    renderVersion();
+  </script>
+</body>
+</html>
