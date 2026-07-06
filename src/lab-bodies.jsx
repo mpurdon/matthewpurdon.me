@@ -834,7 +834,7 @@ function Evalu8Body() {
         exploration; the UI <em>is</em> the exploration, shaped like the question instead of like the API.
       </p>
 
-      <h2>The API doesn't know what a phone number is</h2>
+      <h2>The API doesn't do phone numbers</h2>
       <p>
         The app then sat untouched for four months, until I needed every call we had ever exchanged with one specific
         phone number. The API has no phone-number filter that I could find. Worse, the numbers it returns come back in
@@ -856,46 +856,28 @@ function Evalu8Body() {
         concurrency-aware UX polish, because the agent made that polish cost nothing.
       </p>
 
-      <Soapbox label="Hot take" title="Postman was a workaround" signoff="build the app, then throw it away">
-        <p>
-          Postman is a coping mechanism that got funding. The only reason "REST client" is even a software category is
-          that building a real UI for an API used to cost weeks, so we all agreed to squint at raw JSON in a generic one
-          instead. And then the coping mechanism grew collections, environments, pre-request scripts, tests written in
-          JavaScript ... buddy, you're coding. You're just doing it in a runtime you can't version, in a UI somebody
-          designed for the average of every API on earth. So ... many ... clicks ... and at the end you've got a
-          collection that remembers the requests that worked once and exactly none of what you learned getting there.
-          Total waste of time.
-        </p>
-        <p>
-          I mean... that trade made sense at the old prices, it just doesn't anymore. Kiro stood this thing up in one
-          evening; six commits in three minutes and I never typed a line of boilerplate. No tests, no CI, creds in
-          localStorage, audience of one ... and that's fine! It's not a product, it's a question with a window border.
-          The bespoke app costs less than learning the generic tool now, and it answers the thing I actually asked
-          instead of making me translate it into somebody else's request builder, you know? When the question dies,
-          delete the app. The understanding was the artifact.
-        </p>
-      </Soapbox>
-
       <h2>Two sittings, four months apart</h2>
       <p>
-        I keep coming back to the commit log, because it is the most honest changelog I own. One evening in November
-        with Kiro to build it, one evening in March with Claude to teach it about phone numbers, and nothing in between:
-        no refactors, no dependency bumps, no gardening. The app did not even keep its author; whichever agent was open
-        that night did the typing, and the app could not care less. The app does not need to be good software. It needs
-        to be ready the next time the API and I have a disagreement, and dormancy is what that readiness looks like. I
-        notice I have stopped feeling guilty about repos like this. The unfinished side project that nags at you is a
-        product you have not shipped; this is a question that got answered, kept around in case I ask it again.
+        I keep coming back to the commit log, because it is the most honest representation of the world software
+        engineers live in now. One evening in November with Kiro to build it, one evening in March with Claude to teach
+        it about phone numbers, and nothing in between: no refactors, no dependency bumps, no gardening. The app did not
+        even keep its author; whichever agent was open that night did the typing, and me as the user could not care
+        less. The app does not need to be good software. It needs to be ready the next time the API and I have a
+        disagreement, and dormancy is what that readiness looks like. I have stopped feeling antsy about projects (is it
+        even big enough to be called a project?) like this. The unfinished side project that nags at you is a product
+        you have not shipped; this is a question that got answered, kept around in case I ask it again.
       </p>
       <Callout variant="takeaway" title="The house rule">
-        When the docs and the API disagree, stop reading and start building: the smallest app that answers your actual
-        question, in an evening, with an agent doing the boilerplate. The workarounds become typed code instead of
-        memory, the UI explores the way you think instead of the way the vendor imagined, and the whole thing is allowed
-        to sleep until the next question shows up.
+        Just build it. The shortest path to an answer is the smallest app that answers your question, not a folder of
+        saved requests in someone else's client. The workarounds become code instead of some wisp of a memory, the UI
+        explores the way you think instead of the way the vendor imagined, and the whole thing is allowed to sleep until
+        the next question shows up.
       </Callout>
       <p>
-        If this sounds familiar, it is the <a href="/lab/mcp-servers">facade argument</a> wearing pixels. An adapter
-        exposes the API and a facade answers the question; evalu8 is what a facade looks like when the consumer is not a
-        model but me, squinting at a transcript at ten at night. The generic client is the adapter. Build the facade.
+        If this sounds familiar, it should: it is the same <a href="/lab/mcp-servers">facade argument</a> I made for the
+        MCP servers, in a different context. An adapter exposes the API and a facade answers the question; evalu8 is
+        what a facade looks like when the consumer is not a model but me, squinting at a transcript at ten at night. The
+        generic client is the adapter. Build the facade.
       </p>
     </>
   );
