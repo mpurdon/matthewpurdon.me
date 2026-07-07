@@ -241,6 +241,80 @@ export function SummaryFigure() {
   );
 }
 
+// Vertical timeline used in the "Interviewing the AI-assisted engineer" note.
+export function TimelineItem({ time, title, isLast, children }) {
+  return (
+    <div style={{ display: "flex", gap: "1.5rem", position: "relative" }}>
+      <div
+        style={{
+          width: "4.5rem",
+          flexShrink: 0,
+          textAlign: "right",
+          fontFamily: "var(--font-mono)",
+          fontSize: "0.9rem",
+          color: "var(--canada-300)",
+          fontWeight: 700,
+          paddingBlockStart: "0.15rem",
+        }}
+      >
+        {time}
+      </div>
+      <div
+        style={{ display: "flex", flexDirection: "column", alignItems: "center", flexShrink: 0, position: "relative" }}
+      >
+        <div
+          style={{
+            width: "12px",
+            height: "12px",
+            borderRadius: "50%",
+            background: "var(--canada-bg)",
+            border: "2.5px solid var(--canada-300)",
+            zIndex: 1,
+            boxShadow: "0 0 0 4px var(--bg-primary, var(--bg-body, #121214))",
+          }}
+        />
+        {!isLast && (
+          <div
+            style={{
+              position: "absolute",
+              top: "12px",
+              bottom: "-2.5rem",
+              width: "2px",
+              background: "rgba(244, 131, 122, 0.22)",
+            }}
+          />
+        )}
+      </div>
+      <div style={{ flex: 1, paddingBottom: isLast ? 0 : "2.5rem" }}>
+        <h3
+          style={{
+            margin: "0 0 0.5rem",
+            fontSize: "1.15rem",
+            fontFamily: "var(--font-mono)",
+            fontWeight: 700,
+            color: "var(--text-primary)",
+          }}
+        >
+          {title}
+        </h3>
+        <div style={{ fontSize: "1.025rem", lineHeight: "1.55", color: "var(--text-secondary)" }}>{children}</div>
+      </div>
+    </div>
+  );
+}
+
+export function Timeline({ items }) {
+  return (
+    <div style={{ margin: "2.5rem 0", paddingInlineStart: "0.5rem" }}>
+      {items.map((item, i) => (
+        <TimelineItem key={i} time={item.time} title={item.title} isLast={i === items.length - 1}>
+          {item.content}
+        </TimelineItem>
+      ))}
+    </div>
+  );
+}
+
 // The progressive TL;DR: banner = glance, cards + bar = brief, report = full.
 export function DashboardFigure() {
   const card = (edge) => ({

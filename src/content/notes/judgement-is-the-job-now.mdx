@@ -1,0 +1,85 @@
+---
+title: "Judgement is the job now"
+dek: "Hand ten engineers the same model and the work comes back in two piles. AI removed the effort filter, and judgement is what is left. On taste, the dependency graph that wasn't, and the audit my vacation is about to run."
+category: "AI-Assisted Engineering"
+accent: "indigo"
+featured: false
+date: "Jun 1, 2026"
+dateLong: "June 1, 2026"
+time: "11 min read"
+tags: ["AI-Assisted Engineering", "Hiring", "Opinion"]
+---
+
+import DS from '../../ds/index.js';
+import SoapboxFold from '../../components/SoapboxFold.astro';
+export const { Callout, Soapbox, PullQuote } = DS;
+
+You can feel the people who get it now. Hand ten engineers the same model and the work comes back in two piles: good and useful, or complicated and missing the mark. Hardly anything lands in between, and the sorting is fast; you usually know which pile a thing belongs to before you finish reading its README.
+
+[The CTO's New Engineering Ladder](https://ctosub.com/p/the-ctos-new-engineering-ladder) takes a serious swing at this, five rungs and salary bands and all, and it lands one genuinely great sentence: the new firing offense is "an engineer who ships AI-generated code they cannot explain". The whole piece is an attempt to make judgement observable, and I think it is directionally right. But it is a manager's document; it grades output from above. The question it leaves open is the one that interests me: why do two engineers with the same model, the same codebase, and the same ticket produce results that are not even cousins? I have spent a year watching that gap at close range, and I keep arriving at the same slightly uncomfortable answer.
+
+<Callout variant="takeaway" title="The glance">
+  Effort used to be a judgement prosthetic: bad ideas died on the cost of building them. The model removed effort, so judgement is the only filter left, and the gap between engineers widens instead of closing. Judgement is three gates (the ask, the accept, the look); it is grown, not granted (use what you build, name the misses, write the taste down); and it cannot be grown by next quarter, which is why the next article in this pair is about hiring for it.
+</Callout>
+
+## Effort was doing us a favour
+
+<Soapbox variant="aside" label="Hot take" signoff="simple means somebody decided">
+
+Complicated isn't ambition, it's avoidance. When you can't (or won't) say the one sentence a thing is for, you build everything it might be instead ... all that motion is just deferring the one decision that matters. Simple isn't the easy version of the build.
+
+</Soapbox>
+
+Every team carries a backlog of ideas that should not be built. Until recently, most of them died of natural causes: the speculative feature cost three weeks, the clever abstraction cost a sprint, and somewhere into the second week the builder quietly understood it was not worth it and let it die. Effort was a filter. A crude one, and nobody designed it, but it was load-bearing: it rationed bad ideas, and it smuggled understanding into the process, because three weeks of building a thing is three weeks of staring at the problem whether you meant to or not.
+
+The model removes the filter. Everything is an afternoon now; the speculative feature, the clever abstraction, and the genuinely right call all cost about the same. So the only thing standing between an idea and a fifty-file pull request is the quality of the decision to ask for it. The model returns the quality of the question, accepts whatever standard you hold it to, and is exactly as wrong as you let it be. It is an amplifier, not an equalizer.
+
+<PullQuote cite="Matthew Purdon">
+  AI did not level the playing field. It drained the pool, and now you can see who was standing on what.
+</PullQuote>
+
+## The graph and the progress bar
+
+I have been messing with a PR review tool lately, a collaboration with a few engineers I work with. The idea is not subtle. The era of the small pull request is over; an ordinary agent-assisted change arrives as fifty files now, and most of those files are boilerplate that a reviewer's attention should never touch. The tool has one job: make a PR cleaner and more focused to review. Hide the noise, surface the intent. (The fifty-file era deserves its own write-up, and it will get one.)
+
+One morning a ping landed in my DMs, excitement about a new feature taking shape in the repo - a dependency graph. A visualization of how the changed files related to each other, ambitious and technically interesting, and I could not connect it to the goal no matter how generously I squinted. I also know, from scar tissue, that getting software to draw good graphs is a tar pit; you can lose a month to edge routing and still have something nobody reads. When we finally talked it through, it got shelved without much pushback.
+
+My first contribution to the tool was less impressive. I pulled up a real PR, and the tool sat there, silent, for three minutes; I assumed it had crashed. It had not. It was working, invisibly, the whole time. So I added a progress bar.
+
+That is the entire gap, in one tool. One of us was building what the tool could be; the other was fixing what using it felt like. And notice the shape of the failure, because it is not laziness, and it is not incompetence; the graph was the most ambitious thing anyone proposed. Poor judgement almost never looks like cutting corners. It looks like ambition pointed slightly off the goal, it sounds like "you know what would be cool?" and the model has made that ambition free.
+
+## The ask, the accept, and the look
+
+So what is judgement actually made of? Watching engineers work with models, I keep seeing the gap open at the same three gates.
+
+**The ask.** A prompt is a summary of intent, and most people cannot summarize. The engineer who can compress a problem to its actual shape ("make a PR cleaner to review") gets a different artifact than the one who pastes in the ticket and hopes. I wrote a whole [Field Note](/notes/summaries-all-the-way-down) about layered summaries; the prompt is the glance layer of a problem, and if you cannot write the glance, you do not understand the thing yet, and the model will faithfully build your confusion. People do not fail at prompting. They fail at knowing what they want.
+
+**The accept.** Generation is free now, which makes acceptance the only scarce act. Taste is the rejection function, and I think that is why it is so hard to pin down: taste is a classifier, not a generator. You cannot write down its rules for the same reason you cannot write down how you recognize a face; it is compressed experience, thousands of examples of good and bad work distilled into a reflex that fires before the reasoning arrives. You know it when you see it because seeing it is the only interface taste has.
+
+**The look.** The model is confident the way a brochure is confident, and the third gate is whether you check it against reality or against vibes. The engineers who get good results are the ones who hold ground truth: they ran the query themselves, they read the failing log, they pulled the actual PR. The ones who get burned are outsourcing their epistemology to the most persuasive component in the stack.
+
+<Callout variant="note" title="Field recordings">
+  Things I have actually typed at an agent, preserved in my session logs: "you are wrong, I know it's in that database, I looked in Compass." "you're the one that wrote all of this code." "CHECK THE LOGS FIRST MORON." Look at what each of them is: a human holding ground truth against confident fiction. That is the gate doing its job.
+</Callout>
+
+## Can you install it?
+
+The question I keep asking myself is whether this is nurture or nature: what would it actually take to move a senior from poor judgement to good judgement, never mind helping them reach staff? I do not think taste can be taught as rules. I think it can only be grown, and only under specific conditions, all three of which were present in the progress-bar story and absent in the dependency-graph story.
+
+First, contact with consequences. I found the three-minute hang because I pulled a real PR; the graph's builder never felt it, because the graph was a feature for the demo in their head. Use the thing you build, every day, and taste accumulates on its own; build at arm's length and it never starts. It is also why I make a habit of building the things I ask other people to build; not to check up on anyone, but because building it is how you find out where the hard parts live. I cannot know what to look for in someone else's version until I have had to look for it in mine. Second, named misses. The dependency graph became a lesson the moment we talked it through and shelved it; unexamined, it would have just been a feature that shipped. Every miss that gets named is a rep. Third, and this is the one nobody does: write the taste down. For the platform I steward at work, I keep a philosophy document; not a spec, a set of beliefs that every design decision can be checked against, with lines like "if a feature requires explanation, it is not finished" and "dashboards are for reporting; the primary surface is a task queue". It is externalized taste. It has the shelving conversation with people when I am not in the room. I have [whitelabeled it](https://gist.github.com/mpurdon/69a7ba21f2bd6f2a86f8775e1efd2a9d) if you want the shape.
+
+What ties the three together: good judgement is having the shelving conversation with yourself, before someone has to have it with you. That is the whole skill. And it does grow; I have watched it grow. But it grows on the timescale of seasons, not sprints, which leaves every team lead with the same arithmetic: you can grow judgement, but you cannot grow it by next quarter. So you also have to hire for it, and how I am attempting to do that is the next article.
+
+## Not just us
+
+None of this is specific to software. A lawyer with a drafting model, an analyst with a research agent, a marketer with a content pipeline; they all diverge at the same three gates, asking, accepting, and looking, and the ones who thrive are the ones who can say the simple sentence about what they are actually trying to do. Judgement is the universal interface to these tools. Software engineers just hit the wall first, because we adopted them first, and because our outputs fail loudly enough to measure.
+
+I am going on vacation in a few days. I know the house will not fall down while I am gone; the pipelines will run, the gates will hold, nobody is going to drop prod. What I catch myself worrying about is quieter: that decisions will get made, and some of them will be dumb, and I will not be there for the shelving conversations. And I have to sit with what that worry says about me, because if the judgement leaves the building when I do, then it lives in my head and not in the team or the tools, and this entire essay grades me, not them. My credo for the people I lead has always been that I am preparing them for their next job. The week I am gone is the audit. I will let you know what I find.
+
+<SoapboxFold title="No, everyone did not just become senior" signoff="the gap is the product now">
+
+Every vendor deck this year has the same slide: AI makes your whole team operate like seniors. WRONG! I have watched the same model make one engineer faster and another one dangerous, in the same week, on the same codebase. The demos are sick and the slide is still wrong ... what the model actually did was decouple output from understanding, and output was the only thing your process was measuring.
+
+I mean... the slide isn't even harmless. Believe it and you'll staff like it's true, measure like it's true, and your review process quietly turns into a rubber stamp for confident output ... right up until the incident where nobody in the room can explain the code that's on fire. One question keeps a team honest, and it costs nothing to ask: who actually understands this change? To be clear, I'm not against the tools; I built half my Lab with them and I'm not going back. I'm against the slide. The price of looking competent dropped to zero and the price of being right didn't move. Mind the gap.
+
+</SoapboxFold>

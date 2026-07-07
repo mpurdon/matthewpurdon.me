@@ -3,7 +3,6 @@ import { POSTS, postNumber } from '../../data.js';
 import { ogVersion } from '../../og-version.js';
 import Layout from '../../layouts/Layout.astro';
 import ArticleLayout from '../../layouts/ArticleLayout.astro';
-import ArticleView from '../../article.jsx';
 import { getCollection, render } from 'astro:content';
 
 export async function getStaticPaths() {
@@ -15,12 +14,10 @@ export async function getStaticPaths() {
 
 const { post } = Astro.props;
 
-// Migration dual-source: render an MDX collection entry when one exists,
-// otherwise fall back to the legacy React ArticleView. Chrome/OG metadata come
-// from POSTS either way, so the OG cache-buster hash stays identical.
+// Body comes from the MDX collection entry (one .mdx per slug).
 const notes = await getCollection('notes');
 const entry = notes.find((n) => n.id === post.slug);
-const Content = entry ? (await render(entry)).Content : null;
+const { Content } = await render(entry);
 const publishedDate = new Date(post.dateLong || post.date).toISOString();
 const modifiedDate = new Date(post.updatedLong || post.dateLong || post.date).toISOString();
 
@@ -73,11 +70,7 @@ const SETTINGS = {
     { name: post.title, path: `/notes/${post.slug}` }
   ]}
 >
-  {Content ? (
-    <ArticleLayout post={post}>
-      <Content />
-    </ArticleLayout>
-  ) : (
-    <ArticleView post={post} t={SETTINGS} client:load />
-  )}
+  <ArticleLayout post={post}>
+    <Content />
+  </ArticleLayout>
 </Layout>
