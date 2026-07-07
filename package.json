@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "astro dev",
-    "build": "node scripts/generate-og.mjs && astro build && node scripts/generate-feed.mjs && node scripts/generate-sitemap.mjs",
+    "build": "astro build",
     "preview": "astro preview",
     "deploy": "npm run build && wrangler pages deploy dist --project-name matthewpurdon-me"
   },
