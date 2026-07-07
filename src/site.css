@@ -48,10 +48,15 @@ figure.mp-pq {
 /* One extra class: the DS's own `.mp-soap--section .mp-soap__head { display:flex }`
    ties at (0,2,0) and is injected later, so it wins without this. */
 .soap-fold .mp-soap .mp-soap__head { display: none; }
+/* Native <details>/<summary>: drop the default disclosure marker, and make the
+   whole header the click target. */
+.soap-fold__head { cursor: pointer; list-style: none; }
+.soap-fold__head::-webkit-details-marker { display: none; }
+.soap-fold[open] .soap-fold__head { border-bottom: 1px solid rgba(213, 43, 30, 0.28); }
 .soap-fold .soap-fold__cta::before { content: '+ read the rant'; }
-.soap-fold.is-open .soap-fold__cta::before { content: '− okay, enough'; }
+.soap-fold[open] .soap-fold__cta::before { content: '− okay, enough'; }
 @media (prefers-reduced-motion: no-preference) {
-  .soap-fold:not(.is-open) .soap-fold__head {
+  .soap-fold:not([open]) .soap-fold__head {
     animation: soap-fold-pulse 3.2s ease-in-out infinite;
   }
 }

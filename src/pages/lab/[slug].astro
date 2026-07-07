@@ -2,7 +2,9 @@
 import { PROJECTS } from '../../data.js';
 import { ogVersion } from '../../og-version.js';
 import Layout from '../../layouts/Layout.astro';
+import LabLayout from '../../layouts/LabLayout.astro';
 import { ProjectDetail } from '../../lab.jsx';
+import { getCollection, render } from 'astro:content';
 
 export async function getStaticPaths() {
   return PROJECTS.map((project) => ({
@@ -12,6 +14,12 @@ export async function getStaticPaths() {
 }
 
 const { project } = Astro.props;
+
+// Migration dual-source: render an MDX collection entry when one exists,
+// otherwise fall back to the legacy React ProjectDetail.
+const labEntries = await getCollection('lab');
+const entry = labEntries.find((n) => n.id === project.slug);
+const Content = entry ? (await render(entry)).Content : null;
 
 const appSchema = {
   "@context": "https://schema.org",
@@ -43,9 +51,11 @@ const SETTINGS = {
     { name: project.name, path: `/lab/${project.slug}` }
   ]}
 >
-  <ProjectDetail
-    project={project}
-    t={SETTINGS}
-    client:load
-  />
+  {Content ? (
+    <LabLayout project={project}>
+      <Content />
+    </LabLayout>
+  ) : (
+    <ProjectDetail project={project} t={SETTINGS} client:load />
+  )}
 </Layout>
