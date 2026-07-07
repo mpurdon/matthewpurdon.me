@@ -54,7 +54,7 @@ const notesSchema = {
 
     <section style={`padding:${pad(t, '40px 0', '28px 0')}`}>
       <SectionLabel>Featured</SectionLabel>
-      <ArticleCard variant="hero" accent={featured.accent} category={featured.category} href={'/notes/' + featured.slug} title={featured.title} dek={featured.dek} date={featured.date} time={featured.time} big={featured.number} ratio="4 / 3" />
+      <ArticleCard variant="hero" accent={featured.accent} category={featured.category} href={'/notes/' + featured.slug + '/'} title={featured.title} dek={featured.dek} date={featured.date} time={featured.time} big={featured.number} ratio="4 / 3" />
     </section>
 
     {grid.length > 0 && (
@@ -62,7 +62,7 @@ const notesSchema = {
         <SectionLabel>Recent</SectionLabel>
         <div style="display:grid;grid-template-columns:repeat(3, 1fr);gap:28px">
           {grid.map((p) => (
-            <ArticleCard variant="grid" accent={p.accent} category={p.category} href={'/notes/' + p.slug} title={p.title} dek={p.dek} date={p.date} time={p.time} big={p.number} />
+            <ArticleCard variant="grid" accent={p.accent} category={p.category} href={'/notes/' + p.slug + '/'} title={p.title} dek={p.dek} date={p.date} time={p.time} big={p.number} />
           ))}
         </div>
       </section>
@@ -73,7 +73,7 @@ const notesSchema = {
         <SectionLabel>More writing</SectionLabel>
         <div>
           {list.map((p) => (
-            <ArticleCard variant="list" category={p.category} href={'/notes/' + p.slug} title={p.title} dek={p.dek} date={p.date} time={p.time} />
+            <ArticleCard variant="list" category={p.category} href={'/notes/' + p.slug + '/'} title={p.title} dek={p.dek} date={p.date} time={p.time} />
           ))}
         </div>
       </section>

@@ -59,9 +59,9 @@ const selectedLab = projects.filter((project) => ['grey-eminence', 'tcc', 'mcp-s
             ))}
           </div>
           <div style="display:flex;gap:12px;margin-top:22px;flex-wrap:wrap;align-items:center">
-            <a class="mp-btn mp-btn--solid mp-btn--md" href="/notes" style="text-decoration:none">Read Field Notes</a>
-            <a class="mp-btn mp-btn--outline mp-btn--md" href="/lab" style="text-decoration:none">See Lab Reports</a>
-            <a href="/about" style="font-family:var(--font-mono);font-size:var(--text-xs);font-weight:700;text-transform:uppercase;letter-spacing:var(--tracking-wider);color:var(--text-secondary);text-decoration:none;padding:8px 16px;border:1px solid var(--border);border-radius:var(--radius-md);transition:all var(--duration-base) var(--ease)">About Matthew</a>
+            <a class="mp-btn mp-btn--solid mp-btn--md" href="/notes/" style="text-decoration:none">Read Field Notes</a>
+            <a class="mp-btn mp-btn--outline mp-btn--md" href="/lab/" style="text-decoration:none">See Lab Reports</a>
+            <a href="/about/" style="font-family:var(--font-mono);font-size:var(--text-xs);font-weight:700;text-transform:uppercase;letter-spacing:var(--tracking-wider);color:var(--text-secondary);text-decoration:none;padding:8px 16px;border:1px solid var(--border);border-radius:var(--radius-md);transition:all var(--duration-base) var(--ease)">About Matthew</a>
           </div>
         </div>
       </div>
@@ -92,7 +92,7 @@ const selectedLab = projects.filter((project) => ['grey-eminence', 'tcc', 'mcp-s
       </div>
       <div style="display:grid;gap:0;border-top:1px solid var(--border)">
         {startHere.map(({ post, copy }) => (
-          <a href={'/notes/' + post.slug} style="display:grid;grid-template-columns:64px 1fr 18px;gap:18px;padding:20px 0;border-bottom:1px solid var(--border);text-decoration:none;color:inherit"><span aria-hidden="true" style="color:var(--text-muted);font-family:var(--font-mono);font-weight:700;letter-spacing:-0.04em;font-size:32px;line-height:1">{post.number}</span><span><h3 style="margin:0 0 7px;font-family:var(--font-mono);font-size:var(--text-lg);color:var(--text-primary);letter-spacing:-0.025em">{post.title}</h3><p style="margin:0;max-width:730px;font-family:var(--font-prose);font-size:var(--text-base);line-height:1.55;color:var(--text-secondary)">{copy}</p></span><span aria-hidden="true" style="color:var(--canada-300);font-size:18px;padding-top:2px">→</span></a>
+          <a href={'/notes/' + post.slug + '/'} style="display:grid;grid-template-columns:64px 1fr 18px;gap:18px;padding:20px 0;border-bottom:1px solid var(--border);text-decoration:none;color:inherit"><span aria-hidden="true" style="color:var(--text-muted);font-family:var(--font-mono);font-weight:700;letter-spacing:-0.04em;font-size:32px;line-height:1">{post.number}</span><span><h3 style="margin:0 0 7px;font-family:var(--font-mono);font-size:var(--text-lg);color:var(--text-primary);letter-spacing:-0.025em">{post.title}</h3><p style="margin:0;max-width:730px;font-family:var(--font-prose);font-size:var(--text-base);line-height:1.55;color:var(--text-secondary)">{copy}</p></span><span aria-hidden="true" style="color:var(--canada-300);font-size:18px;padding-top:2px">→</span></a>
         ))}
       </div>
     </section>
@@ -103,7 +103,7 @@ const selectedLab = projects.filter((project) => ['grey-eminence', 'tcc', 'mcp-s
         <h2 style="margin:0;color:var(--text-primary);font-family:var(--font-mono);font-size:clamp(22px, 2.8vw, 26px);line-height:1.1;letter-spacing:-0.025em">Recent Field Notes</h2>
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
-        <a href={'/notes/' + featured.slug} style="min-height:218px;display:flex;flex-direction:column;justify-content:space-between;padding:22px;border:1px solid var(--border);border-radius:var(--radius-lg);text-decoration:none;color:inherit;background:radial-gradient(120% 150% at 100% 0%, rgba(129, 140, 248, 0.18), transparent 55%), linear-gradient(135deg, rgba(47, 43, 40, 0.72), rgba(39, 35, 37, 0.68))">
+        <a href={'/notes/' + featured.slug + '/'} style="min-height:218px;display:flex;flex-direction:column;justify-content:space-between;padding:22px;border:1px solid var(--border);border-radius:var(--radius-lg);text-decoration:none;color:inherit;background:radial-gradient(120% 150% at 100% 0%, rgba(129, 140, 248, 0.18), transparent 55%), linear-gradient(135deg, rgba(47, 43, 40, 0.72), rgba(39, 35, 37, 0.68))">
           <div style="color:var(--indigo-400);font-family:var(--font-label);font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase">{featured.category} · {featured.time}</div>
           <div>
             <h3 style="margin:0 0 10px;color:var(--text-primary);font-family:var(--font-mono);font-size:clamp(26px, 3.5vw, 32px);line-height:1.1;letter-spacing:-0.04em">{featured.title}</h3>
@@ -112,7 +112,7 @@ const selectedLab = projects.filter((project) => ['grey-eminence', 'tcc', 'mcp-s
         </a>
         <div style="display:grid;gap:12px">
           {recent.map((post, index) => (
-            <a href={'/notes/' + post.slug} style={`padding:0 0 14px 16px;border-left:2px solid ${index === 0 ? 'var(--border-strong)' : index === 1 ? 'rgba(213, 43, 30, 0.7)' : 'rgba(71, 207, 237, 0.7)'};border-bottom:1px solid var(--border);text-decoration:none;color:inherit`}>
+            <a href={'/notes/' + post.slug + '/'} style={`padding:0 0 14px 16px;border-left:2px solid ${index === 0 ? 'var(--border-strong)' : index === 1 ? 'rgba(213, 43, 30, 0.7)' : 'rgba(71, 207, 237, 0.7)'};border-bottom:1px solid var(--border);text-decoration:none;color:inherit`}>
               <h3 style="margin:0 0 6px;font-family:var(--font-mono);font-size:var(--text-base);color:var(--text-primary)">{post.title}</h3>
               <p style="margin:0;font-family:var(--font-prose);color:var(--text-muted);font-size:var(--text-sm);line-height:1.5">{post.dek}</p>
             </a>
@@ -128,7 +128,7 @@ const selectedLab = projects.filter((project) => ['grey-eminence', 'tcc', 'mcp-s
       </div>
       <div style="display:grid;grid-template-columns:repeat(3, 1fr);gap:22px">
         {selectedLab.map((project) => (
-          <a href={'/lab/' + project.slug} style="min-height:184px;display:flex;flex-direction:column;padding:20px;border:1px solid var(--border);border-radius:var(--radius-lg);background:linear-gradient(180deg, rgba(47, 43, 40, 0.58), rgba(32, 30, 28, 0.35));text-decoration:none;color:inherit">
+          <a href={'/lab/' + project.slug + '/'} style="min-height:184px;display:flex;flex-direction:column;padding:20px;border:1px solid var(--border);border-radius:var(--radius-lg);background:linear-gradient(180deg, rgba(47, 43, 40, 0.58), rgba(32, 30, 28, 0.35));text-decoration:none;color:inherit">
             <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:30px"><TypeBadge type={project.type} />{project.ai && <AIBadge />}</div>
             <h3 style="margin:0 0 9px;color:var(--text-primary);font-family:var(--font-mono);font-size:var(--text-xl);letter-spacing:-0.03em">{project.name}</h3>
             <p style="margin:0;font-family:var(--font-prose);font-size:var(--text-sm);line-height:1.55;color:var(--text-secondary)">{project.tagline}</p>

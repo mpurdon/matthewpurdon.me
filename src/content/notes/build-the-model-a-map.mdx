@@ -52,7 +52,7 @@ The shape underneath is deliberately dull. One index at the top; one folder per 
 
 ## A map, not a tour
 
-The temptation, when documenting a system for a model, is to give it the tour: dump every table and every column into one enormous file and let the context window sort it out. That is not a map; it is the territory, photocopied. The entire value of a map is that it is smaller than the place it describes. So the index carries only enough to choose with: a name, a type, a row count, one line of what lives in the table, and a pointer to the rest. The model reads the index, forms a plan, and opens precisely the two files the plan calls for. I built the same thing once as [a single MCP tool](/lab/mcp-servers) that returns a whole schema as one document instead of twenty describe-table round-trips; this is that idea, grown to a warehouse.
+The temptation, when documenting a system for a model, is to give it the tour: dump every table and every column into one enormous file and let the context window sort it out. That is not a map; it is the territory, photocopied. The entire value of a map is that it is smaller than the place it describes. So the index carries only enough to choose with: a name, a type, a row count, one line of what lives in the table, and a pointer to the rest. The model reads the index, forms a plan, and opens precisely the two files the plan calls for. I built the same thing once as [a single MCP tool](/lab/mcp-servers/) that returns a whole schema as one document instead of twenty describe-table round-trips; this is that idea, grown to a warehouse.
 
 A colleague, Olek, had made the same move on a different project, for the agent that drove a design system: summarize what is available, build an index of it with pointers and examples, then aim the work at the index instead of the raw thing. His reason for it has stuck with me. It is faster, and you get fewer hallucinations, because you have handed the model a guided path instead of a dark house. A model that is guessing is a model that is free-associating, and a map is the whole difference between remembering and inventing.
 
@@ -145,7 +145,7 @@ I review a lot of the skills my team writes, and I keep distilling the same hand
   </div>
 </Callout>
 
-This is the same move as the philosophy document from [the last note](/notes/judgement-is-the-job-now): taste you cannot teach in the room, written down where the model (and the new hire) can follow it. We have gone a step further and built a skill whose only job is to write other skills to this standard. The coding-standards document did not die. It grew hands and started doing the work itself.
+This is the same move as the philosophy document from [the last note](/notes/judgement-is-the-job-now/): taste you cannot teach in the room, written down where the model (and the new hire) can follow it. We have gone a step further and built a skill whose only job is to write other skills to this standard. The coding-standards document did not die. It grew hands and started doing the work itself.
 
 <Soapbox label="Hot take" title="There is no prompt priesthood" signoff="the hours, not the credential">
 

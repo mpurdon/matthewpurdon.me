@@ -51,7 +51,7 @@ const labSchema = {
 
     <section style={`padding:${pad(t, '40px 0 0', '28px 0 0')}`}>
       <SectionLabel>Featured Report</SectionLabel>
-      <a href={'/lab/' + featured.slug} style={`display:block;text-decoration:none;border:1px solid var(--border);border-top:4px solid ${fm.color};border-radius:var(--radius-lg);background:linear-gradient(180deg, rgba(36,34,32,0.6) 0%, rgba(26,24,22,0.4) 100%);padding:32px;transition:border-color var(--duration-base) var(--ease);box-shadow:0 4px 20px rgba(0,0,0,0.15);margin-bottom:32px`}>
+      <a href={'/lab/' + featured.slug + '/'} style={`display:block;text-decoration:none;border:1px solid var(--border);border-top:4px solid ${fm.color};border-radius:var(--radius-lg);background:linear-gradient(180deg, rgba(36,34,32,0.6) 0%, rgba(26,24,22,0.4) 100%);padding:32px;transition:border-color var(--duration-base) var(--ease);box-shadow:0 4px 20px rgba(0,0,0,0.15);margin-bottom:32px`}>
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px">
           <div style="display:flex;gap:8px"><TypeBadge type={featured.type} />{featured.ai && <AIBadge />}</div>
           <span style="font-family:var(--font-mono);font-size:var(--text-xs);color:var(--text-muted)">{featured.year}</span>
@@ -72,7 +72,7 @@ const labSchema = {
           {rest.map(pr => {
             const m = TYPE_META[pr.type] || TYPE_META.Software;
             return (
-              <a href={'/lab/' + pr.slug} style={`display:flex;flex-direction:column;text-decoration:none;border:1px solid var(--border);border-top:3px solid ${m.color};border-radius:var(--radius-lg);background:linear-gradient(180deg, rgba(36,34,32,0.6) 0%, rgba(26,24,22,0.4) 100%);padding:24px;transition:border-color var(--duration-base) var(--ease);box-shadow:0 4px 20px rgba(0,0,0,0.12)`}>
+              <a href={'/lab/' + pr.slug + '/'} style={`display:flex;flex-direction:column;text-decoration:none;border:1px solid var(--border);border-top:3px solid ${m.color};border-radius:var(--radius-lg);background:linear-gradient(180deg, rgba(36,34,32,0.6) 0%, rgba(26,24,22,0.4) 100%);padding:24px;transition:border-color var(--duration-base) var(--ease);box-shadow:0 4px 20px rgba(0,0,0,0.12)`}>
                 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
                   <div style="display:flex;gap:8px"><TypeBadge type={pr.type} />{pr.ai && <AIBadge />}</div>
                   <span style="font-family:var(--font-mono);font-size:var(--text-xs);color:var(--text-muted)">{pr.year}</span>
