@@ -1206,15 +1206,15 @@ function PrincipalBody() {
         Architect, the Solver, or the Right Hand). The Principal Engineer scales by mastering the transition between all
         four. To drive a horizontal paradigm shift (like our transition to autonomous agentic platforms) you cannot
         operate from a single gear. You must play the Right Hand to align with executive goals, the Architect to draw
-        the boundaries, the Tech Lead to run hypothesis-driven tiger teams, and the Solver to plunge into the data
-        layer and fix model failures at the source.
+        the boundaries, the Tech Lead to run hypothesis-driven tiger teams, and the Solver to plunge into the data layer
+        and fix model failures at the source.
       </Callout>
 
       <p>
-        In his defining work on the subject, Will Larson mapped out four distinct archetypes for Staff-plus engineers: the
-        Tech Lead, the Architect, the Solver, and the Right Hand. It is the gold standard for understanding how individual
-        contributors scale their impact. If you are aiming for Staff, the advice is simple: identify the archetype that matches
-        your strengths and the organization's needs, and specialize deeply.
+        In his defining work on the subject, Will Larson mapped out four distinct archetypes for Staff-plus engineers:
+        the Tech Lead, the Architect, the Solver, and the Right Hand. It is the gold standard for understanding how
+        individual contributors scale their impact. If you are aiming for Staff, the advice is simple: identify the
+        archetype that matches your strengths and the organization's needs, and specialize deeply.
       </p>
 
       <Soapbox variant="aside" label="Hot take" signoff="specialization is a local maximum">
@@ -1226,19 +1226,19 @@ function PrincipalBody() {
       </Soapbox>
 
       <p>
-        But when you cross the boundary from Staff to Principal, that specialization becomes a local maximum. A Principal
-        Software Engineer is not just a "more senior" Staff engineer; they are the dynamic synthesis of all four archetypes.
-        To take a massive, cross-cutting horizontal mandate and push it successfully through an organization, you cannot
-        operate in a single lane. You have to shift gears fluidly, running all four archetypes on the same initiative depending
-        on where the platform needs your weight.
+        But when you cross the boundary from Staff to Principal, that specialization becomes a local maximum. A
+        Principal Software Engineer is not just a "more senior" Staff engineer; they are the dynamic synthesis of all
+        four archetypes. To take a massive, cross-cutting horizontal mandate and push it successfully through an
+        organization, you cannot operate in a single lane. You have to shift gears fluidly, running all four archetypes
+        on the same initiative depending on where the platform needs your weight.
       </p>
 
       <h2>Case Study: The Autonomous Agent Platform</h2>
       <p>
         To see how this four-gear model works in the dirt, let's look at a specific case study: our recent initiative to
         build a horizontal autonomous agent platform. How we navigated this shift is illustrative of how a Principal
-        must operate. (The deep architectural details—and why ninety-five percent of enterprise agentic workflows fail in
-        production—are the subject of my next note; the execution pattern is what matters here).
+        must operate. (The deep architectural details—and why ninety-five percent of enterprise agentic workflows fail
+        in production—are the subject of my next note; the execution pattern is what matters here).
       </p>
       <p>
         Most organizations try to lead these paradigm shifts from a single gear. They have an Architect draw abstract
@@ -1259,15 +1259,16 @@ function PrincipalBody() {
 
       <h2>Gear 1: The Right Hand (The Mandate)</h2>
       <p>
-        Every horizontal platform initiative starts with alignment. For our autonomous agent platform, this meant direct,
-        candid conversations with our CTO. We did not talk about models or token lengths; we talked about her strategic goals
-        for the year, the platform's long-term ROI, and cutting operational waste.
+        Every horizontal platform initiative starts with alignment. For our autonomous agent platform, this meant
+        direct, candid conversations with our CTO. We did not talk about models or token lengths; we talked about her
+        strategic goals for the year, the platform's long-term ROI, and cutting operational waste.
       </p>
       <p>
-        When an executive knows you understand the business context as deeply as they do, and that you have the technical
-        stewardship to protect the platform's stability, they let you off the chain. But this is not blind autonomy. It is
-        the trust that you will drive the initiative relentlessly forward while keeping their strategic objectives perfectly
-        in view. You are borrowing their organizational authority to clear the path for the platform.
+        When an executive knows you understand the business context as deeply as they do, and that you have the
+        technical stewardship to protect the platform's stability, they let you off the chain. But this is not blind
+        autonomy. It is the trust that you will drive the initiative relentlessly forward while keeping their strategic
+        objectives perfectly in view. You are borrowing their organizational authority to clear the path for the
+        platform.
       </p>
 
       <h2>Gear 2: The Architect (The Map)</h2>
@@ -1276,83 +1277,100 @@ function PrincipalBody() {
         spending months waiting for the "perfect" architecture to emerge. There is no such thing. You need to get to a
         place where you know what the strategic goals are, understand roughly how to get there, and then go. We are not
         looking for a set of rigid GPS waypoints that bind the team to the same pre-packaged, failed paths as everyone
-        else. We are looking for a hand-drawn map to grandma's house (one that defines the critical boundaries but allows
-        for discovery and correction along the way).
+        else. We are looking for a hand-drawn map to grandma's house (one that defines the critical boundaries but
+        allows for discovery and correction along the way).
       </p>
       <p>
-        For us, drawing that hand-drawn map and being on the absolute edge of what autonomous workflows can be meant working
-        directly with AWS to get early access to the <strong>AgentCore runtime</strong>. It meant utilizing the <strong>Strands
-        SDK</strong> to construct a highly decoupled, graph-based multi-agent architecture.
+        For us, drawing that hand-drawn map and being on the absolute edge of what autonomous workflows can be meant
+        working directly with AWS to get early access to the <strong>AgentCore runtime</strong>. It meant utilizing the{" "}
+        <strong>Strands SDK</strong> to construct a highly decoupled, graph-based multi-agent architecture.
       </p>
       <p>
-        The Architect's job is simply to define the hard, load-bearing boundaries: the shared <code>invocation_state</code> schemas,
-        the async GraphBuilder factory patterns, the validation gates, and the telemetry structures. You are not just building
-        an agent; you are building a horizontal platform that multiple product teams can eventually build on top of. You are
-        architecting the loose guardrails to ensure the team avoids the production failure traps that sink other enterprise teams,
-        without locking them into a sterile execution cage.
+        The Architect's job is simply to define the hard, load-bearing boundaries: the shared{" "}
+        <code>invocation_state</code> schemas, the async GraphBuilder factory patterns, the validation gates, and the
+        telemetry structures. You are not just building an agent; you are building a horizontal platform that multiple
+        product teams can eventually build on top of. You are architecting the loose guardrails to ensure the team
+        avoids the production failure traps that sink other enterprise teams, without locking them into a sterile
+        execution cage.
       </p>
 
       <h2>Gear 3: The Tech Lead (The Vanguard)</h2>
       <p>
-        A beautiful architectural spec is worthless if the engineering teams cannot execute it. But you cannot hand a massive,
-        highly complex AI paradigm shift to an entire department at once; it results in chaos, fragmented standards, and
-        workslop. This is where you shift into the Tech Lead gear.
+        A beautiful architectural spec is worthless if the engineering teams cannot execute it. But you cannot hand a
+        massive, highly complex AI paradigm shift to an entire department at once; it results in chaos, fragmented
+        standards, and workslop. This is where you shift into the Tech Lead gear.
       </p>
       <p>
         We formed compact, two-person "tiger teams" structured for rapid, high-fidelity mentorship: one engineer who had
-        already successfully completed a project, and another learning the ropes of how we build. In this way, we grew the
-        knowledge and capabilities of the team in a real, meaningful way. I kicked off the loop by seeding the first four
-        teams myself, performing the role of the "experienced engineer" on each of them so I could directly convey what my
-        tastes, standards, and judgements were for this new way of building. Once those first four candidates successfully
-        shipped, they became the mentors for the next wave, multiplying our standards organically across the department.
+        already successfully completed a project, and another learning the ropes of how we build. In this way, we grew
+        the knowledge and capabilities of the team in a real, meaningful way. I kicked off the loop by seeding the first
+        four teams myself, performing the role of the "experienced engineer" on each of them so I could directly convey
+        what my tastes, standards, and judgements were for this new way of building. Once those first four candidates
+        successfully shipped, they became the mentors for the next wave, multiplying our standards organically across
+        the department.
       </p>
       <p>
         To support them, we invented a completely new SDLC specifically designed for AI-native engineering:
-        <strong>hypothesis-driven development</strong>. Traditional agile sprints fail when the machine is writing the code and
-        the parameters are non-deterministic. We established a process centered on a strict "We Believe" statement:
+        <strong>hypothesis-driven development</strong>. Traditional agile sprints fail when the machine is writing the
+        code and the parameters are non-deterministic. We established a process centered on a strict "We Believe"
+        statement:
       </p>
 
-      <div style={{ borderLeft: "3px solid var(--callout-note-accent)", paddingInlineStart: "1.25rem", margin: "1.5rem 0", fontFamily: "var(--font-mono)", fontSize: "0.95rem", lineHeight: "1.6", color: "var(--text-secondary)" }}>
-        We believe that <strong>[user segment]</strong><br />
+      <div
+        style={{
+          borderLeft: "3px solid var(--callout-note-accent)",
+          paddingInlineStart: "1.25rem",
+          margin: "1.5rem 0",
+          fontFamily: "var(--font-mono)",
+          fontSize: "0.95rem",
+          lineHeight: "1.6",
+          color: "var(--text-secondary)",
+        }}
+      >
+        We believe that <strong>[user segment]</strong>
+        <br />
         has a need to <strong>[user need/problem]</strong>.<br />
         By delivering <strong>[proposed solution / feature]</strong>,<br />
-        we expect to achieve <strong>[measurable outcome]</strong><br />
+        we expect to achieve <strong>[measurable outcome]</strong>
+        <br />
         within <strong>[time period of delivery]</strong>.
       </div>
 
       <p>
-        This simple, rigorous template forces the team to drive to a single, hyper-specific goal instead of aiming for some
-        vague, corporate "be more good" statement. We formulate the architectural hypothesis first, verify it with automated
-        model testing, and iterate in tight, high-signal loops.
+        This simple, rigorous template forces the team to drive to a single, hyper-specific goal instead of aiming for
+        some vague, corporate "be more good" statement. We formulate the architectural hypothesis first, verify it with
+        automated model testing, and iterate in tight, high-signal loops.
       </p>
 
       <PullQuote cite="Matthew Purdon">
-        A principal engineer does not just design the architecture. They design the human processes and execution patterns that make the architecture buildable.
+        A principal engineer does not just design the architecture. They design the human processes and execution
+        patterns that make the architecture buildable.
       </PullQuote>
 
       <h2>Gear 4: The Solver (The Fire)</h2>
       <p>
-        No matter how clean your spec is, the vanguard teams will eventually hit a low-level, high-stakes wall. A model will
-        begin hallucinating on database metadata, or the context window will bloat, or the async event loop will lock up. In those
-        moments, you do not write a Jira ticket or schedule another meeting. You shift into the Solver gear. You drop into the
-        deepest hole and solve the unsolvable.
+        No matter how clean your spec is, the vanguard teams will eventually hit a low-level, high-stakes wall. A model
+        will begin hallucinating on database metadata, or the context window will bloat, or the async event loop will
+        lock up. In those moments, you do not write a Jira ticket or schedule another meeting. You shift into the Solver
+        gear. You drop into the deepest hole and solve the unsolvable.
       </p>
       <p>
-        We recently hit a complex failure where the LLM was drawing incorrect, hallucinated conclusions from the source data.
-        It was adding added weight to a random inference (a guess) it was making based on a few variables in the payload.
-        The inexperienced engineer's immediate instinct was to "prompt-engineer" our way out of it — writing very earnest,
-        all-caps warnings like "NEVER" and "IGNORE" in the system prompt.
+        We recently hit a complex failure where the LLM was drawing incorrect, hallucinated conclusions from the source
+        data. It was adding added weight to a random inference (a guess) it was making based on a few variables in the
+        payload. The inexperienced engineer's immediate instinct was to "prompt-engineer" our way out of it — writing
+        very earnest, all-caps warnings like "NEVER" and "IGNORE" in the system prompt.
       </p>
       <p>
-        My response was fundamentally different: you refuse to prompt-engineer out of a data-layer problem. After talking it
-        through, I decided we should just pre-process the data and strip those variables from the LLM's input entirely, stashing
-        them in a temporary list on our state. Once the processing agent was done, we simply appended those variables back to the
-        return structure in the final reporting agent.
+        My response was fundamentally different: you refuse to prompt-engineer out of a data-layer problem. After
+        talking it through, I decided we should just pre-process the data and strip those variables from the LLM's input
+        entirely, stashing them in a temporary list on our state. Once the processing agent was done, we simply appended
+        those variables back to the return structure in the final reporting agent.
       </p>
       <p>
-        Not only did we solve the problem perfectly, we passed fewer tokens, ran faster, and, most importantly, we shared the story
-        with the rest of the department so it could become part of our shared engineering knowledge. We fixed it at the data layer,
-        proved the fix with async tests, and codified that hard boundary back into the platform's core architecture.
+        Not only did we solve the problem perfectly, we passed fewer tokens, ran faster, and, most importantly, we
+        shared the story with the rest of the department so it could become part of our shared engineering knowledge. We
+        fixed it at the data layer, proved the fix with async tests, and codified that hard boundary back into the
+        platform's core architecture.
       </p>
 
       <h2>Stewardship of the platform</h2>
@@ -1364,29 +1382,31 @@ function PrincipalBody() {
         code; you are guiding the vision and belief of everyone building for the organization.
       </p>
       <p>
-        We successfully launched our autonomous agent platform using this exact four-gear cycle. How we actually built those
-        agentic workflows (the specific Strands SDK graph topologies, the AgentCore telemetry patterns, and the exact reasons
-        why ninety-five percent of multi-agent architectures fall over in production) is the subject of my next note.
+        We successfully launched our autonomous agent platform using this exact four-gear cycle. How we actually built
+        those agentic workflows (the specific Strands SDK graph topologies, the AgentCore telemetry patterns, and the
+        exact reasons why ninety-five percent of multi-agent architectures fall over in production) is the subject of my
+        next note.
       </p>
 
       <SoapboxFold title="Staff is not Senior++" signoff="protect the title, protect the team">
         <p>
-          I am so tired of watching engineering organizations treat the Staff Software Engineer title like a seniority gold
-          star. It is not just another rung on the ladder. It is not some tenured reward for surviving five years as a Senior
-          without setting the codebase on fire.
+          I am so tired of watching engineering organizations treat the Staff Software Engineer title like a seniority
+          gold star. It is not just another rung on the ladder. It is not some tenured reward for surviving five years
+          as a Senior without setting the codebase on fire.
         </p>
         <p>
-          But companies do it anyway out of pure promotion creep. They promote a Senior who is an absolute typing machine —
-          someone who can spit out three hundred lines of flawless syntax a day — but who has zero organizational taste,
-          no strategic vision, and has never had a single oblique conversation with an executive in their life. You are
-          giving a leadership mandate to someone whose only skill is driving a keyboard.
+          But companies do it anyway out of pure promotion creep. They promote a Senior who is an absolute typing
+          machine — someone who can spit out three hundred lines of flawless syntax a day — but who has zero
+          organizational taste, no strategic vision, and has never had a single oblique conversation with an executive
+          in their life. You are giving a leadership mandate to someone whose only skill is driving a keyboard.
         </p>
         <p>
-          I mean ... it is a completely different job. Promoting an unqualified Senior to Staff is a nuclear-level mistake. It
-          does not just waste a title; it clogs up your technical leadership channels with people who cannot guide a platform. It
-          dilutes your architectural standards, creates immense friction, and can break a high-performing engineering culture
-          from the inside out. Stop treating your career ladder like a tenure program. Protect the title, or watch all of the
-          hard work you put into building an amazing platform and culture erode and rot.
+          I mean ... it is a completely different job. Promoting an unqualified Senior to Staff is a nuclear-level
+          mistake. It does not just waste a title; it clogs up your technical leadership channels with people who cannot
+          guide a platform. It dilutes your architectural standards, creates immense friction, and can break a
+          high-performing engineering culture from the inside out. Stop treating your career ladder like a tenure
+          program. Protect the title, or watch all of the hard work you put into building an amazing platform and
+          culture erode and rot.
         </p>
       </SoapboxFold>
     </Prose>
@@ -1549,8 +1569,8 @@ function InterviewingBody() {
                 <p style={{ margin: "0.5rem 0 0" }}>
                   It is incredibly interesting to see if they use the models to help them with this part. They are
                   completely free to use AI as a sparring partner (asking it to brainstorm components, validate DB
-                  schemas, or outline the data flow). But it is exceedingly rare that they do. It makes me sad, honestly;
-                  it shows how deeply candidates still compartmentalize the model as a mere syntax typewriter,
+                  schemas, or outline the data flow). But it is exceedingly rare that they do. It makes me sad,
+                  honestly; it shows how deeply candidates still compartmentalize the model as a mere syntax typewriter,
                   forgetting that its highest and best use is as a cognitive partner for architectural trade-offs.
                 </p>
               </>
@@ -1727,9 +1747,9 @@ function CultureBody() {
 
       <p>
         A post about culture goes around every few months, and it came past me again last week: culture is not what you
-        say, it is what you tolerate; what you permit, you promote. It is sharp, quotable, and built to be screenshotted,
-        and every time it lands in my feed I nod along for a sentence and then find myself arguing with the whole shape
-        of it. Not because I have leadership solved. Closer to the opposite.
+        say, it is what you tolerate; what you permit, you promote. It is sharp, quotable, and built to be
+        screenshotted, and every time it lands in my feed I nod along for a sentence and then find myself arguing with
+        the whole shape of it. Not because I have leadership solved. Closer to the opposite.
       </p>
       <p>
         It is not that the post is wrong; the observation under it is real. A top performer who gets a pass nobody else
@@ -1737,10 +1757,9 @@ function CultureBody() {
         disagreement comes from a humbler place than the post does. That version of culture flatters the leader, casting
         you as the bouncer at the door, the one thing standing between the team and chaos; what I keep learning, mostly
         from carefully watching the teams that felt smooth and effortless in their delivery, is that it was less about
-        what I did and more about what the individual contributors on the team did. The
-        post is not wrong, then, just half the picture: all of its wisdom goes to what a leader should refuse to
-        tolerate, and none to what a leader should grow. You cannot punish a team into being great. You can only punish
-        it into being quiet.
+        what I did and more about what the individual contributors on the team did. The post is not wrong, then, just
+        half the picture: all of its wisdom goes to what a leader should refuse to tolerate, and none to what a leader
+        should grow. You cannot punish a team into being great. You can only punish it into being quiet.
       </p>
 
       <h2>Every rule is a confession</h2>
@@ -1756,18 +1775,18 @@ function CultureBody() {
           Values on a wall are vanity. If your culture only survives because you are standing at the door personally
           refusing to tolerate things, you do not have a culture, buddy, you have a hall monitor with a lanyard ... and
           the second you leave the hallway it is gone. I mean... a real value is one you built into the terrain so
-          thoroughly that violating it takes effort. Nobody screenshots that, because it is boring, and boring is exactly
-          what "it just works" is supposed to feel like.
+          thoroughly that violating it takes effort. Nobody screenshots that, because it is boring, and boring is
+          exactly what "it just works" is supposed to feel like.
         </p>
       </Soapbox>
       <p>
         The good version of a rule is almost never a poster; it is a change to the terrain. You do not put "give credit"
         on the wall and hope; you make the person who did the work the one who stands up and presents it, so the credit
-        has nowhere else to go. My own version of that is a credo I have led by for years: <em>we have succeeded, I have
-        failed</em>. When the work lands, it was the team; when it goes sideways, and eventually it always does, that one
-        is on me. It is not modesty; it is terrain. If credit reliably flows down and blame reliably stops at my desk,
-        people will take the swings that real growth requires, because I have made the downside safe and left the upside
-        theirs.
+        has nowhere else to go. My own version of that is a credo I have led by for years:{" "}
+        <em>we have succeeded, I have failed</em>. When the work lands, it was the team; when it goes sideways, and
+        eventually it always does, that one is on me. It is not modesty; it is terrain. If credit reliably flows down
+        and blame reliably stops at my desk, people will take the swings that real growth requires, because I have made
+        the downside safe and left the upside theirs.
       </p>
       <p>
         That is the move. Make the correct thing the default, the easy thing, the thing that happens when someone is
@@ -1790,12 +1809,12 @@ function CultureBody() {
         are already pulling in the direction you wanted.
       </p>
       <p>
-        But AMP does not run on good vibes and a values deck; hope is not a strategy. It runs on trust, and
-        specifically in a room where people know they can say the
-        thing: the half-formed idea, the disagreement, the quiet "I think this is actually wrong," without getting bitten
-        for it. A genuinely free space. That is the soil; autonomy, mastery, and purpose are what you plant in it. Skip
-        the soil and none of the rest takes, because a person who does not feel safe saying the true thing will just say
-        the safe thing, and now you are back to a quiet team, which the enforcement crowd mistook for a healthy one.
+        But AMP does not run on good vibes and a values deck; hope is not a strategy. It runs on trust, and specifically
+        in a room where people know they can say the thing: the half-formed idea, the disagreement, the quiet "I think
+        this is actually wrong," without getting bitten for it. A genuinely free space. That is the soil; autonomy,
+        mastery, and purpose are what you plant in it. Skip the soil and none of the rest takes, because a person who
+        does not feel safe saying the true thing will just say the safe thing, and now you are back to a quiet team,
+        which the enforcement crowd mistook for a healthy one.
       </p>
       <PullQuote cite="Matthew Purdon">
         A quiet team is not a healthy team. It is a frightened one that has learned to say the safe thing.
@@ -1805,11 +1824,11 @@ function CultureBody() {
       <p>
         There is a variable underneath all of this that never makes it onto the values wall, and it is confidence. Not
         arrogance, and not a fixed trait you either have or you do not. Confidence is a level, and the level never holds
-        still. It behaves, and I am only half joking, like Flappy Bird. Gravity is constant and it is always pulling down. Left
-        alone, confidence sinks: the deploy that failed, the review that came back brutal, the feature nobody used, the
-        imposter voice on an ordinary Tuesday. It falls, and it keeps falling, until something gives it a bump: a shipped
-        thing that worked, a hard bug actually resolved, praise from someone whose opinion you value. Then it rises, clears the pipe,
-        and gravity takes back over and it starts sinking toward the next one.
+        still. It behaves, and I am only half joking, like Flappy Bird. Gravity is constant and it is always pulling
+        down. Left alone, confidence sinks: the deploy that failed, the review that came back brutal, the feature nobody
+        used, the imposter voice on an ordinary Tuesday. It falls, and it keeps falling, until something gives it a
+        bump: a shipped thing that worked, a hard bug actually resolved, praise from someone whose opinion you value.
+        Then it rises, clears the pipe, and gravity takes back over and it starts sinking toward the next one.
       </p>
       <p>
         Which means praise is not a nicety you hand out when you happen to remember. It is the stimulus. It is the tap
@@ -1817,19 +1836,18 @@ function CultureBody() {
         quietly on the floor is a team that has stopped taking the swings that grow anyone. The catch is that the bump
         has to be real and specific to land; everyone can feel the difference between "good job team" and "the way you
         went and killed the twenty-minute build the whole team had just learned to live with, no ticket, nobody asking;
-        that is the part I never had to assign." One is noise. The other is fuel, because it tells the person
-        exactly which thing they did was good, so they, and everyone watching, can do it on purpose next time.
-        That is the same signal I said I hunt for when I{" "}
-        <a href="/notes/interviewing-the-ai-assisted-engineer">interview</a>; the difference is that in the interview I
-        am measuring it, and on the team I am trying to grow it.
+        that is the part I never had to assign." One is noise. The other is fuel, because it tells the person exactly
+        which thing they did was good, so they, and everyone watching, can do it on purpose next time. That is the same
+        signal I said I hunt for when I <a href="/notes/interviewing-the-ai-assisted-engineer">interview</a>; the
+        difference is that in the interview I am measuring it, and on the team I am trying to grow it.
       </p>
 
       <h2>Only works on the willing</h2>
       <p>
         Do this across a whole team (AMP, the trust under it, the confidence bumps landed at the right moments) and the
-        culture drifts upward more or less on its own. It is slow. It moves on the timescale of seasons, not sprints, the
-        same as <a href="/notes/judgement-is-the-job-now">judgement</a> does, and for the same reason: you are growing
-        something, not installing it.
+        culture drifts upward more or less on its own. It is slow. It moves on the timescale of seasons, not sprints,
+        the same as <a href="/notes/judgement-is-the-job-now">judgement</a> does, and for the same reason: you are
+        growing something, not installing it.
       </p>
       <p>
         But here is the catch, and it is the one place the tolerance post and I actually shake hands, just reaching from
@@ -1857,18 +1875,155 @@ function CultureBody() {
           a moment you step in and save the day and everyone finally sees the hero was you the whole time. WRONG! I
           mean... you do have that power, it's just the power to destroy. You can absolutely sink a team from that
           chair, with guilt trips and moving goalposts and the steady background hum of threat, and none of it makes
-          anyone better; it only makes them quiet and resentful. The beatings will continue until morale improves, except they've
-          never caught on it's a joke.
+          anyone better; it only makes them quiet and resentful. The beatings will continue until morale improves,
+          except they've never caught on it's a joke.
         </p>
         <p>
           Nobody writes the other post because the other post does not make you look brilliant. Real leadership is trust
-          and patience, handing people the real work and then stepping out of their way, catching someone doing something
-          good and telling them exactly what it was, then doing all of that again, and again.
-          None of that fits on a slide and none of it makes you look like the hero, so it never gets screenshotted, and
-          the feed fills up with visionary decidinators instead. But the quiet way is the one that actually wins: slow, unglamorous,
-          mostly invisible, and the whole job. You are not the one who saves the team, buddy. You are the one who gets
-          out of their light.
+          and patience, handing people the real work and then stepping out of their way, catching someone doing
+          something good and telling them exactly what it was, then doing all of that again, and again. None of that
+          fits on a slide and none of it makes you look like the hero, so it never gets screenshotted, and the feed
+          fills up with visionary decidinators instead. But the quiet way is the one that actually wins: slow,
+          unglamorous, mostly invisible, and the whole job. You are not the one who saves the team, buddy. You are the
+          one who gets out of their light.
         </p>
+      </SoapboxFold>
+    </Prose>
+  );
+}
+
+function PostmanBody() {
+  return (
+    <Prose dropcap style={{ maxWidth: "100%" }}>
+      <Callout variant="takeaway" title="The glance">
+        For years we squinted at raw JSON in a generic REST client because building a real UI for an API cost you an
+        afternoon of plumbing, so
+        renting the generic tool was the rational trade. Agents collapsed that cost, and the trade quietly inverted: a
+        bespoke app that answers your one actual question is now faster to build than the generic tool is to learn, env
+        vars and auth and payloads and all, and it keeps what you figured out as working, debuggable code instead of a
+        folder of requests that worked once. The same flip is coming for a whole shelf of tools that sold you "building
+        this yourself is too expensive." Here is the argument, why the code is not the point, and how I just build the
+        tool now instead of shopping for one.
+      </Callout>
+
+      <p>
+        Last winter I set out to explore a sparsely documented API the way we all learned to: open Postman, build a
+        collection, poke at endpoints until the shapes make sense. I lasted about an hour. Then I closed it, described
+        the app I actually wanted to a coding agent, and had a working client that evening (the whole war story lives in
+        the <a href="/lab/evalu8">Lab</a>, if you want the play-by-play). The app was better than the collection in
+        every way that mattered, and somewhere in there a suspicion I had been circling for months finally hardened into
+        a sentence: Postman was never a tool. It was a workaround. I uninstalled it.
+      </p>
+
+      <h2>Why "REST client" is even a category</h2>
+      <p>
+        The only reason a generic REST client is a software category at all is that building a real UI for an API used
+        to cost you a real afternoon. Nobody was going to wire up auth and a client and a table for a bespoke view just
+        to look at one endpoint, so we all agreed to squint at raw JSON in a tool designed for the average of every API
+        on earth. That was a reasonable trade at the old prices. It bought you a way to see a response without writing a
+        line of your own code.
+      </p>
+      <p>
+        And then the workaround grew the way workarounds do. Collections, environments, pre-request scripts, tests
+        written in JavaScript against your responses. Somewhere in that list you are quietly coding again, except you
+        are doing it in a runtime you cannot version, in a UI somebody else designed, and the artifact at the end is a
+        collection that remembers the three requests that worked once and exactly none of what you learned getting
+        there. The knowledge, the part you actually paid for in time, evaporates the moment you close the tab, and there
+        is nothing to hand the next person.
+      </p>
+      <Soapbox variant="aside" label="Hot take" signoff="the workaround outlived the problem">
+        <p>
+          Postman is a coping mechanism that got funding. We took "squinting at raw JSON" and shipped it as a product
+          category, then a platform, then a seat license for the whole org ... and at no point in that glow-up did
+          anyone stop to check whether the thing it was working around still needed working around. It doesn't. It's a
+          total waste of time.
+        </p>
+      </Soapbox>
+      <p>
+        Here is the part that changed. When an agent can stand up a real, typed UI for your specific API in the blink of
+        an eye (ok a slow blink but still), the bespoke app costs less than learning the generic tool, and it answers
+        the exact thing you asked instead of making you reassemble that question as a workflow in somebody else's
+        request builder. You know the dance: click Auth to get a token (assuming you set the env vars right), click List
+        so a post-request script can stash the first item's ID, click Get to pull that item back with the stashed ID,
+        click Update to change it, then click Get one last time to confirm the change took. So many clicks, so much
+        ceremony, and you get to run the whole gauntlet again the next time you need the answer.
+      </p>
+      <p>
+        The bespoke app just answers it, and it keeps what you learned getting there. Every guess that survived contact
+        with the API lives in a function; every losing guess sits in a comment right next to it. Close the laptop,
+        reopen it four months later, and the understanding is still there in the code: click the button and it runs
+        every step without you having to remember or guess a single one. The collection never gave you that. It was
+        never designed to.
+      </p>
+
+      <h2>The code stopped being the point</h2>
+      <p>
+        There is a second thing hiding under the first, and it is bigger than Postman. When generating the whole app
+        costs an evening, code stops being something you pour your heart into and quietly becomes disposable: the
+        by-product of an answer, not a possession. For a task that small I did not read the source, did not review it,
+        and I genuinely do not care how it is written. The only question that earns any attention is whether it returns
+        the right rows.
+      </p>
+      <PullQuote cite="Matthew Purdon">
+        No customer has ever asked for cleaner code in a survey. They want features that work.
+      </PullQuote>
+      <p>
+        This is not an argument against craft. Care about the craft when the software has to live, when other people
+        depend on it, when money rides on it being right at three in the morning. That is most of the software I build,
+        and it earns every ounce of the attention it gets. But when the thing is just a means to answer a question,
+        fussing over how it is written is a reflex left over from when writing it was the expensive part. Just give me
+        the answer.
+      </p>
+
+      <h2>Access patterns, spec, code</h2>
+      <p>
+        So if you are not renting the generic tool, what replaces it without turning every question into a weekend
+        project? For me it has hardened into three moves I now run almost without thinking.
+      </p>
+      <p>
+        First, write down the access patterns: the short list of questions you actually need answered. Not the schema,
+        not the endpoints, the questions. "Every call we ever had with this phone number." "This transcript beside the
+        scorecard the human filled in." Second, generate a spec from those, and it barely matters which kind: an OpenAPI
+        document, a page of user stories, a markdown file, or honestly just the chat log where you hammered
+        it out. The point is a shape you can read and debate, with yourself and with the planning agent, before a single
+        line of code exists. Third, generate the thing from that spec, but not from a bare model, from one carrying my{" "}
+        <a href="/notes/judgement-is-the-job-now">taste and judgement</a> as standing instructions, so the code lands in
+        my idioms with my guardrails already applied.
+      </p>
+      <p>
+        Access patterns, spec, code. Then profit. And notice what is precious in that chain and what is not: not the
+        code, which is disposable, and not the spec, which was scaffolding. The access patterns are the only thing I
+        would mourn if I lost them, and you can just put those in the README. Easy. The app is a facade over the API,
+        shaped like the question instead of like the vendor's sometimes janky endpoints; the generic client was only
+        ever the adapter. When the question dies, delete the app if you are short on disk space, or just forget it
+        exists. You kept the thing that mattered.
+      </p>
+
+      <SoapboxFold title="So long, Postman" signoff="and thanks for all the fish">
+        <p>
+          Look at what Postman actually did to try to escape its fate: it became a "platform." Workspaces, governance,
+          an API network, a seat license for the whole org, and ads on TV for the suits to bring up in the next
+          all-hands... "Hey, have we considered Postman for any of this?" This is exactly the move a tool makes when the
+          reason it existed has been vaporized and it needs to bolt on a new one before the shareholders and PE get wind
+          of it. That is not growth in new verticals, that is a search party looking for a body that's already in the
+          morgue.
+        </p>
+        <p>
+          And it is not just them. A whole generation of tools sold you the same line: "building this yourself is too
+          expensive." Entire industries of people who are "experts in increasing MRR" have risen up to take advantage
+          of the fact that people were trapped. Don't believe me? How many times have you been in the discussion around
+          having to fork over cash to some <em>Sales Bro™</em> for the "enterprise" plan just to get SSO?!?! It felt
+          gross every time, didn't it?
+        </p>
+        <p>
+          The conventional wisdom was correct! Right up until it wasn't. The shared collection, the generic dashboard,
+          yet another configuration and permission set to figure out, all of it was a tax we paid because the
+          alternative used to hurt more. The alternative doesn't hurt anymore, and no amount of bloatware bolts a reason
+          to exist back onto a thing nobody needs. The SaaS model is under real strain, and this is a big part of why: a
+          lot of it was priced against the cost of you building the specific thing, and that cost just fell through the
+          floor.
+        </p>
+        <p>So long, Postman, and thanks for all the fish.</p>
       </SoapboxFold>
     </Prose>
   );
@@ -1907,6 +2062,7 @@ function DefaultBody({ post }) {
 
 // Hand-written essay bodies, keyed by slug. Everything else gets DefaultBody.
 const BODIES = {
+  "postman-was-a-workaround": PostmanBody,
   "what-is-a-principal-engineer": PrincipalBody,
   "interviewing-the-ai-assisted-engineer": InterviewingBody,
   "summaries-all-the-way-down": SummariesBody,
@@ -1929,10 +2085,14 @@ export default function Article({ post, t, openTopic, go }) {
         <header style={{ maxWidth: 820, margin: "0 auto", padding: "56px 32px 32px", textAlign: "center" }}>
           <a
             href={"/topic/" + encodeURIComponent(back)}
-            onClick={openTopic ? (e) => {
-              e.preventDefault();
-              openTopic(back);
-            } : undefined}
+            onClick={
+              openTopic
+                ? (e) => {
+                    e.preventDefault();
+                    openTopic(back);
+                  }
+                : undefined
+            }
             style={{
               fontFamily: "var(--font-label)",
               textTransform: "uppercase",
@@ -2008,10 +2168,14 @@ export default function Article({ post, t, openTopic, go }) {
               <a
                 key={tag}
                 href={"/topic/" + encodeURIComponent(tag)}
-                onClick={openTopic ? (e) => {
-                  e.preventDefault();
-                  openTopic(tag);
-                } : undefined}
+                onClick={
+                  openTopic
+                    ? (e) => {
+                        e.preventDefault();
+                        openTopic(tag);
+                      }
+                    : undefined
+                }
                 style={{
                   display: "inline-flex",
                   alignItems: "center",
@@ -2084,10 +2248,14 @@ export default function Article({ post, t, openTopic, go }) {
               <div style={{ display: "flex", gap: 14 }}>
                 <a
                   href="/about"
-                  onClick={go ? (e) => {
-                    e.preventDefault();
-                    go("about");
-                  } : undefined}
+                  onClick={
+                    go
+                      ? (e) => {
+                          e.preventDefault();
+                          go("about");
+                        }
+                      : undefined
+                  }
                   style={{
                     fontFamily: "var(--font-mono)",
                     fontSize: "var(--text-sm)",
