@@ -1,6 +1,9 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import { LabIndex } from '../../lab.jsx';
+import { getProjects } from '../../lib/content.js';
+
+const projects = await getProjects();
 
 const labSchema = {
   "@context": "https://schema.org",
@@ -29,8 +32,5 @@ const SETTINGS = {
     { name: 'Lab Reports', path: '/lab' }
   ]}
 >
-  <LabIndex
-    t={SETTINGS}
-    client:load
-  />
+  <LabIndex t={SETTINGS} projects={projects} />
 </Layout>

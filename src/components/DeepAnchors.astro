@@ -1,0 +1,95 @@
+---
+/* Deep-linkable anchors for a rendered body: gives every h2, Soapbox, and
+   SoapboxFold inside `.article-body` an id slugged from its title, a red
+   copy-link button, and honors a #hash on load (opening the target fold).
+   Vanilla port of the former useDeepAnchors hook (src/shared.jsx) — the only
+   JS on a Field Note / Lab page. Include once per detail layout. */
+---
+<script>
+  const LINK_SVG =
+    '<svg class="anchor-copy__link" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>';
+  const CHECK_SVG =
+    '<svg class="anchor-copy__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>';
+
+  function slugify(text) {
+    return String(text || '')
+      .toLowerCase()
+      .replace(/['’]/g, '')
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '');
+  }
+
+  function makeCopyButton(id) {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'anchor-copy';
+    b.title = 'Copy link to this section';
+    b.setAttribute('aria-label', 'Copy link to this section');
+    b.innerHTML = LINK_SVG + CHECK_SVG;
+    b.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      window.history.replaceState(null, '', '#' + id);
+      const url = window.location.origin + window.location.pathname + '#' + id;
+      if (navigator.clipboard) navigator.clipboard.writeText(url).catch(() => {});
+      b.classList.add('is-copied');
+      setTimeout(() => b.classList.remove('is-copied'), 1400);
+    });
+    return b;
+  }
+
+  const root = document.querySelector('.article-body');
+  if (root) {
+    const seen = new Set();
+    const assign = (base) => {
+      let id = base || 'section';
+      let n = 2;
+      while (seen.has(id)) id = `${base}-${n++}`;
+      seen.add(id);
+      return id;
+    };
+
+    root.querySelectorAll('h2').forEach((h) => {
+      if (h.querySelector('.anchor-copy')) {
+        seen.add(h.id);
+        return;
+      }
+      const id = assign(slugify(h.textContent));
+      h.id = id;
+      h.appendChild(makeCopyButton(id));
+    });
+
+    root.querySelectorAll('.mp-soap, .soap-fold').forEach((el) => {
+      if (el.classList.contains('mp-soap') && el.closest('.soap-fold')) return;
+      const title = el.querySelector('.mp-soap__title');
+      const sign = el.querySelector('.mp-soap__sign');
+      const foldTitle = el.classList.contains('soap-fold')
+        ? el.querySelector('.soap-fold__head span:last-child')
+        : null;
+      const text = (foldTitle || title || sign)?.textContent;
+      if (!text) return;
+      const id = assign(slugify(text));
+      el.id = id;
+      const btn = makeCopyButton(id);
+      if (el.classList.contains('soap-fold')) {
+        btn.classList.add('anchor-copy--fold');
+        el.appendChild(btn);
+      } else if (title) {
+        title.appendChild(btn);
+      } else {
+        const eyebrow = el.querySelector('.mp-soap__eyebrow');
+        (eyebrow || el).appendChild(btn);
+      }
+    });
+
+    const hash = decodeURIComponent((window.location.hash || '').slice(1));
+    if (hash && seen.has(hash)) {
+      setTimeout(() => {
+        const el = document.getElementById(hash);
+        if (!el) return;
+        if (el.tagName === 'DETAILS') el.open = true;
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 80);
+    }
+  }
+</script>

@@ -23,7 +23,7 @@ const {
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site || SITE_URL).href;
-// Per-page generated card (see scripts/generate-og.mjs) when provided; portrait fallback otherwise.
+// Per-page generated card (see src/pages/og/[...slug].png.ts) when provided; portrait fallback otherwise.
 const socialImageURL = new URL(ogImage || '/images/matthew-purdon.webp', Astro.site || SITE_URL).href;
 const socialImageAlt = ogImage ? title : 'Portrait of Matthew Purdon';
 const fontStylesheet = 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Serif:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&display=swap';

@@ -1,15 +1,15 @@
 /* matthewpurdon.me — Field Notes index + Topic landing. */
 import DS from './ds/index.js';
 import { SectionLabel, Cover, TopicChip, pad, kicker, LEAF } from './shared.jsx';
-import { POSTS, TOPICS, PROFILE, postNumber } from './data.js';
+import { TOPICS, PROFILE } from './data.js';
 
 const { ArticleCard, Byline } = DS;
 
 const meta = (p, compact = true) => <Byline compact={compact} author="Matthew Purdon" avatar="MP" date={p.date} readingTime={p.time} tag={compact ? undefined : p.category} />;
 
-export function NotesIndex({ t, openPost, openTopic }) {
-  const featured = POSTS.find(p => p.featured) || POSTS[0];
-  const rest = POSTS.filter(p => p !== featured);
+export function NotesIndex({ t, openPost, openTopic, posts }) {
+  const featured = posts.find(p => p.featured) || posts[0];
+  const rest = posts.filter(p => p !== featured);
   const grid = rest.slice(0, 3);
   const list = rest.slice(3);
   return (
@@ -34,7 +34,7 @@ export function NotesIndex({ t, openPost, openTopic }) {
         <ArticleCard variant="hero" accent={featured.accent} category={featured.category}
           href={'/notes/' + featured.slug} onClick={openPost ? (e) => { e.preventDefault(); openPost(featured); } : undefined}
           title={featured.title} dek={featured.dek} meta={meta(featured)}
-          cover={<Cover id="notes-feat" t={t} category={featured.category} accent={featured.accent} ratio="4 / 3" big={postNumber(featured)} />} />
+          cover={<Cover id="notes-feat" t={t} category={featured.category} accent={featured.accent} ratio="4 / 3" big={featured.number} />} />
       </section>
 
       {grid.length > 0 && (
@@ -45,7 +45,7 @@ export function NotesIndex({ t, openPost, openTopic }) {
               <ArticleCard key={p.slug} variant="grid" accent={p.accent} category={p.category}
                 href={'/notes/' + p.slug} onClick={openPost ? (e) => { e.preventDefault(); openPost(p); } : undefined}
                 title={p.title} dek={p.dek} meta={meta(p)}
-                cover={<Cover id={'notes-g' + i} t={t} category={p.category} accent={p.accent} big={postNumber(p)} />} />
+                cover={<Cover id={'notes-g' + i} t={t} category={p.category} accent={p.accent} big={p.number} />} />
             ))}
           </div>
         </section>
@@ -68,7 +68,7 @@ export function NotesIndex({ t, openPost, openTopic }) {
         <SectionLabel t={t}>Browse by topic</SectionLabel>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
           {Object.keys(TOPICS).map(name => {
-            const n = POSTS.filter(p => p.tags.includes(name)).length;
+            const n = posts.filter(p => p.tags.includes(name)).length;
             return <TopicChip key={name} label={name} count={n || undefined} t={t} onClick={openTopic} />;
           })}
         </div>
@@ -77,9 +77,9 @@ export function NotesIndex({ t, openPost, openTopic }) {
   );
 }
 
-export function TopicPage({ topic, t, openPost, openTopic, go }) {
+export function TopicPage({ topic, t, openPost, openTopic, go, posts: allPosts }) {
   const info = TOPICS[topic] || { blurb: 'Posts on this topic.', accent: 'amber' };
-  const posts = POSTS.filter(p => p.tags.includes(topic) || p.category === topic);
+  const posts = allPosts.filter(p => p.tags.includes(topic) || p.category === topic);
   const related = Object.keys(TOPICS).filter(x => x !== topic).slice(0, 6);
   return (
     <main style={{ maxWidth: 880, margin: '0 auto', padding: '0 32px 96px' }}>
@@ -115,7 +115,7 @@ export function TopicPage({ topic, t, openPost, openTopic, go }) {
             <ArticleCard variant="hero" accent={posts[0].accent} category={posts[0].category}
               href={'/notes/' + posts[0].slug} onClick={openPost ? (e) => { e.preventDefault(); openPost(posts[0]); } : undefined}
               title={posts[0].title} dek={posts[0].dek} meta={meta(posts[0])}
-              cover={<Cover id={'topic-feat-' + posts[0].slug} t={t} category={posts[0].category} accent={posts[0].accent} ratio="4 / 3" big={postNumber(posts[0])} />} />
+              cover={<Cover id={'topic-feat-' + posts[0].slug} t={t} category={posts[0].category} accent={posts[0].accent} ratio="4 / 3" big={posts[0].number} />} />
           </div>
         )}
         {posts.slice(1).map((p) => (

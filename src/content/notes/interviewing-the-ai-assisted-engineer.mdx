@@ -1,0 +1,161 @@
+---
+title: "Interviewing the AI-assisted engineer"
+dek: "For a decade, the coding interview measured whether you could produce syntax under pressure. That proxy is broken. If we want to find engineers who can actually ship, we have to stop asking them to write code and start asking them to judge it. On the review round, seeding quiet landmines, and hiring for taste."
+category: "Hiring"
+accent: "canada"
+featured: false
+date: "Jun 3, 2026"
+dateLong: "June 3, 2026"
+time: "10 min read"
+tags: ["Hiring", "AI-Assisted Engineering", "Opinion"]
+---
+
+import DS from '../../ds/index.js';
+import InterviewingTimeline from '../../components/interviewing-timeline.jsx';
+import SoapboxFold from '../../components/SoapboxFold.astro';
+export const { Callout, Soapbox, PullQuote } = DS;
+
+<Callout variant="takeaway" title="The glance">
+  Whiteboard syntax and memorized algorithms are screens for typing speed, not engineering capability. When AI can
+  generate code instantly, the critical skill is no longer production, but curation. Shift your interview to a
+  <strong> live AI-assisted challenge</strong>: hand the candidate a real-world task seeded with quiet logic
+  traps, and calibrate for <strong>judgement</strong> (the ability to translate the true requirements into a
+  rigorous spec), <strong>verification</strong> (can they quickly find where the LLM went off the rails or even
+  better, is about to), and finally <strong>taste</strong> (is the thing that got built actually good in the sense
+  that it's simple, easy to reason about, follows the standards from the rest of the codebase). You will find the
+  engineers whose judgement you would actually trust to run full speed and not take production down at 3 in the
+  morning.
+</Callout>
+
+For a long time, the coding interview measured one thing reasonably well: can you, alone, in a quiet room, turn a problem into working code under time pressure. It was never a great proxy for the job; software development has always been a team sport of building, integration, and maintaining. But it was something. That proxy is now dead. The frontier model in the candidate's editor would ace the take-home.
+
+<Soapbox variant="aside" label="Hot take" signoff="and I mean it">
+
+If your interview can be passed by pasting the prompt into an assistant, you are not screening for engineers. You are screening for people who own a keyboard.
+
+</Soapbox>
+
+I have no interest in making people work in a sterile sandbox, or spending hours on unpaid take-home homework. Instead, we run a live, forty-five-minute coding exercise. We hand them a small, real-world task: fetch data from a public API, transform it, and display it in a clean format. Do the actual job we want you to do. And we explicitly tell them to use AI assistance (Copilot, Cursor, Claude, or whatever feels best).
+
+But there is a catch: that forty-five minutes has to cover both the building *and* the judging. How long the candidate spends coaxing the model to generate the solution eats directly into their review time. The brutal reality of the round is that most candidates never even reach the review; they spend so long navigating the spec and fighting with the model's first drafts that the clock runs out before they can verify a single line of output. The standouts are the ones who steer the model efficiently, get to a stable draft in fifteen minutes, and leave the remaining half-hour to audit the model's silent assumptions and write tests.
+
+## How they build is how they think
+
+Watching someone review the code after the LLM has built something is how you know whether they actually know code, and whether they can spot a failure from the model. It is a pure window into their decision-making. Do they notice the test that asserts nothing? Do they trust the confident, model-generated comment or check the actual API payload? The candidates I want are the ones who can look at what the model produced and find where its logic falls over.
+
+But the most important signal in the entire forty-five minutes is at the very start: **how they translate the challenge description into a specification.** A mediocre candidate copies the raw, messy requirements and pastes them into the prompt window. The standout candidate stops. They reframe, clarify, and translate the product description into a rigorous engineering spec before they ever touch the model. They constrain the AI first, because they know that the quality of the spec determines the fidelity of the generation.
+
+<Callout variant="note">
+  The skill I am hiring for is no longer "can you produce a solution." It is "can you tell, quickly, which of
+  several plausible solutions is the right one — and prove it."
+</Callout>
+
+Conversely, if they spend too much time on the spec, it is a waste of time. We are not writing a treaty; we are coding on a forty-five-minute clock. The candidate needs a sharp sense of "good enough" — the threshold where planning ends and execution starts — and then fall back on the old IRC advice: *TIAS* (try it and see). Build the spec, get the first draft on disk, and run it. You cannot verify a model's assumptions from the chat history; you have to look at the logs of the live environment.
+
+During interview seasons, I sit in these rounds with my local meeting recorder running in developer mode (I built [Grey Eminence](/lab/grey-eminence) specifically to keep these transcripts on my own disk). Reading the transcripts later is a masterclass in calibration. The candidates who "talk the talk" with perfect jargon often fail so friggin hard when they meet the real code, because they are just running their own pattern-matching retrieval loops. But the candidates who can actually ship are different; they are the ones who look at what the model typed and instantly spot the load-bearing flaw.
+
+I script the entire panel as a ninety-minute, high-signal loop so every interviewer runs it the same way:
+
+<InterviewingTimeline />
+
+<PullQuote cite="Matthew Purdon">
+  Generation is cheap now. The expensive thing (the thing they earn a salary for) is judgement about which
+  generated thing to keep.
+</PullQuote>
+
+## Seeding the spec with traps
+
+A great interview challenge doesn't need to be massive. We keep the core task simple (fetch, transform, display) but we seed the requirements description with a few quiet, highly plausible logic traps. We want to see if the candidate's translated specification catches these before they prompt, and whether their code review catches where the model fails them:
+
+<Callout variant="note" title="Seeding the requirements">
+  <div style={{ display: "grid", gridTemplateColumns: "auto 1fr", gap: "0.75rem 0.85rem", marginTop: "0.35rem" }}>
+    <span
+      style={{
+        color: "var(--callout-note-accent)",
+        fontFamily: "var(--font-mono)",
+        fontWeight: "bold",
+        fontSize: "0.95em",
+      }}
+    >
+      01
+    </span>
+    <div>
+      <strong>Seed dynamic windows:</strong> Requirements that demand deriving ranges from the input data rather
+      than hard-coding values. This is the baseline; anyone paying attention finds it.
+    </div>
+
+    <span
+      style={{
+        color: "var(--callout-note-accent)",
+        fontFamily: "var(--font-mono)",
+        fontWeight: "bold",
+        fontSize: "0.95em",
+      }}
+    >
+      02
+    </span>
+    <div>
+      <strong>Seed silent traps:</strong> Edge cases (like off-by-one errors, timezone mismatches, or unhandled
+      empty states) that run fine but yield wrong data. This is where the signal lives.
+    </div>
+
+    <span
+      style={{
+        color: "var(--callout-note-accent)",
+        fontFamily: "var(--font-mono)",
+        fontWeight: "bold",
+        fontSize: "0.95em",
+      }}
+    >
+      03
+    </span>
+    <div>
+      <strong>Seed false alarms:</strong> Something that looks like a bug but is actually a deliberate, documented
+      workaround. We want to see if they verify before they react.
+    </div>
+
+    <span
+      style={{
+        color: "var(--callout-note-accent)",
+        fontFamily: "var(--font-mono)",
+        fontWeight: "bold",
+        fontSize: "0.95em",
+      }}
+    >
+      04
+    </span>
+    <div>
+      <strong>Check the tests:</strong> A model will confidently generate tests that assert nothing (like an empty
+      try-catch block wrapping an assertion, or <code>expect(true).toBe(true)</code>). We watch to see if they
+      inspect the test assertions.
+    </div>
+  </div>
+</Callout>
+
+The candidate's job isn't to nitpick the formatting or complain about the naming style. I want the ones who reframe the spec, find the load-bearing logic bug during review, and refuse to ship until it is verified. Nitpicking is cheap; triage is the job.
+
+## What I stopped weighting
+
+I no longer care about speed of typing. I have never felt any value in LeetCode-like challenges; I have always valued real-world examples (fetch data from this API, process and display it). Do the job we actually want you to do. None of those abstract puzzle algorithms predict who is good on a team where most first drafts arrive from a model.
+
+What predicts it is simple: knowing when a thing is done, knowing when it is wrong, and being honest about which of the two you are looking at.
+
+<Callout variant="tip" title="Make it concrete">
+  Always run the exercise against a small, working local dev environment. If the candidate says "I think this
+  would crash if the array is empty," do not just agree. Say: "Let's run it and see." Watch how they debug the
+  live feedback.
+</Callout>
+
+None of this is a clean science. I am still calibrating, still arguing with my own panel about what a "strong no" looks like. But the shape is clear enough to commit to: hire for taste and judgement, interview by handing people work to evaluate instead of work to produce, and stop pretending the keyboard is the bottleneck.
+
+It is exhausting, of course. Interviewing is heavy, non-linear work, and when you are staring at your third panel of the week while your own backlog is pile-up high, it is easy to treat it like overhead. That is a dangerous mistake. Hiring someone onto your team is the single most important thing you can do as an engineer. Much like jury duty, it can often feel like a waste of time, a chore that takes you away from your "real" work. But you cannot let fatigue win out. Safeguarding who joins your team is a necessary part of engineering culture and team cohesion, the same way participating in a jury is a key underpinning for a functioning society. You are guarding the joy of delivering surprises that make your users love the work you do. You are guarding the work/life balance of yourself and your teammates.
+
+<SoapboxFold title="Stop asking for the steak knives" signoff="hire the judge, not the keyboard">
+
+OMG, I am so tired of the whiteboard puzzle interview. We are hiring people to build systems, not to re-implement Dijkstra's algorithm from memory on a virtual wall while three people pretend to watch while checking their email. If a model can do that in two shakes of a lamb's tail, what are we even testing? We are testing if they spent two weeks memorizing Leetcode.
+
+I mean ... the typing is never the bottleneck. It never was! But we spent twenty years pretending it was because it was easy to count. Now the machine can type ten thousand lines of absolute crap a minute, and we're still screening for typing speed. It's friggin' embarrassing.
+
+If you keep testing people on how fast they can spit out syntax, you'll end up with a team that can generate code they can't explain, and review processes that turn into rubber stamps. Stop treating your interview loop like a Glengarry boiler room. Put the whiteboard down. Coffee is for coders, but the Cadillac is for curators. Stop asking for the steak knives. ABC: Always Be Curating.
+
+</SoapboxFold>

@@ -1,17 +1,23 @@
 ---
-import { PROJECTS } from '../../data.js';
+import { getProjects } from '../../lib/content.js';
 import { ogVersion } from '../../og-version.js';
 import Layout from '../../layouts/Layout.astro';
-import { ProjectDetail } from '../../lab.jsx';
+import LabLayout from '../../layouts/LabLayout.astro';
+import { getEntry, render } from 'astro:content';
 
 export async function getStaticPaths() {
-  return PROJECTS.map((project) => ({
+  const projects = await getProjects();
+  return projects.map((project) => ({
     params: { slug: project.slug },
     props: { project },
   }));
 }
 
 const { project } = Astro.props;
+
+// Body comes from the MDX collection entry (one .mdx per slug).
+const entry = await getEntry('lab', project.slug);
+const { Content } = await render(entry);
 
 const appSchema = {
   "@context": "https://schema.org",
@@ -20,14 +26,6 @@ const appSchema = {
   "description": project.tagline,
   "softwareRequirements": project.stack.join(", "),
   "downloadUrl": project.link
-};
-
-const SETTINGS = {
-  hero: 'portrait',
-  labStyle: 'cards',
-  density: 'comfortable',
-  covers: 'typographic',
-  red: 'bold',
 };
 ---
 
@@ -43,9 +41,7 @@ const SETTINGS = {
     { name: project.name, path: `/lab/${project.slug}` }
   ]}
 >
-  <ProjectDetail
-    project={project}
-    t={SETTINGS}
-    client:load
-  />
+  <LabLayout project={project}>
+    <Content />
+  </LabLayout>
 </Layout>

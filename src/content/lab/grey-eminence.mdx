@@ -1,0 +1,98 @@
+---
+name: "Grey Eminence"
+type: "Software"
+ai: true
+status: "Live"
+accent: "teal"
+featured: true
+tagline: "A native macOS meeting recorder that never joins the call: on-device transcription, speaker diarization, and a Claude-powered memory of everything said."
+summary: "Records the mic and system audio with Core Audio taps, transcribes both on the Neural Engine while the meeting runs, then re-transcribes with a larger Whisper model after. Claude turns transcripts into summaries, action items, and answers; an interview mode scores candidates against rubrics with evidence quotes."
+stack: ["Swift 6", "SwiftUI", "WhisperKit", "Core Audio", "Claude API"]
+link: "https://github.com/mpurdon/greyeminence"
+linkLabel: "Source on GitHub"
+year: "2026"
+date: "May 29, 2026"
+---
+
+import DS from '../../ds/index.js';
+export const { Callout, Soapbox, PullQuote } = DS;
+
+A grey eminence is the advisor who stands behind the throne and hears everything. It felt like the right name for a meeting recorder that never joins the call.
+
+It started as an itch about ownership. I sit in meetings all day and interview engineers in hiring seasons, and the record of those conversations kept living everywhere except with me: a bot in the participant list here, a vendor transcript behind a paywall there, an export button that produces a PDF nobody opens twice. Notion was the popular answer around me, and Notion was the problem: its meeting notes land in the shared workspace where everyone can read them, and my week includes confidential calls and calls for other clients that have no business in a team wiki. A note-taker that publishes by default is a liability with a nice font. I wanted the recording on my disk, the transcript in my index, and nothing leaving the machine except the transcript text I deliberately send to Claude (my key, my call). And when something does go to the model, I wanted to own the instructions too: the prompts that shape the summaries, the action items, and the open questions are mine to read and rewrite, not a vendor's fixed idea of what a recap should be.
+
+So I built it native: tap the microphone and the system audio (Core Audio taps, so Teams, Zoom, Meet, and a conference talk in a browser tab all look identical), transcribe both channels on the Neural Engine while the meeting is still happening, work out who said what, and distill it all into summaries, action items, follow-up questions, and a searchable memory of everything I have heard. Then I spent three months discovering why nobody ships this as a weekend project.
+
+One early decision paid for itself the entire build: the app ships with a developer mode. Flip it on and the recorder starts explaining itself; an activity log appears in the sidebar, every transcript segment grows a debug row showing exactly why the deduplicator did or did not fire on it, the prompts going to Claude become editable in place, and a storage panel itemizes what the database, the recordings, and the backups actually cost on disk. My test environment was my own nine-o'clock standup, and you cannot re-run yesterday's meeting under a debugger. Most of the bugs in this story were found because the app could show its work.
+
+## Why native, and not Electron or Tauri
+
+<Soapbox variant="aside" label="Hot take" signoff="and yes, Tauri counts">
+
+Cross-platform frameworks make easy apps portable. They do not make hard apps easy, and the hard eighty percent of this app does not speak JavaScript.
+
+</Soapbox>
+
+The framework debate evaporated the moment I listed what the app actually does. System-audio capture is Core Audio taps. On-device transcription is CoreML on the Neural Engine, by way of WhisperKit and FluidAudio. Diarization is the same story. None of that is reachable from a webview; in Electron (or Tauri, if you prefer your web apps wrapped in Rust) I would have written the entire audio and ML engine as a native helper anyway, then spent my evenings shuttling buffers across an IPC boundary so a bundled browser could draw a list.
+
+The second reason is residency. A meeting recorder runs all day, every day, beside the calls it is recording; it does not get to spike the fans or squat on half a gigabyte of memory the way a tool you open twice a week might. Swift, SwiftUI, and the Neural Engine keep live transcription cheap enough that you forget it is running, and that is the entire bar for this kind of software: you should forget it is running.
+
+Native had costs and I paid them. Swift 6 strict concurrency catches most data races at compile time; the one that got through (a closure capturing the same locals a function had taken as `inout`) crashed the app at launch, before I could even reach the logs, and took dsym-and-dwarfdump archaeology on a release build to pin down. I would still make the same trade.
+
+## Everyone says everything twice
+
+The first long transcript I read back had a stutter. Every line from the far side of the call appeared twice: one crisp, one slightly wrong, a beat later. I assumed the transcriber was broken. The bug was physics: the other side of the call comes out of your speakers and goes straight back in through your microphone, so recording both channels means transcribing everyone twice.
+
+The naive fix (drop mic segments whose text matches a system segment) caught approximately nothing, because two transcription passes never spell anything the same way. The same engine that spent a week transcribing my boss Erin as "Aaron", with her name boosted in the custom vocabulary at maximum weight, was never going to hand me byte-identical duplicates. What finally worked was fuzzy text matching with a time gate, and the real discovery was which half did the work. Similarity finds the candidates, but time is what makes deleting words safe: people repeat themselves on purpose constantly, and matching on text alone was erasing real speech. The echo always arrives within seconds. Time was the strongest feature.
+
+<Callout variant="note" title="Under the hood">
+  Segments match when their character-bigram overlap (a Dice coefficient) clears 0.45 and their midpoints land within fifteen seconds; the mic copy may trail the system copy by up to eight seconds (room echo plus transcription lag) and lead it by two (timestamp jitter). The system copy wins every time; the tap is the cleaner signal. None of these numbers came from theory: developer mode renders gap, delay, and similarity under every mic segment with a pass or fail verdict, and the thresholds were read off those rows over weeks of real meetings.
+</Callout>
+
+## A fast liar and a slow perfectionist
+
+I assumed I needed one good transcription model. I actually needed two flawed ones, flawed in opposite directions. During the meeting, latency wins: a small streaming model keeps the words close enough to real time to read along, and you forgive its sins because they scroll past. After the meeting, accuracy wins: the recording goes back through a model thirty times the size, and that version quietly replaces the live one as the document of record.
+
+Re-transcribing an hour of audio is a long job on a machine that might sleep, restart, or get dragged into another meeting, so the job checkpoints its progress and resumes. My first version resumed automatically, which is how I invented a tiny perpetual-motion machine: a wedged job that woke on every launch, failed the same way, and queued itself again. Failed jobs now sit and wait for a human to click Retry; some decisions should cost a click. Whisper also hallucinates politeness in dead air (it famously hears "Thank you." in silence), so quiet chunks are skipped and the known ghost phrases are filtered out.
+
+<Callout variant="note" title="Under the hood">
+  Live transcription is Parakeet, a 0.6-billion-parameter streaming model on the Neural Engine. The archival pass is Whisper large-v3-turbo, a 1.5 GB download that re-transcribes both channels, then re-runs the AI analysis and rebuilds the search index, because every downstream artifact was derived from the worse transcript. Progress lands in a JSON sidecar every five chunks, so a crash resumes instead of restarting.
+</Callout>
+
+## Audio is the receipt; words are the asset
+
+An hour of raw audio is a gigabyte-class problem; an hour of transcript is a rounding error. I never had to guess where optimizing would pay: the developer pane's storage breakdown made it embarrassing, recordings dwarfing the database and everything else on disk combined. That asymmetry ended up shaping the whole storage story: compress the audio hard, finalize it in small pieces while the meeting runs, and split retention in two, because the transcript is what you will actually search next quarter. The audio just proves it happened.
+
+<Callout variant="tip" title="The arithmetic">
+  Speech compresses to mono AAC at roughly 32 kbps: about fifteen megabytes per hour, written as a series of small files finalized as the meeting runs, so a crash costs seconds of audio rather than the meeting. Audio can purge after a configurable number of days; transcripts are kept forever.
+</Callout>
+
+## Every bug fix ships with a janitor
+
+My favourite discovery was about a bug I had already fixed. A deletion bug left orphaned search embeddings behind; I fixed it and felt good for about a day, until search quoted a deleted meeting back at me. Fixing the bug had stopped new damage. The old damage was still sitting in the database, haunting the index.
+
+So the app now runs a maintenance pass at launch (throttled to once a day): delete orphans, clear zombie "analyzing" flags from meetings that died mid-flight, backfill fields that older versions never wrote, wrap legacy records in the shapes newer features expect. Once that habit exists, every fix comes with the same two questions: what did this leave behind, and who cleans it up? The answer cannot be me: every install is a production database I will never get to log into.
+
+## The laptop is not a server
+
+Everything heavy (re-transcription, AI analysis, re-indexing) flows through one background queue with one worker, which sounds timid until you remember what that queue shares the machine with. The moment a new recording starts, the queue parks its job mid-stride (checkpoint kept) and hands the Neural Engine back to the live call, picking up again when the meeting ends. It also refuses to start without a gigabyte of free disk, because the only thing worse than a slow background job is a full disk during a live interview.
+
+<PullQuote cite="Matthew Purdon">
+  On a server you fight for throughput; on a laptop you yield. The user's meeting is the high-priority workload, always.
+</PullQuote>
+
+## Summaries all the way down, again
+
+Claude reads every transcript twice: a rolling pass during the meeting (the summary so far, action items paired with the exact quote that produced them, follow-up questions that are genuine blockers rather than paraphrases) and a cleanup pass at the end. The plumbing lesson was old news: never trust a model to return clean JSON. The parser clips to the outermost braces, salvages truncated responses, and falls back to the last good state rather than taking the meeting down with it.
+
+The retrieval lesson was personal. "Ask" searches every meeting I have ever recorded, blending keyword scoring with on-device embeddings. One evening I asked it what we had decided about a migration, and it answered with its own meeting summaries; the index had been quietly preferring the AI's compressions over the humans' words. I had written an entire article about exactly this failure and then built it into my own software. Only transcript segments are allowed to match a query now. And when the ranking still looked broken afterward, the fix was not in the math: what I spent a night treating as a bad blend weight turned out to be a half-empty embedding store. Missing data masquerades as bad ranking; check the data before you tune. (Also, Apple's NLEmbedding is not thread-safe. That one shipped, crashed in the wild, and now lives behind a lock.)
+
+## The interviewing half
+
+Somewhere along the way the app grew a second identity: a structured interview tool. Phases with time boxes, rubrics with weighted sections, keyboard-first live notes, and AI scoring that grades each section with evidence quotes pulled from the transcript (and an honest F, with a reason, for anything the interview never covered). My judgement and the model's sit side by side on the scorecard, and they are allowed to disagree.
+
+I am leaving that half mostly untold on purpose. How the interview kit works, and what building it taught me about hiring engineers in the AI-assisted era, deserves its own piece; it is the next Field Note I want to write.
+
+<Callout variant="note" title="Coming to Field Notes">
+  Hiring in the AI-assisted engineering era: what changes when the candidate, the interviewer, and the scorecard all have a model in the loop. This page will link to it when it ships.
+</Callout>

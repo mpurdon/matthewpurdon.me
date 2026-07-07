@@ -1,0 +1,90 @@
+---
+name: "matthewpurdon.me + design system"
+type: "Software"
+ai: true
+status: "Live"
+accent: "canada"
+featured: true
+tagline: "This site and the dark, data-forward design system under it: a look distilled from sites I admire, a voice cloned from my own Teams messages, and every page built in three layers."
+summary: "A look inspired by the State of AI 2026 report and a few personal sites I admire, formalized into a 25-component monorepo, then reverse-engineered into a spec an agent can follow: a README brand book, a Claude Code skill, and one self-contained bundle. The writing voice comes from a Cowork analysis of 500 of my own Teams messages, and the content model follows the glance/brief/full layering argued in the first Field Note."
+stack: ["React", "Vite", "Design tokens", "Claude", "Cowork"]
+link: "https://github.com/mpurdon/matthewpurdon.me"
+linkLabel: "Source on GitHub"
+year: "2026"
+date: "June 11, 2026"
+---
+
+import DS from '../../ds/index.js';
+export const { Callout, Soapbox, PullQuote } = DS;
+
+This is the recursive entry: the Lab page about the site the Lab lives on. The site went from git init to roughly what you are reading in three days in June, and the three days are honestly the least interesting number on the page.
+
+The interesting part is that almost nothing here started from a blank file. The look was distilled from a shortlist of sites I admire. The voice was mined out of five hundred of my own Teams messages. The structure of every page is an argument from my first Field Note, applied to the site that published it. What follows is the long version of all three.
+
+## A design system with no design phase
+
+This project started as a bookmarks folder, not a brief. The State of AI 2026 report: IBM Plex Mono on warm charcoal, one big amber number leading every section. My coworker Teancum's [besendorfer.com](https://besendorfer.com): quiet, completely deliberate, and it has a live status dot I am still jealous of. A few others I kept coming back to. I knew the feel I wanted; what stood between me and having it was the part I dreaded (moodboards, font pairings, three weeks of self-doubt in Figma).
+
+So I skipped the brief and went straight to the evidence. The State of AI report was the closest match to the voice I wanted, so I pointed Claude at the live site and asked it to formalize what I admired: read the colors out of the live styles, measure the spacing instead of eyeballing it, rebuild the result as a real monorepo. An afternoon later I had a token layer, twenty-five React components, a shadcn-style CLI, and a Storybook, and the tokens file is honest about its parentage ("extracted directly from the live site's inline styles and compiled stylesheet").
+
+Measuring mattered more than I expected. Inspiration usually degrades on the way from the eye to the stylesheet; you rebuild what you admired from memory and end up with a copy of a copy, neither yours nor theirs. Starting from true values left all my attention for the parts that are mine: what to keep, what to drop, what to build on top. Most of what this page actually looks like (the serif, the red, the leaf, the Soapbox) appears in none of the sources. We will get there.
+
+<Callout variant="note" title="Under the hood">
+  135 CSS custom properties in the token layer (color, type, spacing, radii, shadows, motion). 25 components across forms, overlays, navigation, and data viz, about 4,700 lines of TSX. A ds-ui CLI in the shadcn style (init / add / list / diff) and a dark-themed Storybook 8, all in a pnpm-plus-Turborepo monorepo built on June 2, a week before this site existed.
+</Callout>
+
+## The spec's real audience is an agent
+
+Here is the part I find genuinely new: the monorepo never gets imported. This site does not install the design system as a package; there is no node_modules path from one to the other. Instead I mounted the monorepo read-only into a Claude session and had it reverse-engineer the code back into prose: a README that reads like a brand book, with the whole identity compressed into one line ("set type in IBM Plex Mono, paint on warm charcoal #242220, lead with one big amber number, and keep corners crisp"); a SKILL.md wrapper so the system loads straight into Claude Code as a skill; and one self-contained bundle that hangs forty-four components on a window namespace.
+
+Follow the chain: a website was turned into code, the code was turned into a document, and the document was turned into this website. The middle step looks backwards until you ask who a design system is for now. Mine has exactly one consumer, and it was never going to be a developer reading Storybook; it is an agent holding a spec. Components encode what things look like. The README encodes taste: when the inverted cream section is allowed, why corners stay crisp, what the uppercase mono eyebrow is for. Hand that to a model and ask for a page that does not exist yet, and it comes back on brand. I stopped maintaining a component library and started maintaining a description of one, and the description turned out to be the more valuable artifact.
+
+<PullQuote cite="Matthew Purdon">
+  The components used to be the product and the documentation was the chore. With an agent in the loop it flips: the document is the design system.
+</PullQuote>
+
+## A report can't hold a rant
+
+<Soapbox variant="aside" label="Hot take" title="Lorem ipsum is a noob move" signoff="content is the whole job">
+
+Every demo screen in the system is populated with realistic content, because whenever I see lorem ipsum now I think it's a noob move. LLMs can generate plausible fake data so easily it's dumb to force a layout to hold something generic and meaningless. Fake latin hides every real problem: the headline that wraps badly, the table that breaks at real widths, the card that only works when the title is short. you know what never says lorem ipsum? a shipped page.
+
+</Soapbox>
+
+The foundation I started from was tailored for a data desk: third person, impersonal ("76% of respondents report daily use"), allergic to opinion. I am a guy with opinions, and a personal site that cannot hold a rant is a brochure. So the blog layer extends the system rather than replacing it. IBM Plex Serif for article bodies (all-mono is tiring at article length, and Plex Serif shares the mono's metrics so the pairing looks intentional). A Canada-red co-brand, warmed a few degrees so it harmonises with amber instead of fighting it. A maple leaf drawn from scratch; there was no Canadian identity in the sources, so this part is all mine. And the magazine devices: drop caps, pull quotes with the oversized quotation mark, callouts in four flavours, and the one I am proudest of, the Soapbox.
+
+The Soapbox is borrowed in spirit from Fluent Python, the only technical book I know that gives the author a formal place to step off the material and editorialize. Here it is a titled, red-edged box with a faint maple leaf in the corner, and it has rules. It comes in three sizes (a full-width section, an inline block, and an aside that floats into the right margin on wide screens, like the one beside this paragraph), and at the end of an article it ships folded: collapsed to its title, pulsing gently, opening only if you ask. The rant is opt-in; the prose stays calm. Keeping those two registers honestly separated turned out to need a document of its own.
+
+## Five hundred messages of me
+
+The site could look like a magazine and still read like a model. Early drafts had exactly that problem: grammatically perfect, structurally sound, and written by nobody in particular. The obvious fix (telling the model "write like me") is useless, because I am the least qualified person alive to describe how I write. Nobody hears their own accent.
+
+So I had it read the evidence instead. In a Cowork session with the Teams connector, I had Claude search my sent messages (mine only, filtered to me as the sender), paginate until it held about 250 of them, and analyze the corpus like a linguist: sentence rhythm, punctuation tells, signature lexicon, hyperbole patterns, how I praise, how I push back. Then the step that made it real: a second, independent sample of 250 messages from six weeks earlier, so the guide would not be (in the prompt's words) a local maximum of one week's mood. The two samples matched almost exactly. I am, apparently, extremely consistent, for better or worse.
+
+<Callout variant="note" title="The output: my voice, one paragraph">
+  "Matthew's written voice is conversational and unfiltered: fast, blunt, lowercase, and allergic to ceremony. He's a senior engineer/leader who compresses strong opinions into short bursts, swings between deadpan one-word dismissals ('brutal', 'rediculous') and ALL-CAPS exasperation ('WHAT ARE WE DOING?!?!?!?'), and softens the bluntness with self-aware humor, teasing, and genuine warmth toward people doing good work. He is, in his own words, 'prone to extremes so flipping tables is not unexpected.' He never performs politeness he doesn't feel, and he never pads."
+</Callout>
+
+The guide has rules I did not expect to need. Accidental typos are not style ("jsut" is fast typing; "prolly" is the fingerprint, and only one of them belongs in the guide). Every coworker name is scrubbed to a placeholder so the file is safe to share. Every claim has to be backable by a quoted message, which means the guide describes how I type and refuses to speculate about how I sound in a meeting. And it governs this site mechanically now: article prose gets the tight register, and the loose Teams voice (the "yeah", the " ... " pause, the "brutal") is only allowed inside a Soapbox. The two registers you have been reading on this page are not an accident; they are policy.
+
+The prompt is public and reusable: [Find Your Voice](https://gist.github.com/mpurdon/46fe27a1abc046bc5f41d739870c8638). Bring your own messages. The optional last step asks the model to hold up a mirror and tell you, honestly, how your style lands with the people who receive it. Do not skip that step; it is the best part.
+
+<Soapbox label="Hot take" title="Specs were training wheels" signoff="taste is the job now">
+
+A year ago I would have told you the spec was everything. Detailed requirements, acceptance criteria, the works ... the models needed the rails, because any gap you left, they filled with something dumb. Then somewhere in the last six months that quietly stopped being true, and a lot of people haven't noticed. The models got good enough that the spec is no longer the bottleneck. What made the difference on this site wasn't describing the thing precisely; it was handing the model everything: the live site to measure, the monorepo to read, the voice guide, the article with the argument in it. Resources, not requirements. Give it the raw material and let it take a real first pass.
+
+Then the actual job starts, which is iterating. The first pass is never right; it's just real enough to react to. I look at it and something feels off ... the spacing is too tight, the rant reads fake, the red fights the amber ... and half the time I couldn't have told you the rule before I saw it broken. That's the part I bring. The model does volume; I do "warmer", "tighter", "that's not me". You can't spec what feels good, because you don't know what feels good until it's in front of you, you know? Taste doesn't go in the prompt. Taste is the loop.
+
+</Soapbox>
+
+## Glance, brief, full
+
+My first Field Note, [Summaries all the way down](/notes/summaries-all-the-way-down), argues that the deadliest failure in how organizations communicate is the compression chain: every summary of a summary drops the caveat first, and the fix is not better summaries but layered ones (a ten-second glance, a two-minute brief, and the full detail attached, always). The awkward thing about publishing an argument is that your own site has to survive being measured against it.
+
+So the content model encodes the three layers structurally. Every Lab project is a tagline you can read on the index card (the glance), a lead and a metadata strip at the top of its page (the brief), and the long story underneath (the full). Field Notes do it with the dek, the callouts, and the prose. Nothing on this site is a summary of something you cannot reach; the deeper layer is always attached, one click or one scroll away, written once at the source instead of regenerated downstream.
+
+<Callout variant="takeaway" title="The house rule">
+  Everything ships in three depths: a glance (the card), a brief (the lead and the metadata), and the full story, attached. If a layer cannot be traced down to the layer below it, it does not ship. The site has to practice what the first article preaches, because readers would (correctly) check.
+</Callout>
+
+Which makes this page the full layer of an entry about the system of layers, drafted by an agent reading a guide to my voice, styled by a design system that exists as a document an agent can read. The card you clicked was the glance. You just finished the full.

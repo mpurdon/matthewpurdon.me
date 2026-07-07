@@ -1,0 +1,67 @@
+---
+title: "Postman was a workaround"
+dek: "I set out to explore a sparsely documented API in Postman and lasted about an hour before I gave up and built the client I actually wanted. The generic tool was only ever a workaround for a cost that just evaporated: building the specific thing yourself. On why buy-over-build is dying, why most of your code is now disposable, and the access-patterns-to-spec-to-code ritual I build with now."
+category: "AI-Assisted Engineering"
+accent: "canada"
+featured: false
+date: "Jul 6, 2026"
+dateLong: "July 6, 2026"
+time: "9 min read"
+tags: ["AI-Assisted Engineering", "The New SDLC", "Opinion"]
+---
+
+import DS from '../../ds/index.js';
+import SoapboxFold from '../../components/SoapboxFold.astro';
+export const { Callout, Soapbox, PullQuote } = DS;
+
+<Callout variant="takeaway" title="The glance">
+  For years we squinted at raw JSON in a generic REST client because building a real UI for an API cost you an afternoon of plumbing, so renting the generic tool was the rational trade. Agents collapsed that cost, and the trade quietly inverted: a bespoke app that answers your one actual question is now faster to build than the generic tool is to learn, env vars and auth and payloads and all, and it keeps what you figured out as working, debuggable code instead of a folder of requests that worked once. The same flip is coming for a whole shelf of tools that sold you "building this yourself is too expensive." Here is the argument, why the code is not the point, and how I just build the tool now instead of shopping for one.
+</Callout>
+
+Last winter I set out to explore a sparsely documented API the way we all learned to: open Postman, build a collection, poke at endpoints until the shapes make sense. I lasted about an hour. Then I closed it, described the app I actually wanted to a coding agent, and had a working client that evening (the whole war story lives in the [Lab](/lab/evalu8), if you want the play-by-play). The app was better than the collection in every way that mattered, and somewhere in there a suspicion I had been circling for months finally hardened into a sentence: Postman was never a tool. It was a workaround. I uninstalled it.
+
+## Why "REST client" is even a category
+
+The only reason a generic REST client is a software category at all is that building a real UI for an API used to cost you a real afternoon. Nobody was going to wire up auth and a client and a table for a bespoke view just to look at one endpoint, so we all agreed to squint at raw JSON in a tool designed for the average of every API on earth. That was a reasonable trade at the old prices. It bought you a way to see a response without writing a line of your own code.
+
+And then the workaround grew the way workarounds do. Collections, environments, pre-request scripts, tests written in JavaScript against your responses. Somewhere in that list you are quietly coding again, except you are doing it in a runtime you cannot version, in a UI somebody else designed, and the artifact at the end is a collection that remembers the three requests that worked once and exactly none of what you learned getting there. The knowledge, the part you actually paid for in time, evaporates the moment you close the tab, and there is nothing to hand the next person.
+
+<Soapbox variant="aside" label="Hot take" signoff="the workaround outlived the problem">
+
+Postman is a coping mechanism that got funding. We took "squinting at raw JSON" and shipped it as a product category, then a platform, then a seat license for the whole org ... and at no point in that glow-up did anyone stop to check whether the thing it was working around still needed working around. It doesn't. It's a total waste of time.
+
+</Soapbox>
+
+Here is the part that changed. When an agent can stand up a real, typed UI for your specific API in the blink of an eye (ok a slow blink but still), the bespoke app costs less than learning the generic tool, and it answers the exact thing you asked instead of making you reassemble that question as a workflow in somebody else's request builder. You know the dance: click Auth to get a token (assuming you set the env vars right), click List so a post-request script can stash the first item's ID, click Get to pull that item back with the stashed ID, click Update to change it, then click Get one last time to confirm the change took. So many clicks, so much ceremony, and you get to run the whole gauntlet again the next time you need the answer.
+
+The bespoke app just answers it, and it keeps what you learned getting there. Every guess that survived contact with the API lives in a function; every losing guess sits in a comment right next to it. Close the laptop, reopen it four months later, and the understanding is still there in the code: click the button and it runs every step without you having to remember or guess a single one. The collection never gave you that. It was never designed to.
+
+## The code stopped being the point
+
+There is a second thing hiding under the first, and it is bigger than Postman. When generating the whole app costs an evening, code stops being something you pour your heart into and quietly becomes disposable: the by-product of an answer, not a possession. For a task that small I did not read the source, did not review it, and I genuinely do not care how it is written. The only question that earns any attention is whether it returns the right rows.
+
+<PullQuote cite="Matthew Purdon">
+  No customer has ever asked for cleaner code in a survey. They want features that work.
+</PullQuote>
+
+This is not an argument against craft. Care about the craft when the software has to live, when other people depend on it, when money rides on it being right at three in the morning. That is most of the software I build, and it earns every ounce of the attention it gets. But when the thing is just a means to answer a question, fussing over how it is written is a reflex left over from when writing it was the expensive part. Just give me the answer.
+
+## Access patterns, spec, code
+
+So if you are not renting the generic tool, what replaces it without turning every question into a weekend project? For me it has hardened into three moves I now run almost without thinking.
+
+First, write down the access patterns: the short list of questions you actually need answered. Not the schema, not the endpoints, the questions. "Every call we ever had with this phone number." "This transcript beside the scorecard the human filled in." Second, generate a spec from those, and it barely matters which kind: an OpenAPI document, a page of user stories, a markdown file, or honestly just the chat log where you hammered it out. The point is a shape you can read and debate, with yourself and with the planning agent, before a single line of code exists. Third, generate the thing from that spec, but not from a bare model, from one carrying my [taste and judgement](/notes/judgement-is-the-job-now) as standing instructions, so the code lands in my idioms with my guardrails already applied.
+
+Access patterns, spec, code. Then profit. And notice what is precious in that chain and what is not: not the code, which is disposable, and not the spec, which was scaffolding. The access patterns are the only thing I would mourn if I lost them, and you can just put those in the README. Easy. The app is a facade over the API, shaped like the question instead of like the vendor's sometimes janky endpoints; the generic client was only ever the adapter. When the question dies, delete the app if you are short on disk space, or just forget it exists. You kept the thing that mattered.
+
+<SoapboxFold title="So long, Postman" signoff="and thanks for all the fish">
+
+Look at what Postman actually did to try to escape its fate: it became a "platform." Workspaces, governance, an API network, a seat license for the whole org, and ads on TV for the suits to bring up in the next all-hands... "Hey, have we considered Postman for any of this?" This is exactly the move a tool makes when the reason it existed has been vaporized and it needs to bolt on a new one before the shareholders and PE get wind of it. That is not growth in new verticals, that is a search party looking for a body that's already in the morgue.
+
+And it is not just them. A whole generation of tools sold you the same line: "building this yourself is too expensive." Entire industries of people who are "experts in increasing MRR" have risen up to take advantage of the fact that people were trapped. Don't believe me? How many times have you been in the discussion around having to fork over cash to some *Sales Bro™* for the "enterprise" plan just to get SSO?!?! It felt gross every time, didn't it?
+
+The conventional wisdom was correct! Right up until it wasn't. The shared collection, the generic dashboard, yet another configuration and permission set to figure out, all of it was a tax we paid because the alternative used to hurt more. The alternative doesn't hurt anymore, and no amount of bloatware bolts a reason to exist back onto a thing nobody needs. The SaaS model is under real strain, and this is a big part of why: a lot of it was priced against the cost of you building the specific thing, and that cost just fell through the floor.
+
+So long, Postman, and thanks for all the fish.
+
+</SoapboxFold>

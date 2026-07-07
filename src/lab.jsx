@@ -1,11 +1,7 @@
 /* matthewpurdon.me — Lab index + project detail. */
 import { useRef } from 'react';
 import DS from './ds/index.js';
-import { SectionLabel, pad, TypeBadge, AIBadge, kicker, TYPE_META, useDeepAnchors } from './shared.jsx';
-import { PROJECTS } from './data.js';
-import { PROJECT_BODIES } from './lab-bodies.jsx';
-
-const { Prose } = DS;
+import { SectionLabel, pad, TypeBadge, AIBadge, kicker, TYPE_META } from './shared.jsx';
 
 function StackRow({ stack }) {
   return (
@@ -94,9 +90,9 @@ function CardsGrid({ items, openProject }) {
   );
 }
 
-export function LabIndex({ t, openProject, go }) {
-  const featured = PROJECTS.find(p => p.featured) || PROJECTS[0];
-  const rest = PROJECTS.filter(p => p !== featured);
+export function LabIndex({ t, openProject, go, projects }) {
+  const featured = projects.find(p => p.featured) || projects[0];
+  const rest = projects.filter(p => p !== featured);
   return (
     <main style={{ maxWidth: 1080, margin: '0 auto', padding: '0 32px 96px' }}>
       <section style={{ padding: pad(t, '64px 0 40px', '44px 0 30px'), borderBottom: '1px solid var(--border)' }}>
@@ -126,58 +122,6 @@ export function LabIndex({ t, openProject, go }) {
         </section>
       )}
 
-    </main>
-  );
-}
-
-export function ProjectDetail({ project: pr, t, go, openProject }) {
-  const others = PROJECTS.filter(x => x.slug !== pr.slug).slice(0, 3);
-  const Body = PROJECT_BODIES[pr.slug];
-  const bodyRef = useRef(null);
-  useDeepAnchors(bodyRef, [pr.slug]);
-  return (
-    <main style={{ maxWidth: 820, margin: '0 auto', padding: '0 32px 96px' }}>
-      <header style={{ padding: '56px 0 28px' }}>
-        <a href="/lab" onClick={go ? (e) => { e.preventDefault(); go('lab'); } : undefined} style={{ fontFamily: 'var(--font-label)', textTransform: 'uppercase', letterSpacing: 'var(--tracking-wider)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--text-muted)', textDecoration: 'none' }}>← Lab Reports</a>
-        <div style={{ display: 'flex', gap: 8, margin: '20px 0 16px' }}><TypeBadge type={pr.type} />{pr.ai && <AIBadge />}</div>
-        <h1 style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: 'clamp(30px, 4.4vw, 48px)', lineHeight: 1.06, letterSpacing: '-0.03em', margin: '0 0 18px', color: 'var(--text-primary)', textWrap: 'balance' }}>{pr.name}</h1>
-        <p style={{ fontFamily: 'var(--font-prose)', fontSize: 'var(--prose-lead)', lineHeight: 1.5, color: 'var(--text-secondary)', maxWidth: 640, margin: 0 }}>{pr.tagline}</p>
-      </header>
-
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 28, padding: '22px 0', borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)', marginBottom: 8 }}>
-        {[['Type', pr.type], ['Status', pr.status], pr.date ? ['Date', pr.date] : ['Year', pr.year], ['AI partner', pr.ai ? 'Yes' : 'No']].map(([k, v]) => (
-          <div key={k}>
-            <p style={{ fontFamily: 'var(--font-label)', fontSize: 'var(--text-xs)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: 'var(--tracking-wide)', color: 'var(--text-muted)', margin: '0 0 5px' }}>{k}</p>
-            <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-base)', color: 'var(--text-primary)', margin: 0 }}>{v}</p>
-          </div>
-        ))}
-      </div>
-
-      <div ref={bodyRef} style={{ padding: '28px 0 8px' }}>
-        <Prose style={{ maxWidth: '100%' }}>
-          {Body ? <Body /> : <p>{pr.summary}</p>}
-        </Prose>
-        <div style={{ margin: '26px 0' }}><StackRow stack={pr.stack} /></div>
-        <a href={pr.link} target="_blank" rel="noopener noreferrer"
-           className="mp-btn mp-btn--solid mp-btn--md" style={{ textDecoration: 'none' }}>{pr.linkLabel} ↗</a>
-      </div>
-
-      <section style={{ marginTop: 48, paddingTop: 28, borderTop: '1px solid var(--border)' }}>
-        <SectionLabel t={t} style={{ marginBottom: 16 }}>More Lab Reports</SectionLabel>
-        <div>
-          {others.map((o, i) => {
-            const m = TYPE_META[o.type] || TYPE_META.Software;
-            return (
-              <a key={o.slug} href={'/lab/' + o.slug} onClick={openProject ? (e) => { e.preventDefault(); openProject(o); } : undefined}
-                style={{ display: 'flex', alignItems: 'center', gap: 14, textDecoration: 'none', padding: '14px 0', borderTop: i === 0 ? 'none' : '1px solid var(--border)' }}>
-                <span style={{ width: 8, height: 8, borderRadius: 9999, background: m.dot, flexShrink: 0 }} />
-                <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 600, fontSize: 'var(--text-base)', color: 'var(--text-primary)' }}>{o.name}</span>
-                <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--text-muted)', marginLeft: 'auto' }}>{o.type}</span>
-              </a>
-            );
-          })}
-        </div>
-      </section>
     </main>
   );
 }

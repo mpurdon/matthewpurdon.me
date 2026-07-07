@@ -1,0 +1,66 @@
+---
+name: "Evalu8"
+type: "Software"
+ai: true
+status: "Done"
+accent: "teal"
+featured: false
+tagline: "A one-evening Electron app that replaced the Postman collection: a bespoke client for a sparsely documented API, built to explore call evaluations the way I actually wanted to read them."
+summary: "Built in a single evening to explore 8x8's quality-management API while validating an AI call-scoring pipeline: search interactions, read transcripts beside their human scorecards, all behind a UI that absorbs the API's inconsistent response shapes and thin documentation. Reopened once, four months later, to add a phone-number lookup that scans five years of call history in parallel monthly windows with client-side matching, because the API has no phone filter. The entire git history is two sittings; that cadence is the point."
+stack: ["Electron", "React", "TypeScript", "Vite", "Tailwind"]
+link: "https://github.com/mpurdon/evalu8"
+linkLabel: "Source on GitHub"
+year: "2026"
+date: "March 31, 2026"
+---
+
+import DS from '../../ds/index.js';
+export const { Callout, Soapbox, PullQuote } = DS;
+
+Last November I was deep in a pipeline that scored contact-center calls with an LLM, and I needed ground truth: the calls themselves, their transcripts, and the scorecards the human evaluators had filled in. All of that lives behind 8x8's quality-management API. Step one was supposed to be the usual ritual: read the docs, build a Postman collection, poke at endpoints until the shapes make sense.
+
+Step one lasted about an hour. The docs typed the agent reference as a double (a floating-point employee); the region list had entries like `us-west-8x8` and `us-east-stats` with nothing to say which one was mine; and the first responses that came back did not match the documented shapes anyway. So I skipped the collection and described an app to Kiro instead: the searches I actually wanted to run, a transcript I could read next to its scorecard, a settings screen for the credentials. The whole repo went up as six commits stamped within three minutes of each other, all in one evening. The surprise was not how fast it went up. The surprise was what it quietly replaced.
+
+<Callout variant="note" title="Under the hood">
+  Electron, React, Vite, Tailwind, TypeScript; about 3,300 lines all in. Four tabs (evaluations, interaction search, phone lookup, settings), credentials in localStorage, OAuth client-credentials with the token cached on a sixty-second buffer. The entire git history is seven commits across two sittings: November 20, 2025 and March 31, 2026. There are no tests, no CI, and no releases, and that is not neglect; that is the spec.
+</Callout>
+
+## The docs said the agent ID was a double
+
+The 8x8 quality-management API is not a bad API so much as an unaccompanied one. The documentation tells you an endpoint exists and roughly what it wants, and then you are on your own: which of six regions your tenant answers in, which header names your PBX, whether the filter parameter you need is called `userReference` or `agentId` (the code still carries a comment weighing the two, because the docs typed the first one as a number with a decimal point). The transcript endpoint was the best of it. Singular or plural? The fossil record is right there in the source: "If 'transcription' (singular) failed, let's try plural. Also, let's try to be robust about the path." That last sentence appears twice in a row, because the agent writing it was negotiating with the API in real time, and the negotiation made it into the commit.
+
+<PullQuote cite="Matthew Purdon">The app became the documentation I wished the API had.</PullQuote>
+
+That is the part Postman never gives you. A collection records requests that worked once. The app records the whole settlement: every guess that survived contact with the API is sitting in a typed function with the losing guesses still visible in the comments. Four months later I did not have to remember any of it; I opened the app and the knowledge was still there, load-bearing, in code.
+
+## Guess the shape of the response
+
+The responses themselves were a second negotiation. The same search endpoint might hand back a bare array, or an object with a `content` key, or one with an `interactions` key, so the parsing line reads like a shrug: `Array.isArray(data) ? data : (data.interactions || data.content || [])`. The agent's name lives at `agent.name` except when it is `agentName`; the timestamp is `createdAt` except when it is `interactionTime`; a transcript speaker is `channel: 'external'` in one response and `speaker: 'customer'` in another.
+
+<Soapbox variant="aside" label="Hot take" signoff="check seventeen first">
+
+Somewhere in every enterprise API there is a `customField17`, and it is load-bearing. In this one it holds the queue name. The schema is where the data model starts; custom fields are where it actually lives.
+
+</Soapbox>
+
+All of that roulette gets handled exactly once, in one mapping function, and every screen downstream gets clean rows. Which is the real answer to "why an app instead of a REST client": Postman shows you a response, and I did not want responses. I wanted to search a date range, click a call, and read the transcript beside the scorecard the human evaluator filled in, the way you would actually review a call. The UI is not a nicety on top of the exploration; the UI *is* the exploration, shaped like the question instead of like the API.
+
+## The API doesn't do phone numbers
+
+The app then sat untouched for four months, until I needed every call we had ever exchanged with one specific phone number. The API has no phone-number filter that I could find. Worse, the numbers it returns come back in whatever format the telephony layer felt like that day, so even if you could filter server-side, you could not trust the match. The only honest approach was the dumb one: scan the history and filter client-side, matching on the last ten digits of both the caller and dialed numbers.
+
+<Callout variant="note" title="The arithmetic">
+  Five years of history split into roughly sixty monthly windows, scanned four windows at a time, fifty records per page with a 200-page guard per window (the API caps a query window at about 10,000 records anyway). Failed pages retry three times with exponential backoff. A finished scan is cached in localStorage with its date range and record count, so repeating a lookup costs zero API calls until you hit refresh.
+</Callout>
+
+One evening with Claude (the commit credits Opus 4.6) added the whole feature, and the fun bug was the progress bar. With four monthly windows in flight, the fastest one finishes first, so a naive progress report jumps backwards every time a slower month reports in. The fix was to let only the forerunner speak: the window furthest back in time owns the progress bar, and the scan reads cleanly today-to-past. A throwaway app, getting concurrency-aware UX polish, because the agent made that polish cost nothing.
+
+## Two sittings, four months apart
+
+I keep coming back to the commit log, because it is the most honest representation of the world software engineers live in now. One evening in November with Kiro to build it, one evening in March with Claude to teach it about phone numbers, and nothing in between: no refactors, no dependency bumps, no gardening. The app did not even keep its author; whichever agent was open that night did the typing, and me as the user could not care less. The app does not need to be good software. It needs to be ready the next time the API and I have a disagreement, and dormancy is what that readiness looks like. I have stopped feeling antsy about projects (is it even big enough to be called a project?) like this. The unfinished side project that nags at you is a product you have not shipped; this is a question that got answered, kept around in case I ask it again.
+
+<Callout variant="takeaway" title="The house rule">
+  Just build it. The shortest path to an answer is the smallest app that answers your question, not a folder of saved requests in someone else's client. The workarounds become code instead of some wisp of a memory, the UI explores the way you think instead of the way the vendor imagined, and the whole thing is allowed to sleep until the next question shows up.
+</Callout>
+
+If this sounds familiar, it should: it is the same [facade argument](/lab/mcp-servers) I made for the MCP servers, in a different context. An adapter exposes the API and a facade answers the question; evalu8 is what a facade looks like when the consumer is not a model but me, squinting at a transcript at ten at night. The generic client is the adapter. Build the facade.

@@ -1,0 +1,94 @@
+---
+title: "Summaries all the way down"
+dek: "An engineer writes the truth. Four summaries later, an exec reads a guess. Field notes on the compression chain, and the layered artifact I build instead."
+category: "Teams & Process"
+accent: "amber"
+featured: false
+date: "Apr 10, 2026"
+dateLong: "April 10, 2026"
+time: "10 min read"
+tags: ["Teams & Process", "AI-Assisted Engineering", "Opinion"]
+---
+
+import DS from '../../ds/index.js';
+import { ReportFigure, SummaryFigure, DashboardFigure } from '../../components/article-figures.jsx';
+import SoapboxFold from '../../components/SoapboxFold.astro';
+export const { Callout, Soapbox, PullQuote } = DS;
+
+<Callout variant="takeaway" title="The glance">
+  Stop forwarding compressions. Summarize once, at the source, in three layers (glance, brief, full) and ship them together; the reader picks the altitude and the important detail survives.
+</Callout>
+
+<Soapbox variant="aside" label="Hot take" signoff="and the second guess is worse">
+
+A summary of a summary is not a shorter version of the document. It is a guess about a guess.
+
+</Soapbox>
+
+Last month I watched a single fact make a five-hop journey across an org. An engineer wrote a careful incident review: what broke, why, and the one caveat that mattered (the fix was a stopgap and would not survive the next traffic spike). A model summarized the review for the team channel. The channel summary got rolled into the weekly ops report. The ops report got summarized into an exec brief. And the exec, short on time, pasted the brief into an assistant and asked for the TL;DR. By the time the information reached the decision, the caveat was gone. The stopgap shipped as the fix.
+
+Nobody in that chain did anything unreasonable. Every hop was a sensible person making a long thing shorter for a busy person. That is what makes the pattern dangerous: it is summaries all the way down, and each individual summary looks like good citizenship.
+
+## Compression compounds
+
+Every summary is lossy compression. That is the point of a summary; it drops what looks unimportant. The trouble is that caveats, edge cases, and dissent are statistically rare in a document, structurally subordinate, and therefore look exactly like the unimportant stuff. They get dropped first. The research backs the intuition: studies of LLM summarization keep finding that omission outpaces hallucination; the model is far more likely to quietly leave the load-bearing sentence out than to make one up. And work on iterative generation (the academic version of the telephone game) shows the distortion compounds with every hop. The tails of the distribution disappear, and the caveat lives in the tail.
+
+<PullQuote cite="Matthew Purdon">
+  The caveat is always the first casualty. It is rare, it is subordinate, and it is the single most expensive thing in the document to lose.
+</PullQuote>
+
+There is a Tom Fishburne cartoon from 2023 that nailed the loop before most of us were living it: one worker uses AI to inflate a bullet point into a long email he can pretend he wrote; the recipient uses AI to deflate the email back into a bullet point she can pretend she read. We pay the compression tax in both directions and the bullet point that comes out is not the bullet point that went in. By 2025 the researchers had a name for the genre, workslop, and numbers to go with it: roughly forty percent of desk workers reported receiving it monthly, at a cost of about two hours of rework per incident. The chain is not a thought experiment. It is the org chart.
+
+<Callout variant="note">
+  Tiago Forte said the quiet part years ago, writing about note-taking: <em>you cannot compress something without losing some of its context.</em> The fix is not better compression. The fix is keeping every layer.
+</Callout>
+
+## The chain, caught in the wild
+
+Here is a real one from this spring, recreated with the names and numbers changed (the shape is exact). An engineer shipped a lifecycle analysis of a document pipeline: 48,217 submissions, a scary-looking 79% "failure" rate, and the forensics showing that almost none of it was real failure. Six tables deep, every claim traceable to a query. It is excellent work, and it costs twenty minutes to read properly.
+
+<ReportFigure />
+
+Twenty minutes is more than most of the audience had, so a product manager did the sensible thing and asked a model to boil it down for the channel:
+
+<SummaryFigure />
+
+Nothing in the summary is wrong, and that is exactly what makes it instructive: this is the chain working as designed, and the signal is already going. Every fact arrives at the same volume, so the reader cannot tell the routine from the load-bearing. The one sentence that should change somebody's week (the loss will recur on the next traffic burst until the fix ships) sits mid-bullet, indistinguishable from the housekeeping. And this is hop one. The next hop keeps "pipeline is healthy" and drops the rest.
+
+## The old fixes knew something we forgot
+
+None of this is a new problem, and the old solutions are instructive. Journalists built the inverted pyramid because telegraph-era editors cut stories from the bottom; the format was designed to *survive truncation*. The military codified BLUF, bottom line up front, into actual regulation. Minto taught consultants to argue in pyramids: answer at the top, evidence below, descend only as needed. And the scientific paper (title, abstract, introduction, body, appendix) is the oldest progressive TL;DR in production, shipping every altitude of the same idea in one artifact for four hundred years.
+
+And the version I love most comes from my own trade: the C4 model. Simon Brown's whole pitch is that an architecture diagram should work like a map: you zoom. **Context**: here is the system and who touches it. **Containers**: here is what it is made of. **Components**: here is how one piece works inside. **Code**: here is the class, if you really must. I have reached for C4 for years, and it took watching the summary chain fail around me to understand why I trust it so much: it is choose-your-own-complexity. Nobody asks for a summary of a C4 set, because the summary is built in; the top diagram is the summary, and every deeper answer is one zoom away, drawn by the author from the same source of truth. A stakeholder and a new hire read the same artifact at different altitudes and neither one gets a guess.
+
+Notice what all of them have in common: the detail stays attached. The reader chooses a depth and the rest of the document is right there, un-summarized, when they want more. The modern summary chain breaks exactly this property. Every hop strips the source and forwards only the compression. It is repeated truncation in which nobody keeps the original: the inverted pyramid with the bottom torn off at every desk it crosses.
+
+## Build the drill-down instead
+
+So I stopped sending summaries and started sending altitudes. The artifact I now build has three fixed layers. The **glance**: the decision and the one caveat that matters, readable in ten seconds. The **brief**: the reasoning and the trade-offs, two minutes. The **full**: everything (the source document, the transcript, the raw numbers) attached, always. One artifact, written once, at the source, by the person with full context. The reader picks the depth. Nobody downstream re-summarizes, because the summary at every depth already exists and it was made by the one node in the chain that had the whole picture. It is C4 for prose.
+
+For the pipeline report above, here is how those altitudes landed:
+
+<DashboardFigure />
+
+<Callout variant="tip" title="Three altitudes, not a telescope">
+  Fixed layers, not infinitely expanding text. The usability research on progressive disclosure is old and clear: past about two levels of drill-down, readers get lost. Telescoping prose has been tried since 1970 (Ted Nelson called it StretchText) and it never won, partly for this reason. Even C4 defines four zoom levels, and Brown himself will tell you most teams only ever need the top two. Glance, brief, full. Stop there.
+</Callout>
+
+The honest objection is that this is more work, and it used to be true. Writing three altitudes of the same document was three writing jobs, which is why only journalists, scientists, and the military ever sustained the habit (they had editors, referees, and regulations to enforce it). That economics just changed. A model with the *full source* in context produces credible drafts of all three layers in about a minute. The author's job collapses to editing and verifying: one act of judgement at the source instead of five acts of guessing along the chain. The same tool that caused the slop makes the fix nearly free. We are just pointing it at the wrong end of the pipeline.
+
+<Callout variant="warning" title="The catch">
+  The glance is the layer everyone reads and the easiest to get subtly wrong. If you let the model draft it and do not check it against the full document yourself, you have not fixed the chain; you have built a prettier first hop. Verify the ten-second layer hardest.
+</Callout>
+
+I am still tuning the format (the layer names change weekly, and the glance keeps wanting to grow a fourth sentence) but it has already paid for itself: the questions I get now are about the work, not about what I meant. The chain stops where the layers start.
+
+<SoapboxFold title="Who the hell has time to read that?" signoff="and yes, I'd make you read it out loud">
+
+That was my first honest reaction when the report landed. Six tables. Beautiful tables! I read the whole thing and I'm pretty sure that made me the only one, and I only did it because the pipeline was mine to care about. Everybody else saw the size of the scroll bar and bailed.
+
+Then the summary hit the channel and I had an evil little thought I still stand behind: whoever posted it should have to read the original out loud in a meeting. All of it. Every row. So ... many ... rows ... brutal. You want to compress somebody's work? Earn it. Feel the twenty minutes first, then decide what survives. (I would absolutely sit there the whole time, watching.)
+
+Because the actual sin isn't the model, you know? It's using it blind. No judgement, no empathy, zero seconds spent on what the person receiving this needs in order to decide something. Just paste, generate, post, walk away. That's not communication, that's dumping workslop all over someone's face. The question that fixes it is ancient and has nothing to do with AI: if I was in their position, what would I want from someone in my position? Answer that first and the artifact basically designs itself.
+
+</SoapboxFold>
