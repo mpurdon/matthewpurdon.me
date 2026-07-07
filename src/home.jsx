@@ -1,7 +1,7 @@
 /* matthewpurdon.me — Home. Leads with Matthew. */
 import './ds/index.js'; // side-effect import: loads design-system CSS (.mp-btn etc.) on the homepage
 import { TopicChip, TypeBadge, AIBadge, kicker } from './shared.jsx';
-import { PROFILE, POSTS, PROJECTS, TOPICS, postNumber } from './data.js';
+import { PROFILE, TOPICS } from './data.js';
 
 function Avatar({ size = 96, ring = true }) {
   return (
@@ -155,9 +155,9 @@ const START_HERE = [
 ];
 const START_HERE_SLUGS = START_HERE.map((s) => s.slug);
 
-function StartHere({ openPost }) {
+function StartHere({ openPost, posts }) {
   const items = START_HERE
-    .map(({ slug, copy }) => ({ post: POSTS.find((p) => p.slug === slug), copy }))
+    .map(({ slug, copy }) => ({ post: posts.find((p) => p.slug === slug), copy }))
     .filter((x) => x.post);
 
   return (
@@ -166,7 +166,7 @@ function StartHere({ openPost }) {
         {items.map(({ post, copy }) => (
           <a key={post.slug} href={'/notes/' + post.slug} onClick={openPost ? (e) => { e.preventDefault(); openPost(post); } : undefined}
              style={{ display: 'grid', gridTemplateColumns: '64px 1fr 18px', gap: 18, padding: '20px 0', borderBottom: '1px solid var(--border)', textDecoration: 'none', color: 'inherit' }}>
-            <span aria-hidden="true" style={{ color: 'var(--text-muted)', fontFamily: 'var(--font-mono)', fontWeight: 700, letterSpacing: '-0.04em', fontSize: '32px', lineHeight: 1 }}>{postNumber(post)}</span>
+            <span aria-hidden="true" style={{ color: 'var(--text-muted)', fontFamily: 'var(--font-mono)', fontWeight: 700, letterSpacing: '-0.04em', fontSize: '32px', lineHeight: 1 }}>{post.number}</span>
             <span>
               <h3 style={{ margin: '0 0 7px', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-lg)', color: 'var(--text-primary)', letterSpacing: '-0.025em' }}>{post.title}</h3>
               <p style={{ margin: 0, maxWidth: 730, fontFamily: 'var(--font-prose)', fontSize: 'var(--text-base)', lineHeight: 1.55, color: 'var(--text-secondary)' }}>{copy}</p>
@@ -206,13 +206,13 @@ function RecentFieldNotes({ featured, recent, openPost }) {
   );
 }
 
-function SelectedLabReports({ openProject }) {
-  const projects = PROJECTS.filter((project) => ['grey-eminence', 'tcc', 'mcp-servers'].includes(project.slug));
+function SelectedLabReports({ openProject, projects }) {
+  const selected = projects.filter((project) => ['grey-eminence', 'tcc', 'mcp-servers'].includes(project.slug));
 
   return (
     <NumberedSection number="04" title="Selected Lab Reports">
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 22 }}>
-        {projects.map((project) => (
+        {selected.map((project) => (
           <a key={project.slug} href={'/lab/' + project.slug} onClick={openProject ? (e) => { e.preventDefault(); openProject(project); } : undefined}
              style={{ minHeight: 184, display: 'flex', flexDirection: 'column', padding: 20, border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', background: 'linear-gradient(180deg, rgba(47, 43, 40, 0.58), rgba(32, 30, 28, 0.35))', textDecoration: 'none', color: 'inherit' }}>
             <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 30 }}>
@@ -229,11 +229,11 @@ function SelectedLabReports({ openProject }) {
   );
 }
 
-export default function Home({ t, go, openPost, openProject, openTopic }) {
-  const featured = POSTS.find(p => p.featured) || POSTS[0];
+export default function Home({ t, go, openPost, openProject, openTopic, posts, projects }) {
+  const featured = posts.find(p => p.featured) || posts[0];
   // "Recent" excludes the hero AND the curated Start Here picks, so no article
   // appears twice on the homepage.
-  const recent = POSTS.filter(p => p !== featured && !START_HERE_SLUGS.includes(p.slug)).slice(0, 3);
+  const recent = posts.filter(p => p !== featured && !START_HERE_SLUGS.includes(p.slug)).slice(0, 3);
 
   return (
     <main style={{ maxWidth: 1080, margin: '0 auto', padding: '0 32px 96px' }}>
@@ -242,9 +242,9 @@ export default function Home({ t, go, openPost, openProject, openTopic }) {
       </section>
 
       <TheWork />
-      <StartHere openPost={openPost} />
+      <StartHere openPost={openPost} posts={posts} />
       <RecentFieldNotes featured={featured} recent={recent} openPost={openPost} />
-      <SelectedLabReports openProject={openProject} />
+      <SelectedLabReports openProject={openProject} projects={projects} />
 
       <section style={{ marginTop: 20, paddingTop: 36 }}>
         <div style={{ display: 'grid', gridTemplateColumns: '60px 1fr', gap: 18, alignItems: 'baseline', marginBottom: 22 }}>

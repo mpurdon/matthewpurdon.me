@@ -1,8 +1,7 @@
 /* matthewpurdon.me — Lab index + project detail. */
 import { useRef } from 'react';
 import DS from './ds/index.js';
-import { SectionLabel, pad, TypeBadge, AIBadge, kicker, TYPE_META, useDeepAnchors } from './shared.jsx';
-import { PROJECTS } from './data.js';
+import { SectionLabel, pad, TypeBadge, AIBadge, kicker, TYPE_META } from './shared.jsx';
 
 function StackRow({ stack }) {
   return (
@@ -91,9 +90,9 @@ function CardsGrid({ items, openProject }) {
   );
 }
 
-export function LabIndex({ t, openProject, go }) {
-  const featured = PROJECTS.find(p => p.featured) || PROJECTS[0];
-  const rest = PROJECTS.filter(p => p !== featured);
+export function LabIndex({ t, openProject, go, projects }) {
+  const featured = projects.find(p => p.featured) || projects[0];
+  const rest = projects.filter(p => p !== featured);
   return (
     <main style={{ maxWidth: 1080, margin: '0 auto', padding: '0 32px 96px' }}>
       <section style={{ padding: pad(t, '64px 0 40px', '44px 0 30px'), borderBottom: '1px solid var(--border)' }}>

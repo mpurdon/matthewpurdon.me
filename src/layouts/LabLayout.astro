@@ -5,11 +5,11 @@
    Replaces the former React ProjectDetail (lab.jsx). Zero-JS except the shared
    deep-anchors script. */
 import { TypeBadge, AIBadge, TYPE_META } from '../shared.jsx';
-import { PROJECTS } from '../data.js';
+import { getProjects } from '../lib/content.js';
 import DeepAnchors from '../components/DeepAnchors.astro';
 
 const { project: pr } = Astro.props;
-const others = PROJECTS.filter((x) => x.slug !== pr.slug).slice(0, 3);
+const others = (await getProjects()).filter((x) => x.slug !== pr.slug).slice(0, 3);
 const meta = [
   ['Type', pr.type],
   ['Status', pr.status],

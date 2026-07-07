@@ -1,5 +1,6 @@
 ---
-import { TOPICS, POSTS } from '../../data.js';
+import { TOPICS } from '../../data.js';
+import { getNotes } from '../../lib/content.js';
 import Layout from '../../layouts/Layout.astro';
 import { TopicPage } from '../../notes.jsx';
 
@@ -12,7 +13,8 @@ export async function getStaticPaths() {
 
 const { topic } = Astro.props;
 const info = TOPICS[topic] || { blurb: 'Posts on this topic.', accent: 'amber' };
-const posts = POSTS.filter(p => p.tags.includes(topic) || p.category === topic);
+const allPosts = await getNotes();
+const posts = allPosts.filter(p => p.tags.includes(topic) || p.category === topic);
 
 const pageTitle = `${topic} — Field Notes by Matthew Purdon`;
 const pageDescription = info.blurb 
@@ -58,9 +60,5 @@ const SETTINGS = {
   ]}
   view="notes"
 >
-  <TopicPage
-    topic={topic}
-    t={SETTINGS}
-    client:load
-  />
+  <TopicPage topic={topic} t={SETTINGS} posts={allPosts} />
 </Layout>

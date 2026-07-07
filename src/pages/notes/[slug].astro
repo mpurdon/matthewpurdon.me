@@ -1,12 +1,13 @@
 ---
-import { POSTS, postNumber } from '../../data.js';
+import { getNotes } from '../../lib/content.js';
 import { ogVersion } from '../../og-version.js';
 import Layout from '../../layouts/Layout.astro';
 import ArticleLayout from '../../layouts/ArticleLayout.astro';
-import { getCollection, render } from 'astro:content';
+import { getEntry, render } from 'astro:content';
 
 export async function getStaticPaths() {
-  return POSTS.map((post) => ({
+  const notes = await getNotes();
+  return notes.map((post) => ({
     params: { slug: post.slug },
     props: { post },
   }));
@@ -15,8 +16,7 @@ export async function getStaticPaths() {
 const { post } = Astro.props;
 
 // Body comes from the MDX collection entry (one .mdx per slug).
-const notes = await getCollection('notes');
-const entry = notes.find((n) => n.id === post.slug);
+const entry = await getEntry('notes', post.slug);
 const { Content } = await render(entry);
 const publishedDate = new Date(post.dateLong || post.date).toISOString();
 const modifiedDate = new Date(post.updatedLong || post.dateLong || post.date).toISOString();
@@ -47,21 +47,13 @@ const noteSchema = {
     "@id": Astro.url.href
   }
 };
-
-const SETTINGS = {
-  hero: 'portrait',
-  labStyle: 'cards',
-  density: 'comfortable',
-  covers: 'typographic',
-  red: 'bold',
-};
 ---
 
 <Layout
   title={`${post.title} — Matthew Purdon`}
   description={post.dek}
   ogType="article"
-  ogImage={`/og/notes/${post.slug}.png?v=${ogVersion([post.title, post.category, post.dek, post.accent, post.time, postNumber(post)])}`}
+  ogImage={`/og/notes/${post.slug}.png?v=${ogVersion([post.title, post.category, post.dek, post.accent, post.time, post.number])}`}
   view="notes"
   jsonLd={[noteSchema]}
   breadcrumbs={[

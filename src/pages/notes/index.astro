@@ -1,6 +1,9 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import { NotesIndex } from '../../notes.jsx';
+import { getNotes } from '../../lib/content.js';
+
+const posts = await getNotes();
 
 const notesSchema = {
   "@context": "https://schema.org",
@@ -33,8 +36,5 @@ const SETTINGS = {
     { name: 'Field Notes', path: '/notes' }
   ]}
 >
-  <NotesIndex
-    t={SETTINGS}
-    client:load
-  />
+  <NotesIndex t={SETTINGS} posts={posts} />
 </Layout>
