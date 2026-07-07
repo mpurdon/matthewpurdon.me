@@ -40,7 +40,7 @@ figure.mp-pq {
   opacity: 0.14;
 }
 
-/* Folded soapbox (SoapboxFold in article.jsx): the closing rant is an
+/* Folded soapbox (SoapboxFold.astro): the closing rant is an
    appendix, optional by design. One card — the header carries the title, the
    inner Soapbox is stripped to bare body so it reads as the same surface, and
    the header breathes while closed to invite the click. */

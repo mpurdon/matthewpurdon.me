@@ -4,7 +4,7 @@
    busts Cloudflare AND social-platform (LinkedIn etc.) caches automatically.
 
    IMPORTANT: bump CARD_DESIGN whenever the card LAYOUT/palette changes in
-   scripts/generate-og.mjs (data stays the same but pixels change), so all
+   src/pages/og/[...slug].png.ts (data stays the same but pixels change), so all
    cards re-bust. */
 export const CARD_DESIGN = 'c1';
 
