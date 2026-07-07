@@ -4,7 +4,9 @@
    container), the stack pills, the source link, and "More Lab Reports".
    Replaces the former React ProjectDetail (lab.jsx). Zero-JS except the shared
    deep-anchors script. */
-import { TypeBadge, AIBadge, TYPE_META } from '../shared.jsx';
+import TypeBadge from '../components/TypeBadge.astro';
+import AIBadge from '../components/AIBadge.astro';
+import { TYPE_META } from '../lib/ui.js';
 import { getProjects } from '../lib/content.js';
 import DeepAnchors from '../components/DeepAnchors.astro';
 

@@ -1,0 +1,10 @@
+---
+import { accent } from '../lib/ui.js';
+const { category, accent: a = 'amber', ratio = '16 / 9', big, height, labelSize = 'var(--text-xs)', centerLabel = false } = Astro.props;
+const c = accent(a);
+const bg = centerLabel
+  ? `radial-gradient(55% 320% at 100% 50%, ${c.fill} 0%, transparent 62%), radial-gradient(45% 260% at 72% 50%, ${c.fill} 0%, transparent 70%), linear-gradient(135deg, var(--bg-elevated), var(--bg-surface))`
+  : `radial-gradient(120% 150% at 100% 0%, ${c.fill} 0%, transparent 55%), linear-gradient(135deg, var(--bg-elevated), var(--bg-surface))`;
+const outer = `position:relative;overflow:hidden;border-radius:var(--radius-md);border:1px solid var(--border);${height ? `height:${height}px` : `aspect-ratio:${ratio}`};background:${bg};display:flex;flex-direction:column;justify-content:${centerLabel ? 'center' : 'space-between'};padding:1rem 1.1rem`;
+---
+<div style={outer}><span style={`font-family:var(--font-label);font-size:${labelSize};font-weight:700;text-transform:uppercase;letter-spacing:var(--tracking-widest);color:${c.edge}`}>{category}</span>{big && <span aria-hidden="true" style="font-family:var(--font-mono);font-weight:700;font-size:clamp(2.2rem, 6vw, 3.4rem);line-height:0.95;letter-spacing:-0.04em;color:var(--text-primary);opacity:0.92;align-self:flex-end">{big}</span>}</div>

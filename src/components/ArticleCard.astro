@@ -1,0 +1,7 @@
+---
+import Cover from './Cover.astro';
+const { variant, accent, category, href, title, dek, date, time, big, ratio = '16 / 9' } = Astro.props;
+const hasCover = variant === 'hero' || variant === 'grid';
+const showCat = variant === 'hero' || variant === 'list';
+---
+<a href={href} class={`mp-acard mp-acard--${variant} `}>{hasCover && (<div class="mp-acard__cover"><Cover category={category} accent={accent} ratio={ratio} big={big} /></div>)}{variant === 'hero' ? (<div><span class="mp-acard__cat">{category}</span><h3 class="mp-acard__title">{title}</h3><p class="mp-acard__dek">{dek}</p><div class="mp-acard__meta"><div class="mp-byline mp-byline--compact "><span class="mp-byline__avatar" aria-hidden="true">MP</span><span class="mp-byline__col"><span class="mp-byline__name">Matthew Purdon</span><span class="mp-byline__meta"><span>{date}</span><span class="mp-byline__dot"></span><span>{time}</span></span></span></div></div></div>) : (<Fragment>{showCat && <span class="mp-acard__cat">{category}</span>}<h3 class="mp-acard__title">{title}</h3><p class="mp-acard__dek">{dek}</p><div class="mp-acard__meta"><div class="mp-byline mp-byline--compact "><span class="mp-byline__avatar" aria-hidden="true">MP</span><span class="mp-byline__col"><span class="mp-byline__name">Matthew Purdon</span><span class="mp-byline__meta"><span>{date}</span><span class="mp-byline__dot"></span><span>{time}</span></span></span></div></div></Fragment>)}</a>

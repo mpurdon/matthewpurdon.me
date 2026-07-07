@@ -1,0 +1,7 @@
+---
+import Pill from './Pill.astro';
+import { TYPE_META } from '../lib/ui.js';
+const { type } = Astro.props;
+const m = TYPE_META[type] || TYPE_META.Software;
+---
+<Pill color={m.color} border={`1px solid ${m.color}`} bg="transparent"><span style={`width:6px;height:6px;border-radius:9999px;background:${m.dot}`}></span>{type}</Pill>

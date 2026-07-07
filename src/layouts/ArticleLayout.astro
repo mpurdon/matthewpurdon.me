@@ -5,7 +5,7 @@
    body is passed in via <slot/>; the page (notes/[slug].astro) renders the MDX
    <Content/> into it. Zero-JS except the hoisted deep-anchors script below. */
 import DS from '../ds/index.js';
-import { Cover } from '../shared.jsx';
+import Cover from '../components/Cover.astro';
 import { AVATAR, PROFILE } from '../data.js';
 import DeepAnchors from '../components/DeepAnchors.astro';
 const { Byline } = DS;

@@ -1,9 +1,25 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import { NotesIndex } from '../../notes.jsx';
 import { getNotes } from '../../lib/content.js';
+import { TOPICS, PROFILE } from '../../data.js';
+import { kicker, pad } from '../../lib/ui.js';
+import ArticleCard from '../../components/ArticleCard.astro';
+import SectionLabel from '../../components/SectionLabel.astro';
+import TopicChip from '../../components/TopicChip.astro';
 
 const posts = await getNotes();
+const t = {
+  hero: 'portrait',
+  labStyle: 'cards',
+  density: 'comfortable',
+  covers: 'typographic',
+  red: 'bold',
+};
+
+const featured = posts.find(p => p.featured) || posts[0];
+const rest = posts.filter(p => p !== featured);
+const grid = rest.slice(0, 3);
+const list = rest.slice(3);
 
 const notesSchema = {
   "@context": "https://schema.org",
@@ -15,14 +31,6 @@ const notesSchema = {
     "@type": "Person",
     "name": "Matthew Purdon"
   }
-};
-
-const SETTINGS = {
-  hero: 'portrait',
-  labStyle: 'cards',
-  density: 'comfortable',
-  covers: 'typographic',
-  red: 'bold',
 };
 ---
 
@@ -36,5 +44,49 @@ const SETTINGS = {
     { name: 'Field Notes', path: '/notes' }
   ]}
 >
-  <NotesIndex t={SETTINGS} posts={posts} />
+  <main style="max-width:1080px;margin:0 auto;padding:0 32px 96px">
+    <section style={`padding:${pad(t, '64px 0 40px', '44px 0 30px')};border-bottom:1px solid var(--border)`}>
+      <p style={`font-family:var(--font-label);text-transform:uppercase;letter-spacing:var(--tracking-wider);font-size:var(--text-xs);color:${kicker(t)};margin:0 0 14px`}>Field Notes · {PROFILE.location}</p>
+      <h1 style="font-family:var(--font-mono);font-weight:700;font-size:clamp(32px, 4.5vw, 52px);line-height:1.08;letter-spacing:-0.03em;margin:0 0 18px;color:var(--text-primary);max-width:820px;text-wrap:balance">Notes on AI-assisted engineering, the new SDLC, and how teams really ship.</h1>
+      <p style="font-family:var(--font-prose);font-size:var(--prose-lead);line-height:1.5;color:var(--text-secondary);max-width:640px;margin:0">Half of this is thinking out loud about where the craft is heading. The other half is field notes — what I actually watched happen when real teams changed how they work. New posts roughly monthly.</p>
+      <a href="/feed.xml" style="display:inline-flex;align-items:center;gap:8px;margin-top:20px;font-family:var(--font-label);text-transform:uppercase;letter-spacing:var(--tracking-wider);font-size:var(--text-xs);font-weight:700;color:var(--text-muted);text-decoration:none;transition:color var(--duration-base) var(--ease)">Subscribe via RSS →</a>
+    </section>
+
+    <section style={`padding:${pad(t, '40px 0', '28px 0')}`}>
+      <SectionLabel>Featured</SectionLabel>
+      <ArticleCard variant="hero" accent={featured.accent} category={featured.category} href={'/notes/' + featured.slug} title={featured.title} dek={featured.dek} date={featured.date} time={featured.time} big={featured.number} ratio="4 / 3" />
+    </section>
+
+    {grid.length > 0 && (
+      <section style={`padding:${pad(t, '8px 0 40px', '4px 0 28px')}`}>
+        <SectionLabel>Recent</SectionLabel>
+        <div style="display:grid;grid-template-columns:repeat(3, 1fr);gap:28px">
+          {grid.map((p) => (
+            <ArticleCard variant="grid" accent={p.accent} category={p.category} href={'/notes/' + p.slug} title={p.title} dek={p.dek} date={p.date} time={p.time} big={p.number} />
+          ))}
+        </div>
+      </section>
+    )}
+
+    {list.length > 0 && (
+      <section>
+        <SectionLabel>More writing</SectionLabel>
+        <div>
+          {list.map((p) => (
+            <ArticleCard variant="list" category={p.category} href={'/notes/' + p.slug} title={p.title} dek={p.dek} date={p.date} time={p.time} />
+          ))}
+        </div>
+      </section>
+    )}
+
+    <section style={`margin-top:${pad(t, 56, 36)}px;padding-top:36px;border-top:1px solid var(--border)`}>
+      <SectionLabel>Browse by topic</SectionLabel>
+      <div style="display:flex;flex-wrap:wrap;gap:10px">
+        {Object.keys(TOPICS).map(name => {
+          const n = posts.filter(p => p.tags.includes(name)).length;
+          return <TopicChip label={name} count={n || undefined} t={t} />;
+        })}
+      </div>
+    </section>
+  </main>
 </Layout>

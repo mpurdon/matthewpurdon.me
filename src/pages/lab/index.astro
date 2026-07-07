@@ -1,9 +1,22 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import { LabIndex } from '../../lab.jsx';
 import { getProjects } from '../../lib/content.js';
+import { kicker, pad, TYPE_META } from '../../lib/ui.js';
+import SectionLabel from '../../components/SectionLabel.astro';
+import TypeBadge from '../../components/TypeBadge.astro';
+import AIBadge from '../../components/AIBadge.astro';
 
 const projects = await getProjects();
+const t = {
+  hero: 'portrait',
+  labStyle: 'cards',
+  density: 'comfortable',
+  covers: 'typographic',
+  red: 'bold',
+};
+const featured = projects.find(p => p.featured) || projects[0];
+const rest = projects.filter(p => p !== featured);
+const fm = TYPE_META[featured.type] || TYPE_META.Software;
 
 const labSchema = {
   "@context": "https://schema.org",
@@ -11,14 +24,6 @@ const labSchema = {
   "name": "Lab Reports — Matthew Purdon",
   "description": "Software, process experiments, tools, and AI-assisted engineering systems built by Matthew Purdon.",
   "url": Astro.url.href
-};
-
-const SETTINGS = {
-  hero: 'portrait',
-  labStyle: 'cards',
-  density: 'comfortable',
-  covers: 'typographic',
-  red: 'bold',
 };
 ---
 
@@ -32,5 +37,54 @@ const SETTINGS = {
     { name: 'Lab Reports', path: '/lab' }
   ]}
 >
-  <LabIndex t={SETTINGS} projects={projects} />
+  <main style="max-width:1080px;margin:0 auto;padding:0 32px 96px">
+    <section style={`padding:${pad(t, '64px 0 40px', '44px 0 30px')};border-bottom:1px solid var(--border)`}>
+      <p style={`font-family:var(--font-label);text-transform:uppercase;letter-spacing:var(--tracking-wider);font-size:var(--text-xs);color:${kicker(t)};margin:0 0 14px`}>Lab Reports</p>
+      <h1 style="font-family:var(--font-mono);font-weight:700;font-size:clamp(32px, 4.5vw, 52px);line-height:1.08;letter-spacing:-0.03em;margin:0 0 18px;color:var(--text-primary);max-width:760px;text-wrap:balance">Things I've built — software and process.</h1>
+      <p style="font-family:var(--font-prose);font-size:var(--prose-lead);line-height:1.5;color:var(--text-secondary);max-width:640px;margin:0 0 22px">Not just code. Some of the work I'm proudest of is a process — a way of working that made a team faster. Each entry says whether it's software or process, and whether AI was a build partner.</p>
+      <div style="display:flex;gap:18px;flex-wrap:wrap">
+        <span style="display:inline-flex;align-items:center;gap:7px;font-family:var(--font-mono);font-size:var(--text-xs);color:var(--text-muted)"><span style={`width:9px;height:9px;border-radius:9999px;background:${TYPE_META.Software.dot}`}></span>Software</span>
+        <span style="display:inline-flex;align-items:center;gap:7px;font-family:var(--font-mono);font-size:var(--text-xs);color:var(--text-muted)"><span style={`width:9px;height:9px;border-radius:9999px;background:${TYPE_META.Process.dot}`}></span>Process</span>
+        <span style="display:inline-flex;align-items:center;gap:7px;font-family:var(--font-mono);font-size:var(--text-xs);color:var(--text-muted)"><span style="width:9px;height:9px;border-radius:9999px;background:#a5b4fc"></span>AI-assisted build</span>
+      </div>
+    </section>
+
+    <section style={`padding:${pad(t, '40px 0 0', '28px 0 0')}`}>
+      <SectionLabel>Featured Report</SectionLabel>
+      <a href={'/lab/' + featured.slug} style={`display:block;text-decoration:none;border:1px solid var(--border);border-top:4px solid ${fm.color};border-radius:var(--radius-lg);background:linear-gradient(180deg, rgba(36,34,32,0.6) 0%, rgba(26,24,22,0.4) 100%);padding:32px;transition:border-color var(--duration-base) var(--ease);box-shadow:0 4px 20px rgba(0,0,0,0.15);margin-bottom:32px`}>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px">
+          <div style="display:flex;gap:8px"><TypeBadge type={featured.type} />{featured.ai && <AIBadge />}</div>
+          <span style="font-family:var(--font-mono);font-size:var(--text-xs);color:var(--text-muted)">{featured.year}</span>
+        </div>
+        <h2 style="font-family:var(--font-mono);font-weight:700;font-size:clamp(24px, 3.5vw, 32px);letter-spacing:-0.025em;color:var(--text-primary);margin:0 0 12px;line-height:1.15">{featured.name}</h2>
+        <p style="font-family:var(--font-prose);font-size:var(--prose-lead);line-height:1.5;color:var(--text-secondary);margin:0 0 18px;text-wrap:pretty">{featured.tagline}</p>
+        <p style="font-family:var(--font-prose);font-size:var(--text-base);line-height:1.6;color:var(--text-muted);margin:0 0 24px;max-width:820px">{featured.summary}</p>
+        <div style="border-top:1px dashed var(--border);padding-top:20px">
+          <div style="display:flex;flex-wrap:wrap;gap:6px">{featured.stack.map(s => (<span style="font-family:var(--font-mono);font-size:var(--text-xs);color:var(--text-muted);padding:0.2rem 0.55rem;border-radius:var(--radius-sm);border:1px solid var(--border)">{s}</span>))}</div>
+        </div>
+      </a>
+    </section>
+
+    {rest.length > 0 && (
+      <section style={`padding:${pad(t, '24px 0 40px', '16px 0 30px')}`}>
+        <SectionLabel>Other Lab Reports</SectionLabel>
+        <div style="display:grid;grid-template-columns:repeat(2, 1fr);gap:24px">
+          {rest.map(pr => {
+            const m = TYPE_META[pr.type] || TYPE_META.Software;
+            return (
+              <a href={'/lab/' + pr.slug} style={`display:flex;flex-direction:column;text-decoration:none;border:1px solid var(--border);border-top:3px solid ${m.color};border-radius:var(--radius-lg);background:linear-gradient(180deg, rgba(36,34,32,0.6) 0%, rgba(26,24,22,0.4) 100%);padding:24px;transition:border-color var(--duration-base) var(--ease);box-shadow:0 4px 20px rgba(0,0,0,0.12)`}>
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+                  <div style="display:flex;gap:8px"><TypeBadge type={pr.type} />{pr.ai && <AIBadge />}</div>
+                  <span style="font-family:var(--font-mono);font-size:var(--text-xs);color:var(--text-muted)">{pr.year}</span>
+                </div>
+                <h2 style="font-family:var(--font-mono);font-weight:700;font-size:var(--text-xl);letter-spacing:-0.02em;color:var(--text-primary);margin:0 0 10px">{pr.name}</h2>
+                <p style="font-family:var(--font-prose);font-size:var(--text-base);line-height:1.55;color:var(--text-secondary);margin:0 0 18px">{pr.tagline}</p>
+                <div style="margin-top:auto"><div style="display:flex;flex-wrap:wrap;gap:6px">{pr.stack.map(s => (<span style="font-family:var(--font-mono);font-size:var(--text-xs);color:var(--text-muted);padding:0.2rem 0.55rem;border-radius:var(--radius-sm);border:1px solid var(--border)">{s}</span>))}</div></div>
+              </a>
+            );
+          })}
+        </div>
+      </section>
+    )}
+  </main>
 </Layout>

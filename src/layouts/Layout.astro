@@ -1,5 +1,10 @@
 ---
 import { PROFILE, SITE_URL } from '../data.js';
+// Design-system CSS, loaded globally so every page has it regardless of which
+// components it renders (styles.css pulls the tokens; components.css is the
+// bundle's runtime-injected rules, extracted for the static build).
+import '../ds/styles.css';
+import '../ds/components.css';
 import '../site.css';
 
 interface Props {

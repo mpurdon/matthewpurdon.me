@@ -1,0 +1,4 @@
+---
+const { style = '' } = Astro.props;
+---
+<h2 style={`font-family:var(--font-label);text-transform:uppercase;letter-spacing:var(--tracking-widest);font-size:var(--text-xs);font-weight:700;color:var(--text-muted);margin:0 0 20px${style ? ';' + style : ''}`}><slot /></h2>
