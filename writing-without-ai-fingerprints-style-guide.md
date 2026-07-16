@@ -430,25 +430,33 @@ After AI editing, restore at least three phrases that sound unmistakably like yo
 
 ---
 
-## 13. Separate Research From Drafting
+## 13. Separate the Argument From the Drafting
 
-When the same model researches and writes in one pass, it tends to produce prose that mirrors its research outline.
+When the same model invents the argument and writes the prose in one pass, the result is generic AI architecture. The protection is not who types the first draft; it is that the argument exists, in Matthew's words, before drafting starts.
 
-### Better workflow
+### How this works on this site
 
-1. Ask AI to collect and summarize evidence.
-2. Review the evidence yourself.
-3. Write the thesis and rough argument without AI.
-4. Draft the first version in your own words.
-5. Use AI to identify gaps, repetition, and weak claims.
-6. Revise manually.
-7. Use AI for a final mechanical edit only.
+The argument develops in conversation before anything gets drafted: idea fragments, pasted threads, scoping decisions, reactions, disagreements. That conversation is the thesis note, and it usually contains far more of Matthew's actual positions than a 200-word note would. AI then writes the first full draft in Matthew's voice.
+
+The cost of that trade, named plainly: whoever writes the first sentences sets the cadence baseline, and the revision rounds get spent sanding the drafter's fingerprints off. Budget for it (a long piece can take dozens of rounds), and convert every caught fingerprint into a standing rule so it is paid for once.
+
+1. The argument accumulates in conversation. Nothing drafts until the spine, the stance, and the title direction are Matthew's decisions.
+2. AI verifies every anecdote, number, and quote against real sources before it enters the draft. No invented biography, ever.
+3. AI writes the first draft in the two house registers (tight prose, loose soapboxes), against the voice guides and the banned-phrases list.
+4. Before showing the draft, AI runs the fingerprint checklist and the Final Humanization Pass on its own output. Matthew's rounds should be spent on taste and argument, not on catching "load-bearing" for the third time.
+5. Matthew's revision rounds: line edits, structural calls, additions. His hand edits to the file are canon; never revert them.
+6. Every new tell caught in the rounds becomes a banned-phrase rule immediately, in the memory guides and (if general) in this guide's checklist.
+7. Before shipping: a dedup pass (each claim lives in exactly one place), frontmatter/read-time check, then log the rounds in `writing-log.md`.
+
+### Alternative mode
+
+For pieces where the voice matters most, invert it: Matthew writes the rough sentences first and AI acts purely as the skeptical editor described elsewhere in this guide. Correcting your own cadence is cheaper than correcting someone else's.
 
 ### Avoid
 
 > Research this topic and write a polished 1,500-word article with a strong narrative and memorable conclusion.
 
-That prompt almost guarantees generic AI architecture.
+That prompt almost guarantees generic AI architecture, because it asks the model to invent the argument, not just the sentences.
 
 ---
 
@@ -590,7 +598,9 @@ Before publishing, perform these edits.
 
 ---
 
-## Recommended AI-Assisted Workflow
+## Reference Workflow (writer-drafts-first mode)
+
+The default on this site is the conversation-first workflow in section 13. The version below is the stricter mode for when Matthew drafts the sentences himself.
 
 ### 1. Thesis note
 

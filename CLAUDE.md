@@ -6,8 +6,13 @@ Before drafting or editing anything in `src/content/notes/` or `src/content/lab/
 read `writing-without-ai-fingerprints-style-guide.md` at the repo root. It is
 binding for all prose on this site. The operational core:
 
-- Matthew writes the argument; AI improves the draft. Act as a skeptical editor,
-  not a ghostwriter. Prefer cuts and questions over replacement prose.
+- Matthew owns the argument; it develops in conversation (fragments, decisions,
+  reactions) before anything gets drafted. AI may write the first draft in his
+  voice from that material, but must run the guide's fingerprint checklist and
+  Final Humanization Pass on its own output BEFORE showing it — his revision
+  rounds are for taste and argument, not for catching known tells. His hand
+  edits to the file are canon; never revert them. When editing prose he wrote,
+  act as a skeptical editor: prefer cuts and questions over replacement prose.
 - No structural announcements ("Now the two halves meet", "There is one more
   thing...", "This brings us to..."). If the structure works, the reader feels it
   without being told.
