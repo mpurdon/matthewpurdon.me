@@ -4,6 +4,7 @@ import { getCollection } from 'astro:content';
 // so the homepage "Recent" and the notes index render identically. New entries
 // not listed here sort to the end.
 const NOTE_ORDER = [
+  'scarcity-was-the-feature',
   'postman-was-a-workaround',
   'punish-your-way-to-a-great-culture',
   'what-is-a-principal-engineer',

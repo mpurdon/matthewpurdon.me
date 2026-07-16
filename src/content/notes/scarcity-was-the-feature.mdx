@@ -1,0 +1,125 @@
+---
+title: "Scarcity was the feature"
+dek: "Every sovereign AI pitch in this country opens with the same apology: Canada cannot out-spend the hyperscalers. But scarcity built better engineers once, and it can again. On metered compute, capabilities over models, and a library card for the model era."
+category: "Industry"
+accent: "canada"
+featured: false
+date: "Jul 15, 2026"
+dateLong: "July 15, 2026"
+time: "18 min read"
+tags: ["Industry", "Sovereign AI", "Opinion"]
+---
+
+import DS from '../../ds/index.js';
+import SoapboxFold from '../../components/SoapboxFold.astro';
+export const { Callout, Soapbox, PullQuote } = DS;
+
+<Callout variant="takeaway" title="The glance">
+  Metered compute once forced engineers to think before they ran anything (and to invent time-sharing, virtualization, and the rest of what became the cloud); abundance erased that habit, and token pricing has quietly reinstated it. Canada's sovereign AI conversation treats our inability to out-spend the hyperscalers as the fatal flaw; that is focusing on the wrong thing. A national platform should be a registry of governed, evaluated capabilities rather than a model zoo, with metered compute doing what it did in the mainframe era: forcing discipline and driving invention. The same meter pays for the rest: an API key for every Canadian, and a marketplace where anyone can publish a capability and charge per execution. DeepSeek already showed what a constrained lab can do to compute-rich giants; a constrained country can pull the same trick, and the result should work like a library card.
+</Callout>
+
+Programming used to start with a pencil. You wrote the program on paper first (coding sheets, eighty columns wide, one character per box), and you checked it on paper too: traced the logic by hand, played the machine at your desk, found the bugs before the computer ever saw them. This was not a quaint preference. The university mainframe did not care about your ambitions; you booked time on it, you got a quota, and your job went into a queue behind everyone else's. If your program was wasteful, that was not a style problem; it was your entire allocation gone by Tuesday, and an operator who knew your name for the wrong reason. So people desk-checked, made the batch job count, and an enormous amount of foundational computer science got done by people who could not afford to run their code twice.
+
+<Soapbox variant="aside" label="Hot take" signoff="Wirth called it in 1995">
+
+"Developer time is more expensive" ... sure, per hour. But we made that trade a million times in a row and the compound interest is wild: computers thousands of times faster than the ones we learned on, running software that is slower. Jonathan Blow has been the loudest voice on this (his ["Preventing the Collapse of Civilization"](https://www.youtube.com/watch?v=q3OCFfDStgM) talk is the sharpest version): every abstraction you buy with "cheap" hardware is one more thing people just import without understanding what's really going on under the hood, until nobody remembers how computers actually work. Cheap for you ... expensive for everyone who runs your code.
+
+</Soapbox>
+
+Nobody designed that discipline. The meter did. Scarcity rationed carelessness, made efficiency a survival skill instead of a virtue, and forced you to understand a thing before you executed it. The habit followed the meter wherever the meter went; Steve Wozniak wrote Integer BASIC for the Apple I on paper, hand-assembling the 6502 machine code himself, because he could not afford an assembler to go with the twenty-dollar chip. Then compute got cheap, then effectively free, and the habit evaporated because nothing was enforcing it; "throw more hardware at it" became the mantra because "developer time is more expensive".
+
+Discipline is only half of what that era produced, though. Scarcity did not just make people careful; it made them invent. Time-sharing exists because whole departments were fighting over one machine and somebody had to make the sharing fair. Virtualization exists because one expensive computer needed to pretend to be many. Unix started on a cast-off PDP-7 that Ken Thompson found sitting idle in a corner of Bell Labs. The machine room's rulebook (quotas, queues, tenancy, metering) is, one renaming later, the cloud: barely having access is where the whole architecture of sharing access came from. The constraint was the inspiration, and the people with the least compute did the most inventing.
+
+I have written before about what happens when a cost filter disappears: in [Judgement is the job now](/notes/judgement-is-the-job-now/), the filter was effort, and removing it meant bad ideas stopped dying of natural causes. This is the same story one layer down the stack. Effort and compute were both doing us the same favour, and we noticed neither until it was gone.
+
+<Callout variant="note" title="Written on final approach">
+  In my opinion, one of the best desk-checks in the business is from 1975. Bill Gates and Paul Allen wrote a BASIC interpreter for the Altair 8800 without ever touching one (they could not; they did not have an Altair), developing instead against an 8080 simulator Allen built on a PDP-10. Flying to Albuquerque to demo it, Allen realized nobody had written the bootstrap loader that would read the interpreter into the machine, so he wrote one on a steno pad, in raw 8080 machine code, before the plane landed. It ran. The Altair printed "MEMORY SIZE?", the interpreter worked the first time it met real hardware, and Microsoft was founded on the result. That is what coding on paper bought you when you could not afford to be wrong.
+</Callout>
+
+## The meter is back
+
+Here is the part I did not expect: the meter came back. Tokens cost real money per unit of thought, and anyone running serious agent workloads has rediscovered mainframe-era habits without ever having touched a mainframe. I route dumb plumbing jobs to the cheapest model that can do them and save the expensive one for work that deserves it. I set budget caps. I cache aggressively. I batch. I look at a plan an agent proposes and ask whether the question is worth what the answer will cost, which is a sentence a 1970s operations manager would recognize instantly.
+
+<Soapbox variant="aside" label="Hot take" signoff="the meter never lied to you">
+
+When compute is free you never have to decide what a computation is for ... you just run it, and running it becomes a substitute for thinking about it. The token meter is the first thing in twenty years that charges by the thought, and suddenly everybody's rediscovering efficiency like it's a lost art. It was never lost ... it was just unpriced.
+
+</Soapbox>
+
+And the habits are making the work better, not just cheaper. Deciding which model deserves the job forces you to say what the job actually is. A budget cap is a crude summary of intent: it declares how much this question is worth before you ask it. The constraint does the same job the mainframe queue did: it makes people understand a thing before they execute it. I notice that the engineers who handle the meter well are the same ones who were already good at the ask (knowing what they want before they want it expensively), which should not surprise anyone. People who come up with a solid plan rather than "vibing" produce better things. I've seen it time and time again.
+
+Hold that thought, because the rest of this piece is about a place where everyone considers the meter a tragedy.
+
+## The pitch everyone is making
+
+There is a version of Canadian sovereign AI being pitched in every boardroom and briefing note right now, and it is always the same shape: build sovereign datacenters, stand up a Canadian model hub, keep the data inside the border, and let patriotism handle adoption. Somewhere in the first five minutes comes the apology: of course, we cannot match American capex. The entire pitch is an abundance play, made by a country that cannot afford abundance, delivered with an asterisk admitting it.
+
+And the asterisk is not wrong about the arithmetic. As I write this (July 2026), Nvidia's market cap is around US$4.7 trillion; the entire Toronto Stock Exchange (roughly 2,600 companies: every bank, every railway, every miner, Shopify and all) adds up to about US$4.9 trillion. One American chip company is worth approximately our whole stock market. Anyone proposing that we can build the same way those tech giants do is not being ambitious; they are being silly.
+
+I have been chewing on this problem for a while (it started life in a long back-and-forth about what a "Canadian AI Commons" would actually be), and two convictions stuck. The first is that the model hub is the wrong organizing unit entirely. The second is that the scarcity everyone apologizes for is the most interesting thing about the way forward.
+
+<PullQuote cite="Matthew Purdon">
+  Canada cannot win the spending race, so it should stop entering it. Innovation is the race where being small is not a handicap.
+</PullQuote>
+
+## The capability is the asset
+
+A model hub asks "what model do you want?", which is a question almost nobody in a government department or a mid-size Canadian company is actually asking. The real question is "what capability am I trying to safely reuse?", and a capability is not a model. It is a bundle: the model, the corpus it is grounded in, the prompts, the evaluation suite that proves it works, the deployment template, and the governance metadata saying who may use it for what. Ship those as one registered asset and you have something a department can adopt; ship the model alone and you have given them a science project.
+
+<Callout variant="note" title="What a capability ships with">
+  Not "mistral-7b-canadian-tax-finetune". Instead: "Canadian Small Business Tax Document Assistant, 2026 tax year"; model X, grounded in corpus Y (that year's legislation, forms, and CRA guidance, pinned), prompts Z, eval suite A with results attached, deployment template B, approved for internal advisory use, residency and privacy classification machine-readable. The unit of reuse is the job, not the artifact; and the job has a version, because the rules do.
+</Callout>
+
+The strongest version of this is that the government runs the same capability it offers. When the CRA help desk and the small business owner are both leaning on the 2026 tax-year assistant, they are working from the same substrate: the answer you got at midnight is the answer their tooling gives the agent reviewing your file in the morning. A shared, versioned understanding of the rules between the state and its citizens is a genuinely new kind of public infrastructure, and it is not something any foreign vendor is going to build for us.
+
+Readers of my [MCP servers report](/lab/mcp-servers/) will recognize the shape: the organizing unit is the question someone is actually asking, and everything else gets bundled behind it.
+
+The registry is also where the genuinely Canadian moat lives, and it is not patriotism. It is the boring, legalistic stuff nobody else will bother to test: bilingual parity as a hard gate (does the capability perform as well in French as in English, verified, not asserted), and machine-readable answers to the questions every Canadian counsel asks (residency, Law 25, PIPEDA, retention). Tenancy that matches how this country is actually structured: universities, municipalities, federal departments, and Indigenous organizations governing their own data on their own terms (OCAP is the reference point there, and defining what "appropriate" means is their call, not the platform's).
+
+Privacy is the other wall, and it has to be part of the foundation rather than a settings page. We have already watched the alternative. Grok handed 2025 the full catalogue of failure: the embarrassment (a frontier model hauled offline mid-meltdown after it took to calling itself "MechaHitler"), the abuse of trust (over 370,000 private conversations, medical questions, business plans, at least one password, surfacing in Google search because the share button created public, indexable pages nobody knew about), and the abuse of people (a "spicy" mode that generated sexualized deepfakes of real, identifiable women without even being asked to, while the platform's own acceptable-use policy claimed to forbid it). None of that was a bug in the weights. All of it was governance decided after launch instead of before it. A capability registry runs in the opposite order: what happens to a conversation is declared and evaluated before anything reaches production, and a Canadian's session with a public capability is not training data, not shareable by surprise, and not anybody's engagement metric.
+
+## Run it here or it didn't happen
+
+Now the two halves of this essay meet. Evaluation has to be something the platform does, not something the publisher says: an eval that counts is one that ran on platform compute, with traces attached, repeatable by the next skeptic. Follow that backwards and you arrive at the meter: the platform has to own compute (scarce, shared, queued, with quotas and review; the mainframe model), which means the thing every pitch treats as the budget compromise is what determines a capability's true value.
+
+Scarcity keeps earning its keep from there. Review-before-allocation means a capability gets the shelving conversation (is this worth the metal?) before it exists; the same conversation I argued teams need in the judgement essay, enforced at national scale by a scheduler instead of a lead who happens to be in the room. Efficiency becomes a published, comparable property of every capability, because everything ran on the same metered infrastructure. None of that culture emerges from abundance. Abundance is where you get a registry full of untested uploads and a datacenter full of idle fine-tuning jobs.
+
+## An API key for every Canadian
+
+There is one more thing the meter buys, and it is the part I have not seen in a single sovereign AI deck: citizens. If this is national infrastructure, it should be available and safe for every Canadian, not just for departments with a procurement officer. Concretely, I mean something almost boring: any Canadian can request an API key, the endpoint speaks the standard OpenAI-compatible interface that every tool, library, and agent already understands, and the key comes with a modest monthly allotment. Homework help, a small business writing its first grant application, a retiree sorting out a CRA letter, a kid in Moose Jaw building something weird at midnight. Nobody is promised infinity; everybody is promised a slice. And the slice is a floor, not a ceiling; it works the way a minimum wage works. Educate yourself, take risks, pay commercial rates when your ambitions outgrow the allotment, and nothing stands in your way. The guarantee is at the other end: no Canadian starts at zero.
+
+The promise is only keepable because of the quota. Universal access to unmetered compute is a fiscal fantasy that would die in its first budget cycle; universal access to a metered slice is a line item.
+
+The "safe" half comes from everything above. The citizen key does not serve raw model weights with a maple leaf on them; it serves the capability layer, so what a Canadian gets by default has already passed the bench. And the interface choice is not a detail. Sovereign infrastructure that requires bespoke integration is dead on arrival; speak the dialect the entire ecosystem already speaks, and the cost of choosing the Canadian option drops to changing a base URL. That is the whole adoption strategy, and I feel like it's a good one.
+
+## Publishing at the flip of a switch
+
+The runtime side is not exotic either; the managed-agent platforms have already sketched the shape. Amazon calls it AgentCore: a serverless runtime, a memory store, a gateway that turns existing APIs into tools an agent can call, identity, all primitives you configure rather than servers you run. Put the same primitives inside the border and publishing becomes a switch you flip: pick your capability, and the platform spins up a small isolated instance with the corpus mounted, the tools gated, and the meter attached. Consumers pay a small fee per execution (an execution is the capability doing its job; the evals were its entrance exam), and usage pays for the metal.
+
+Then the long tail shows up, because not every capability needs a company behind it. A university lab publishes its document-extraction pipeline as a free, open capability. A municipal clerk publishes the one that answers zoning questions. Somebody with a weekend, a hobby corpus, and a QLoRA fine-tune publishes a capability because they had an idea, the same way people publish open source. Paid and free live in the same registry and pass the same bench; the price tag is metadata, not a different platform.
+
+And the raw material should be public too. Canada already has an Access to Information Act for documents; extend the same instinct to data. If a corpus was assembled with public money (the legislation, the StatCan tables, the procurement records, the forms and their guidance), publish it machine-readable, under an open licence, documented well enough to train against. Then anyone can fine-tune on Crown data and put the result on the registry, charge for it or give it away, their call. The giants trained on the open web without asking permission; we could do the deliberate version and end up with the thing every white paper claims to want: Canadian capabilities grounded in Canadian data, built by more than the usual suspects.
+
+## Where assets go to die
+
+Governance-first platforms have a distinguished history of becoming graveyards. If publishing to the registry is all cost (forms, evals, review queues) and consuming from it carries no advantage, then nothing good gets published, the metadata gets filled in cynically, and in three years an auditor general writes a report about it. <strong style={{ color: "var(--canada-500)" }}>WASTED.</strong>
+
+The way out is to make the registry how vendors get paid. And the vendors are not hypothetical: Canada already has model shops like Cohere, startups wrapping a model around one legal or medical or payroll workflow, consultancies living inside federal contracts, and university labs (Mila, Vector, Amii) full of work that never survives the hand-off out of academia. Eventually departments themselves would publish capabilities for each other, but the supply side exists today; what it lacks is a buyer worth the paperwork. The federal government buys more software than anybody else in Canada, and anyone who has sold into it can tell you about the grind; eighteen months from first meeting to signature is considered a win. If registry approval turns that into weeks, you never have to beg a vendor to fill in trust metadata or run an eval again. They will do it for the same reason they do everything else: that is where the deal is.
+
+## A library card for the model era
+
+Everything above sounds like infrastructure planning, but what it adds up to is a benefit, in the mundane, glorious way a library card is a benefit. It is for the businesses that need models they can point at customer data without a lawyer wincing, for the builders with an idea for a model of their own and no hyperscaler budget behind them, and for the merely curious, who want to see what the fuss is about without shipping their questions to a server in Virginia.
+
+If that sounds like settling for less, remember January 2025. DeepSeek, a Chinese lab working under export controls, on deliberately hobbled GPUs, with a training budget the American labs would call a rounding error, shipped a model close enough to the frontier that Nvidia lost almost six hundred billion dollars of market value in a single day. They could not buy their way past the constraint, so they engineered past it, and then they gave the weights away. That is the scarcity thesis, run as a live experiment by exactly the kind of outfit every abundance pitch says cannot exist. Canada does not need to beat OpenAI or Anthropic at their own game. It needs its own DeepSeek moment, pointed at Canadian problems, with the results belonging to the citizens who paid for the compute.
+
+Because AI is threading itself into every Canadian's life whether they realize it or not: the bank's fraud model, the kid's homework help, the doctor's dictation notes, the chatbot the airline hides behind. Something that woven into daily life should not be gated by a corporate board in the States deciding what we get, what it costs, and what happens to everything we type into it. It should be a social benefit, and Canada already knows how to deliver one of those: every citizen gets a card, everyone pays for it together, and the limits are what keep it working for the next person. A metered slice of Canadian AI capability, grounded in our data and working in both our languages, is the same kind of promise. The quota is what makes the right affordable, and the right is what makes the quota worth defending. Small and metered is not the compromise position. Small and metered is the thesis.
+
+The mainframe era did not produce disciplined engineering because anyone chose discipline. The machine room made looseness impossible, and rigour was what survived. You do not get that culture by aspiring to it; you get it by building the constraint and letting the constraint teach. The compute-rich would have to impose that constraint on themselves, and nobody does when the money is right there; ours comes with the budget. It would be a shame to spend billions making it go away.
+
+<SoapboxFold title="Too small, too socialist, too bad" signoff="try pitching a library to a VC">
+
+Too small, too fragmented, too close to the Americans, too ... socialist. It's the same list every time someone explains why we can't do (insert literally anything here). Read it again, because it's the spec. Too small to brute-force means clever is mandatory, and DeepSeek just showed the whole world what clever does to brute force. Two official languages and a hundred cultures under one roof means our eval bench tests things the giants can't be bothered to imagine. And living next door to the US means front-row seats to the cautionary tale ... engagement-metric AI, deepfake modes, chat logs in Google ... we're watching what not to build in real time, for free.
+
+The socialist one is my favourite though. The most important software on earth already runs on the most socialist model imaginable ... it's called open source. Linux is everywhere, it runs basically everything, and no corporate board would have approved it: no exit, no upsell, no lock-in, just infrastructure everyone owns and nobody can take away. VCs would have laughed it out of the room, and it outlived every product they funded instead. We built healthcare on that model. We built libraries on that model. For a boardroom in the States, "a library card for intelligence" is inconceivable because there's nothing to extract ... for us, it's just looking out for each other. And we're really good at that.
+
+</SoapboxFold>

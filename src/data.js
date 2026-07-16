@@ -86,6 +86,16 @@ export const TOPICS = {
       "Ecosystem shifts and model cost curves",
     ],
   },
+  "Sovereign AI": {
+    blurb: "National AI infrastructure that treats constraint as the design brief, not the apology.",
+    accent: "canada",
+    keyConcepts: [
+      "Capability registries over model zoos",
+      "Metered compute and eval benches",
+      "Citizen access as a social benefit",
+      "Crown data as open training corpora",
+    ],
+  },
   Opinion: {
     blurb: "The soap-box archive. Read at your own risk.",
     accent: "canada",
