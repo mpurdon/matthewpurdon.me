@@ -114,7 +114,7 @@ const selectedLab = projects.filter((project) => ['grey-eminence', 'tcc', 'mcp-s
           {recent.map((post, index) => (
             <a href={'/notes/' + post.slug + '/'} style={`padding:0 0 14px 16px;border-left:2px solid ${index === 0 ? 'var(--border-strong)' : index === 1 ? 'rgba(213, 43, 30, 0.7)' : 'rgba(71, 207, 237, 0.7)'};border-bottom:1px solid var(--border);text-decoration:none;color:inherit`}>
               <h3 style="margin:0 0 6px;font-family:var(--font-mono);font-size:var(--text-base);color:var(--text-primary)">{post.title}</h3>
-              <p style="margin:0;font-family:var(--font-prose);color:var(--text-muted);font-size:var(--text-sm);line-height:1.5">{post.dek}</p>
+              <p style="margin:0;font-family:var(--font-prose);color:var(--text-muted);font-size:var(--text-sm);line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">{post.dek}</p>
             </a>
           ))}
         </div>
