@@ -29,3 +29,23 @@ Per-article production stats, for tracking how the sausage gets made.
   than the other 35 combined.
 - **Shipped alongside:** Sovereign AI topic page, custom 404 (killed Cloudflare Pages
   soft-404), NOTE_ORDER top slot.
+
+### Compression pass — 2026-07-21
+
+- **Brief:** cut 15–20% without sanitizing the voice, make the capability section the
+  centre, qualify the scarcity thesis, shorten the history and the Grok example.
+- **Size:** 3,727 → 3,244 words (87%), 18 → 15 min. Net cut of original material is closer
+  to 15%: one new ~95-word paragraph went in (badly designed meters produce queues and
+  protect incumbents, which the piece had never conceded).
+- **Blocks:** 32 edited, 2 added, 2 cut, 17 untouched. Removed the Unix/PDP-7 example and
+  two structural announcements the fingerprints guide bans ("Hold that thought…", "Now the
+  two halves of this essay meet"). The mainframe callback moved above the library-card
+  close so the piece ends on "Small and metered is the thesis."
+- **Fact check at release:** Nvidia's cap had moved past the drafted US$4.7T to just under
+  US$5T, so the TSX comparison was restated; Grok's 370k indexed chats and DeepSeek's
+  ~US$600B single-day Nvidia drop both held. DeepSeek's cost and hardware numbers are now
+  explicitly hedged rather than asserted.
+- **New banned phrase:** "the sharpest" as an evaluative superlative.
+- **Tooling:** a throwaway `/review-scarcity` page rendered a word-level diff against HEAD
+  in site typography (green inserts, red strikethrough, CSS-only toggle to hide deletions).
+  Reviewing a compression pass needs to show what left, not what stayed. Deleted at release.
