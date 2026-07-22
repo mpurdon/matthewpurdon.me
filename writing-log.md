@@ -49,3 +49,27 @@ Per-article production stats, for tracking how the sausage gets made.
 - **Tooling:** a throwaway `/review-scarcity` page rendered a word-level diff against HEAD
   in site typography (green inserts, red strikethrough, CSS-only toggle to hide deletions).
   Reviewing a compression pass needs to show what left, not what stayed. Deleted at release.
+
+### Second compression pass — 2026-07-22
+
+- **Brief:** another 8–12%, taken almost entirely as deletion. Qualify the scarcity thesis
+  before the platform argument leans on it, shorten the historical runway, halve the Grok
+  example, make the DeepSeek claims defensible, and end on the thesis lines.
+- **Size:** 3,244 → 2,887 words (89%), 15 → 13 min.
+- **Cut:** the Wirth/Jonathan Blow hot take and the Gates/Allen Altair callout — both good,
+  both making a point the piece already made inline. Wozniak and time-sharing/virtualization
+  carry the history alone now, and the Canadian argument arrives ~290 words sooner.
+- **Moved:** the badly-metered-compute concession added last pass sat in the platform
+  section, arriving after two sections had already relied on scarcity. It now closes "The
+  meter is back" as "Scarcity by itself is not the feature, though. A well-designed meter
+  is." Its old slot is gone, so the concession is made once.
+- **Hedged further:** DeepSeek's causation is now labelled as interpretation ("my reading is
+  that the constraint had something to do with it") rather than asserted.
+- **Ending:** deleted the mainframe callback and the quota chiasmus. Two closers were
+  stacked on top of the real one. The soapbox stays after the final lines per site
+  convention, compressed from two paragraphs to three shorter ones.
+- **Observation:** roughly a third of what came out was material I had added in the previous
+  pass or written as a bridge between two things that did not need bridging. Compression
+  finds its own leftovers.
+- **Also shipped:** `.soap-fold` bodies now use prose leading and 1.2em paragraph gaps. The
+  DS defaults are tuned for the narrow floating asides and read as a wall at full measure.

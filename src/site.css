@@ -48,6 +48,11 @@ figure.mp-pq {
 /* One extra class: the DS's own `.mp-soap--section .mp-soap__head { display:flex }`
    ties at (0,2,0) and is injected later, so it wins without this. */
 .soap-fold .mp-soap .mp-soap__head { display: none; }
+/* The DS body is tuned for the narrow floating asides (1.62 leading, 0.85em gaps).
+   The fold runs the full prose measure and is usually several paragraphs, so it
+   gets the reading rhythm of the article body instead. */
+.soap-fold .mp-soap__body { line-height: var(--prose-leading); }
+.soap-fold .mp-soap__body > * + * { margin-top: 1.2em; }
 /* Native <details>/<summary>: drop the default disclosure marker, and make the
    whole header the click target. */
 .soap-fold__head { cursor: pointer; list-style: none; }
