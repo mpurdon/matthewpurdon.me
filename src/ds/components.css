@@ -230,8 +230,8 @@
 .mp-prose a:hover { color: var(--prose-link-hover); border-bottom-color: var(--prose-link-hover); }
 .mp-prose strong { color: var(--prose-heading); font-weight: 600; }
 .mp-prose em { font-style: italic; }
-.mp-prose h2 { font-family: var(--font-mono); font-weight: 700; font-size: var(--prose-h2); line-height: 1.15; letter-spacing: -0.02em; color: var(--prose-heading); margin-block-start: 2em; scroll-margin-top: 5rem; }
-.mp-prose h3 { font-family: var(--font-mono); font-weight: 600; font-size: var(--prose-h3); line-height: 1.25; letter-spacing: -0.01em; color: var(--prose-heading); margin-block-start: 1.6em; scroll-margin-top: 5rem; }
+.mp-prose h2 { font-family: var(--font-mono); font-weight: 700; font-size: var(--prose-h2); line-height: 1.15; letter-spacing: -0.02em; color: var(--prose-heading); margin-block-start: 2em; scroll-margin-top: 5rem; text-wrap: balance; }
+.mp-prose h3 { font-family: var(--font-mono); font-weight: 600; font-size: var(--prose-h3); line-height: 1.25; letter-spacing: -0.01em; color: var(--prose-heading); margin-block-start: 1.6em; scroll-margin-top: 5rem; text-wrap: balance; }
 .mp-prose h2 + p, .mp-prose h3 + p { margin-block-start: 0.6em; }
 .mp-prose ul, .mp-prose ol { padding-inline-start: 1.4em; }
 .mp-prose li + li { margin-block-start: 0.4em; }
