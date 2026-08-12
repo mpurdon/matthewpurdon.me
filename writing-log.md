@@ -73,3 +73,52 @@ Per-article production stats, for tracking how the sausage gets made.
   finds its own leftovers.
 - **Also shipped:** `.soap-fold` bodies now use prose leading and 1.2em paragraph gaps. The
   DS defaults are tuned for the narrow floating asides and read as a wall at full measure.
+
+## Summaries all the way down — published 2026-04-10
+
+Predates this log; the entry below covers a maintenance pass only.
+
+### Fingerprint pass — 2026-08-12
+
+- **Trigger:** Matthew reading the live article spotted "quietly leave the load-bearing
+  sentence out" and asked why the fingerprint sweep had missed it. It had not: both words
+  were flagged on 2026-07-15 during the scarcity rounds, and the going-forward-only policy
+  left published instances alone. He lifted the policy for this piece because he shares it.
+- **Edits:** 8, all tell removal, no argument changed.
+  - Both "load-bearing" instances. The second one was also saying the same thing as the
+    clause after it, so the sentence went rather than getting a synonym.
+  - "and that is exactly what makes it instructive" — repeated the construction from two
+    paragraphs earlier ("that is what makes the pattern dangerous"). Cut, not reworded;
+    the observation lands harder without the meta-commentary.
+  - "Notice what all of them have in common:" → "All of them keep the detail attached."
+    Structural announcement plus the banned "Notice that…".
+  - Two performed-"honest" instances ("The honest objection", "my first honest reaction").
+  - One not-X-but-Y in the Forte callout, where the quote above it already carried the
+    negative half.
+  - A third consecutive paragraph-initial "And".
+  - "It is C4 for prose." — a repeated thesis in slogan form, two paragraphs after the C4
+    section had made the point at length.
+- **Mic-drops:** the piece had six section closers. Removing two ("It is C4 for prose", the
+  callout reversal) leaves the org-chart line, the tail line, the torn-pyramid line and the
+  ending. Still more than the guide wants; the survivors are the good ones.
+- **Observation:** the two banned words were the cheapest thing in the pass. What actually
+  needed fixing was the density of closers and three places where a claim was made twice in
+  adjacent sentences — neither of which a phrase list catches.
+
+### Corpus "quietly" sweep — 2026-08-12
+
+- **New rule:** "quietly" is allowed only when it describes actual manner ("I took the person
+  aside and quietly explained that they can't do that"), never as the metaphorical
+  unnoticed-shift intensifier. Recorded in the session memory guide.
+- **Scope:** 16 occurrences across 10 articles. Removed 11, kept 4, all deletions — every one
+  survived losing the adverb because the surrounding sentence was already doing the work
+  ("with no note left on the counter to say so", "a lot of people haven't noticed").
+- **Kept:** the tcc retry and credential-refresh lines (genuinely about not making noise),
+  the Grok share button (concealment is the actual charge), and the builder in the judgement
+  article who quietly understood the thing was not worth building — a person, privately.
+- **Worst concentration:** three in the Postman note, which also tripped the
+  don't-recycle-a-pet-phrase rule independently.
+- **Also shipped:** `text-wrap: balance` on `.mp-prose h2` / `h3`. Article and Lab `<h1>`s,
+  card titles and pull quotes already balanced; prose section headings were the last text on
+  the site still wrapping greedily, which orphaned "forgot" onto its own line in "The old
+  fixes knew something we forgot".

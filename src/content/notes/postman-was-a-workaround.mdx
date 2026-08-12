@@ -15,7 +15,7 @@ import SoapboxFold from '../../components/SoapboxFold.astro';
 export const { Callout, Soapbox, PullQuote } = DS;
 
 <Callout variant="takeaway" title="The glance">
-  For years we squinted at raw JSON in a generic REST client because building a real UI for an API cost you an afternoon of plumbing, so renting the generic tool was the rational trade. Agents collapsed that cost, and the trade quietly inverted: a bespoke app that answers your one actual question is now faster to build than the generic tool is to learn, env vars and auth and payloads and all, and it keeps what you figured out as working, debuggable code instead of a folder of requests that worked once. The same flip is coming for a whole shelf of tools that sold you "building this yourself is too expensive." Here is the argument, why the code is not the point, and how I just build the tool now instead of shopping for one.
+  For years we squinted at raw JSON in a generic REST client because building a real UI for an API cost you an afternoon of plumbing, so renting the generic tool was the rational trade. Agents collapsed that cost, and the trade inverted: a bespoke app that answers your one actual question is now faster to build than the generic tool is to learn, env vars and auth and payloads and all, and it keeps what you figured out as working, debuggable code instead of a folder of requests that worked once. The same flip is coming for a whole shelf of tools that sold you "building this yourself is too expensive." Here is the argument, why the code is not the point, and how I just build the tool now instead of shopping for one.
 </Callout>
 
 Last winter I set out to explore a sparsely documented API the way we all learned to: open Postman, build a collection, poke at endpoints until the shapes make sense. I lasted about an hour. Then I closed it, described the app I actually wanted to a coding agent, and had a working client that evening (the whole war story lives in the [Lab](/lab/evalu8/), if you want the play-by-play). The app was better than the collection in every way that mattered, and somewhere in there a suspicion I had been circling for months finally hardened into a sentence: Postman was never a tool. It was a workaround. I uninstalled it.
@@ -24,7 +24,7 @@ Last winter I set out to explore a sparsely documented API the way we all learne
 
 The only reason a generic REST client is a software category at all is that building a real UI for an API used to cost you a real afternoon. Nobody was going to wire up auth and a client and a table for a bespoke view just to look at one endpoint, so we all agreed to squint at raw JSON in a tool designed for the average of every API on earth. That was a reasonable trade at the old prices. It bought you a way to see a response without writing a line of your own code.
 
-And then the workaround grew the way workarounds do. Collections, environments, pre-request scripts, tests written in JavaScript against your responses. Somewhere in that list you are quietly coding again, except you are doing it in a runtime you cannot version, in a UI somebody else designed, and the artifact at the end is a collection that remembers the three requests that worked once and exactly none of what you learned getting there. The knowledge, the part you actually paid for in time, evaporates the moment you close the tab, and there is nothing to hand the next person.
+And then the workaround grew the way workarounds do. Collections, environments, pre-request scripts, tests written in JavaScript against your responses. Somewhere in that list you are coding again, except you are doing it in a runtime you cannot version, in a UI somebody else designed, and the artifact at the end is a collection that remembers the three requests that worked once and exactly none of what you learned getting there. The knowledge, the part you actually paid for in time, evaporates the moment you close the tab, and there is nothing to hand the next person.
 
 <Soapbox variant="aside" label="Hot take" signoff="the workaround outlived the problem">
 
@@ -38,7 +38,7 @@ The bespoke app just answers it, and it keeps what you learned getting there. Ev
 
 ## The code stopped being the point
 
-There is a second thing hiding under the first, and it is bigger than Postman. When generating the whole app costs an evening, code stops being something you pour your heart into and quietly becomes disposable: the by-product of an answer, not a possession. For a task that small I did not read the source, did not review it, and I genuinely do not care how it is written. The only question that earns any attention is whether it returns the right rows.
+There is a second thing hiding under the first, and it is bigger than Postman. When generating the whole app costs an evening, code stops being something you pour your heart into and becomes disposable: the by-product of an answer, not a possession. For a task that small I did not read the source, did not review it, and I genuinely do not care how it is written. The only question that earns any attention is whether it returns the right rows.
 
 <PullQuote cite="Matthew Purdon">
   No customer has ever asked for cleaner code in a survey. They want features that work.
