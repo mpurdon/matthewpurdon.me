@@ -14,7 +14,7 @@ const NOTE_ORDER = [
   'summaries-all-the-way-down',
 ];
 const PROJECT_ORDER = [
-  'grey-eminence', 'tcc', 'mcp-servers', 'evalu8',
+  'cora', 'grey-eminence', 'tcc', 'mcp-servers', 'evalu8',
   'matthewpurdon-design-system', 'technical-evolution-proposals',
 ];
 const rank = (order) => (slug) => { const i = order.indexOf(slug); return i < 0 ? 999 : i; };

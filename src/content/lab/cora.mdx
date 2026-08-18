@@ -1,0 +1,100 @@
+---
+name: "CORA"
+type: "Software"
+ai: true
+status: "In use"
+accent: "canada"
+featured: true
+tagline: "A desktop copilot that watches my GitHub pull requests: an agent-native architecture where the assistant and the GUI share one command layer, C4 diagrams for blast radius, and a review plan that ranks by arithmetic instead of judgment."
+summary: "After many hours in somebody else's PR reviewer, I built my own to try a few ideas: an agent-native architecture where the built-in assistant drives the same audited actions as the buttons, C4 to work out what a change actually touches, an always-on-top panel so pull requests reach someone whose attention is committed elsewhere, and computed diff metrics in place of the model's judgment wherever it would hold still. Six weeks on Tauri and Bedrock, and most of what improved was not the AI."
+stack: ["Rust", "Tauri 2", "React", "TypeScript", "AWS Bedrock", "SQLite"]
+link: "https://github.com/mpurdon/cora"
+linkLabel: "Source on GitHub"
+year: "2026"
+date: "August 15, 2026"
+---
+
+import DS from '../../ds/index.js';
+export const { Callout, Soapbox, PullQuote } = DS;
+
+One of the standing problems with pull requests is that they are enormous. A change arrives spread across many dozens of files, and only a portion of those hold anything you would want to think about. The rest is barrel files re-exporting whatever moved, package manifests, lockfiles, generated types, snapshots. Reading a PR end to end mostly means scrolling past the bulk of it looking for the parts that are actually a decision.
+
+In April I was contributing to somebody else's answer to that. Teancum "TJ" Besendorfer had built Relevant Reviews (it is called Marrow now), a macOS app that loads a PR, has a model classify every file, and surfaces the ones worth reading. I pitched in with bug reports, fixed a few of them myself, and spent a few months learning where my thinking and TJ's diverged.
+
+In July I started my own. Not because Marrow is wrong; it is good, and I still recommend it. Many hours of using it (and many hours saved by it) had left me with a list of things I wanted to try, and none of them were "classify the files better." The scaffold, the Bedrock engine and the C4 drill-down all landed on July 7, in one day. The five weeks after that were spent finding out how they were wrong.
+
+## M-x, but for pull requests
+
+What I wanted to build is an **agent-native application**, which is a different animal from an app with an AI assistant bolted to the side. In an agent-native architecture the agent and the GUI are two interfaces over the same application capabilities: the agent invokes the same domain actions the buttons and forms invoke, and anything it changes appears in the UI immediately, because there is only one place the change can happen.
+
+The idea is older than the acronym. Mac applications were scriptable through AppleScript and OSA decades ago; Windows had COM automation; Emacs has done the purest version of it since the seventies, where every user-facing action is a named command and the keybinding is just a binding over the same command `M-x` reaches. The GUI is one client of the command layer, not the layer itself. People in agent-land now say "the app is its own MCP server," which is the same shape even when, as here, no MCP protocol is involved.
+
+So CORA's assistant has two kinds of tool. Research tools run freely, because reading is cheap and reversible: fetch the diff, read a file, list the tree, search code, pull the README and docs, look at recent PRs and commits. Fifteen more change something: post a comment, post a diff comment carrying a GitHub code suggestion, reply to a thread, resolve one, submit a review as approve or request-changes, merge, close, reopen, mute a PR, untrack it, set priority on a PR or a repo or an author. Those pause and wait for a confirmation in the panel.
+
+<PullQuote cite="CORA, src-tauri/src/analysis/chat.rs">
+  Mutating app actions: paused for confirmation, executed via the same audited paths as the UI buttons.
+</PullQuote>
+
+That comment is the part I like. The audit trail does not know whether a mute came from my right-click or from the model, and the undo works identically either way. It only works because the audited command layer had to exist first, which is why "repo priority is now a first-class audited command" is a commit from July 8 and the assistant's action tools arrive a month later.
+
+Two rules in the system prompt were paid for with failures. Propose one action at a time, with the exact text you intend to post (an assistant that batches four comments and asks for a single yes is not really asking). And never claim an action happened unless the tool result says so, which went in after a cheerful "I've approved that for you" about a call that had failed.
+
+## The diff does not contain the answer
+
+Marrow answers "which files in this PR matter." The questions I kept wanting answered were about risk: what does this change put at risk in the existing codebase, what does it do to the overall architecture, and what does it cost in maintainability later. Underneath those sits a plainer one: does this actually do what the Jira ticket asked for? File classification cannot reach any of them, because the answers mostly live in code the diff does not contain.
+
+So CORA renders the system as a C4 diagram with the change highlighted, and double-clicking a node zooms in and runs a focused analysis one level down. This is why the analysis is agentic rather than one call over a diff: the model gets repository tools and explores (docs, tree, targeted reads) until it can place the change in the architecture. It is the expensive way to do it, and the only way I have found that reaches code the pull request never touched. The ticket question it does not answer at all: CORA has the diff and the repository, not the Jira board.
+
+<Callout variant="note" title="Under the hood">
+  Tauri 2, Rust core, React front end, SQLite for the analysis cache with head-SHA invalidation on push. The engine is a Bedrock Converse loop with parallel tool execution per turn. The canvas is React Flow with ELK doing layout, plus boundary nesting and change-status styling. Drilling into an unchanged node needs an explicit confirm, and drill-down prompts are anchored to the diff so a level-two analysis inherits the level-one result instead of re-exploring from scratch. Auth is an SSO profile, because the account this runs against is a corporate one.
+</Callout>
+
+The layout fought me for weeks; my note at the time was just "the architecture layout is weird." C4 also wants distinct shapes for a person, an external system and a container, which a generic box does not give you. When it comes out right it is the fastest way I know to see that a two-line change sits on a boundary three teams depend on. When it comes out wrong it is a nice picture of some boxes.
+
+## A mini player for pull requests
+
+I am time-poor in the specific way a principal engineer is time-poor: initiatives running in parallel across a lot of projects and a lot of technologies, and at any given moment most of them are not the one in front of me. Switching between them is the job and I am good at it. What I cannot do is give any one of them continuous attention, which means a review tool that requires me to be looking at it has already lost. The failure mode is not reviewing a PR badly. It is not finding out a PR is waiting until somebody asks about it on Thursday.
+
+Spotify's mini player is the interaction I was after: small, always available, readable at a glance, no context switch to check it. CORA's callout window went through three shapes in two days. It started as an action console with buckets and verb chips, became a three-by-two grid of stat tiles (fix, address, merge, review, new, comments) with a height-fitted focus list and a +n overflow, and settled as a compact single-row segment strip. Double-clicking a tile opens the main window pre-filtered to that bucket with a dismissible chip, so the glance and the work are one gesture apart.
+
+Getting its position to persist across quits was fiddlier than the whole rest of the window. Window state has to be flushed on tray-quit, and visibility has to be deliberately excluded from the restore, so that the startup setting decides whether the callout comes back rather than whatever happened to be true when I last shut down.
+
+## The bots were talking to each other
+
+<Soapbox variant="aside" label="Petty grievance" signoff="nobody has ever read one">
+
+Coverage bots. Every PR, a table of eighty rows and a delta of -0.02%, posted as a *comment*, in the same feed where a person might be asking me a question. It's not information, it's a receipt for a job that ran. Put it in the checks tab where receipts go. I built a bot classifier for a few reasons and I'd be lying if annoyance wasn't one of them.
+
+</Soapbox>
+
+CORA notified me whenever there were replies on a PR, which for about a day meant constantly. Coverage bots comment. Badge bots comment. CI comments, then edits its comment, which counts as new.
+
+The fix was to track recent commenter identities, normalize the Bot typename out of the set, and exclude automation from change detection entirely. Bot messages still show up in the Comments tab, tagged, and clamped hard so an eighty-row table does not own the viewport.
+
+Working out what counts as a human reply led straight into working out what counts as having read one. Unread state used to clear when I selected a row, which meant the app believed I had seen things I had merely clicked past. It clears on engagement now: a comment or a commit is acknowledged when it has actually been read, not when its row was highlighted on the way somewhere else.
+
+## A ranked list will not tell you it is guessing
+
+The review plan's first version asked the model to sort files by what deserved attention. It produced an ordering, the ordering looked plausible, and on anything bigger than a dozen files it was mostly wrong. That took a while to notice, because a ranked list of filenames does not announce that it is guessing. Better prompting did not fix it. On July 9 the plan started being grounded in computed diff metrics: churn, file type, whether a file is an interface others depend on. The model still classifies; it classifies against numbers it did not invent. Reading order falls out of that, interfaces first and tests last, and noise files collapse by configurable glob rather than by anyone's taste.
+
+A day earlier the same instinct had fixed something smaller. When the model returned a malformed submission the engine retried, twice, burning a turn each time. Coercing the schema drift on the way in turned two retries into zero.
+
+## The part that worked first try
+
+CORA does Bedrock prompt caching properly: cache points on the tool block, on the system block, and as a rolling checkpoint through the message history, with a graceful fallback where it is not supported. It went in on July 8 as ordinary plumbing and I barely remember writing it.
+
+I remember it now because a month later I looked at another project of mine, on the same Bedrock path, and found it sending no cache points at all, while its cost accounting dutifully recorded the zeros.
+
+<Callout variant="tip" title="Coming to Field Notes">
+  What happened next is a longer story than this page wants: dozens of automated reviews on that other project, and none of them asked the question that would have found it. That is the subject of an upcoming Field Note. The C4 canvas also owes something to the [summaries essay](/notes/summaries-all-the-way-down/): a three-second TLDR, an expandable assessment, and the untruncated diff underneath, so the reader picks the altitude and the detail stays attached.
+</Callout>
+
+## What six weeks returned
+
+CORA is an instrument rather than a product. I built it to learn a few things and I am the only person who needs to run it, which is a comfortable place to build from.
+
+I went in assuming the interesting decisions would be about the model. Mostly they were not. Churn is the clearest example: deciding that how much a file has changed predicts whether it is worth reading is a product decision rather than a modelling one, and the whole review plan rests on it. What counts as a bot, and what counts as a file actually changing, were the same sort of decision on a smaller scale.
+
+What the measurements bought was a way to check them. A ranking that feels right and a ranking that is right look identical from the outside; grounding the plan in computed metrics is what told me the difference, both that the call was worth making and that the code was actually making it. Prompting is the last step rather than the first. It carries a decision to the model; it does not make one.
+
+What I still do not know is whether the C4 view earns its cost. It is the most expensive thing CORA does and the one I would defend least confidently; some weeks it shows me a two-line change sitting on a boundary three teams depend on, and some weeks I close it without reading it.
