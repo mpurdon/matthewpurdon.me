@@ -6,7 +6,7 @@ import ArticleLayout from '../../layouts/ArticleLayout.astro';
 import { getEntry, render } from 'astro:content';
 
 export async function getStaticPaths() {
-  const notes = await getNotes();
+  const notes = await getNotes({ includeUnlisted: true });
   return notes.map((post) => ({
     params: { slug: post.slug },
     props: { post },
@@ -55,6 +55,7 @@ const noteSchema = {
   ogType="article"
   ogImage={`/og/notes/${post.slug}.png?v=${ogVersion([post.title, post.category, post.dek, post.accent, post.time, post.number])}`}
   view="notes"
+  noindex={post.unlisted}
   jsonLd={[noteSchema]}
   breadcrumbs={[
     { name: 'Home', path: '/' },

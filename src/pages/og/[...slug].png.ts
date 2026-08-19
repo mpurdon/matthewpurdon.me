@@ -95,7 +95,7 @@ async function toPng(spec: any) {
 }
 
 export async function getStaticPaths() {
-  const notes = await getNotes();
+  const notes = await getNotes({ includeUnlisted: true });
   const projects = await getProjects();
   return [
     ...notes.map((p) => ({ params: { slug: `notes/${p.slug}` }, props: { kind: 'note', data: p } })),

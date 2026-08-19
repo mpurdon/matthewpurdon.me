@@ -15,6 +15,7 @@ interface Props {
   breadcrumbs?: { name: string; path: string }[];
   view?: string;
   ogImage?: string;
+  noindex?: boolean;
 }
 
 const {
@@ -24,7 +25,8 @@ const {
   jsonLd = [],
   breadcrumbs = [],
   view = "home",
-  ogImage
+  ogImage,
+  noindex = false
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site || SITE_URL).href;
@@ -71,7 +73,7 @@ const pageSchemas = breadcrumbSchema ? [...jsonLd, breadcrumbSchema] : jsonLd;
   <meta name="description" content={description} />
   <meta name="author" content="Matthew Purdon" />
   <meta name="keywords" content="Matthew Purdon, Matthew Purdon Toronto, Matthew Purdon principal engineer, Matthew Purdon software engineer, AI-assisted engineering, the new SDLC, developer tools, mpurdon" />
-  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <meta name="robots" content={noindex ? "noindex, nofollow" : "index, follow, max-image-preview:large"} />
   <link rel="canonical" href={canonicalURL} />
   <meta name="theme-color" content="#242220" />
   <!-- Self-hosted fonts (latin subset, see ds/tokens/fonts.css). Preload only the

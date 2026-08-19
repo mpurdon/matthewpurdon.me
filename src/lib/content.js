@@ -21,9 +21,12 @@ const PROJECT_ORDER = [
 const rank = (order) => (slug) => { const i = order.indexOf(slug); return i < 0 ? 999 : i; };
 
 // Field Note issue number = chronological rank (oldest = 01), independent of display order.
-export async function getNotes() {
-  const entries = await getCollection('notes');
-  const byDate = [...entries].sort(
+// Unlisted notes are excluded everywhere by default; pass includeUnlisted for the
+// routes that must still build the page itself (the note route and its OG card).
+export async function getNotes({ includeUnlisted = false } = {}) {
+  const all = await getCollection('notes');
+  const entries = includeUnlisted ? all : all.filter((e) => !e.data.unlisted);
+  const byDate = [...all].sort(
     (a, b) => new Date(a.data.dateLong || a.data.date) - new Date(b.data.dateLong || b.data.date)
   );
   const numberOf = (id) => String(byDate.findIndex((e) => e.id === id) + 1).padStart(2, '0');

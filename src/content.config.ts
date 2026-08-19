@@ -15,6 +15,10 @@ const notes = defineCollection({
     category: z.string(),
     accent,
     featured: z.boolean().default(false),
+    // Unlisted: the note builds at its own URL but is hidden from every index,
+    // the feed, the sitemap and llms.txt, and is served noindex. For circulating
+    // a draft for feedback before it is really published.
+    unlisted: z.boolean().default(false),
     date: z.string(),
     dateLong: z.string(),
     updatedLong: z.string().optional(),
