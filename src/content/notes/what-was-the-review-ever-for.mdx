@@ -1,0 +1,137 @@
+---
+title: "What was the review ever for?"
+dek: "A page that annoyed me when I resized the window, and a production code path that cost five to ten times what it should have. Neither was a defect, neither would have shown up in a diff, and one of them survived every review I designed."
+category: "The New SDLC"
+accent: "indigo"
+featured: false
+date: "Aug 18, 2026"
+dateLong: "August 18, 2026"
+time: "16 min read"
+tags: ["The New SDLC", "AI-Assisted Engineering", "Opinion"]
+---
+
+import DS from '../../ds/index.js';
+import SoapboxFold from '../../components/SoapboxFold.astro';
+export const { Callout, Soapbox, PullQuote } = DS;
+
+Last week I put a very small site online. One image, a footer, about as little as a page can be while still being a page.
+
+The image was the point. I have owned codenaked.org for something like twenty years, bought for a joke I had no way to render: Coed Naked Coding, in the manner of those 1990s T-shirts. I was making memes for work with GPT-5.6 Sol, they were coming out great, and I wondered whether it could finally do the one I had been waiting on since before some of my colleagues could read. It could. I love it. The agent that built it posted a completion report (valid certificate, HTTPS redirect, a real 404, all four security headers, deploys wired up), then went hunting for loose ends and raised the wrong one, something about a missing licence file for the artwork. It did not matter. Ship it!
+
+Then I kept looking at it, and typed this:
+
+> Although looking at it safari doesn't feel as nice as in arc/chrome. the image isn't as big or soemthing as I resize the window
+
+That is the whole input. A hedge, a typo, no theory, nothing anyone could act on. Handed to any review process I have ever designed it would be discarded as noise, correctly, because there is no information in it. There is only a person looking at a thing and not liking it.
+
+<Callout variant="takeaway" title="The glance">
+  Two failures a week apart: a page that annoyed me when I resized the window, and a production request path with no prompt caching that cost five to ten times what it should have, and nobody noticed. Neither threw an error, neither was catchable in a diff, and the expensive one survived every review I designed, on the most capable model sold, while its own accounting fields dutifully recorded zeros. What I am left with is not a policy. It is a question about whether the pull request was ever doing the work we credit it with, and a suspicion that the only part worth a human's attention now is the judgement behind a change rather than the change itself.
+</Callout>
+
+It was a real bug. The image had been told it could be as tall as the box it sits in. That box had been told it could be as tall as the box *it* sits in, and so on up to the page itself, so at no point had anybody stated an actual number. Chrome is willing to work its way back down that chain and invent one. Safari waits to be told, and when nobody tells it, hands back less. The agent worked this out faster than I would have, replaced the chain with arithmetic (window height, minus the footer, minus the page margins), and checked for overflow at 1440x900, 1280x620 and 390x844. Its reply: "Your instinct was right, that wasn't a feel difference, it was a real bug in my CSS."
+
+Except it was still wrong, and I had to go back a second time:
+
+> something's still off in safari. If I load he page and then resize it smaller and then back to the original size it's smaller than the original was, refreshing you see the image jump back up
+
+The real cause was a layer further down. The page ships the picture at several different resolutions and lets the browser pick whichever suits the space. Because the styling never gave the image a width of its own, the size of whichever copy got picked became the size of the picture on the page. Shrink the window, the browser picks a smaller copy, and the picture shrinks. Grow it back and Chrome does the sum again while Safari keeps the smaller answer it already has. So every shrink lowered the ceiling a notch and nothing raised it again, and reloading started the calculation over, which is why the image jumped back up.
+
+The verification for the first fix was real; it measured three window sizes and all three were fine. The bug was state accumulating across a sequence of resizes, and a sequence is invisible in a snapshot by construction. The agent tested every failure it could imagine. I grabbed the corner of a window and wiggled it, which was in nobody's test plan, least of all mine. I do not even know why I had the thing open in Safari. I do not use Safari, and I do not really care whether that page is a bit off in a browser I never open. Once you have seen it, though, you cannot unsee it.
+
+The agent out-diagnosed me twice and would have kept going all day. What it could not do was look at the page and be bothered. For nine turns, neither could I.
+
+## Three minutes is not a good time
+
+That is a toy. One image on one page, no users, no money. It stuck with me because the same shape turned up a week later at production scale with money attached.
+
+I do not approve things I have not read. But I can see the averages, and on plenty of teams the mean time spent on a code review is under three minutes. Not the median of the trivial ones; the average across everything, including the forty-file changes. Three minutes is enough to scroll a diff and form an impression of its shape, and nowhere near enough to think about what the change does to anything the diff does not contain.
+
+None of this is new and none of it arrived with AI. Every team I have worked on has had the "can you approve this real quick? it's blocking the release" ritual, and every one of them has recorded the result as a reviewed change. We just never counted it, because the artifact a review produces is an approval, and an approval looks the same whether it took three minutes or three hours. Green means go!
+
+<Soapbox variant="aside" label="Hot take" signoff="approval is a button click, not a guarantee">
+
+"can you approve this real quick, it's blocking" is a request for a signature, not a review, and everybody in the thread knows it. Say no, or sign it. Just don't say "well it went through code review and everyone approved it" in the incident report.
+
+</Soapbox>
+
+The new numbers make the old habit cheaper. Faros published [The Acceleration Whiplash](https://www.faros.ai/research/ai-acceleration-whiplash) in April, two years of telemetry across 22,000 developers, comparing each organization against itself before and after heavy AI adoption. Pull requests got 51% bigger. The number of distinct PRs a developer touches in a day went up 67.4%. Median review time went up fivefold, which sounds like people trying harder until you notice that incidents per PR went up 242.7% and code churn went up roughly tenfold. All of these numbers are bad™, but I have a growing sense of dread around this fact: pull requests merged with no review at all, human or agentic, are up 31.3%.
+
+So the argument about whether humans should stay in code review is running well behind the practice, and the practice is not being decided by anyone in particular.
+
+## Sam is mostly right
+
+Sam Newman put out a video recently called ["Can We Trust AI to Code Without Human Oversight?"](https://youtu.be/6deDU-JeRuI), which is what set me off. His argument is careful and mostly right, which is the annoying part. He lists what a code review traditionally buys you (correctness, shared learning, alignment to how we do things here, awareness of what is going on around you) and shows each one degrading when a model writes the code.
+
+Three of the four I concede without much of a fight. Correctness through manual reading was always weaker than we admitted, and at fifty files a PR it is decorative. Shared learning is gone, because you cannot teach an agent in a review thread. Alignment I care about less every year, at least at the level of code consistency, which you can now enforce mechanically and stop asking people to notice.
+
+Awareness is where we part ways. His fallback is that an AI-authored summary of the edits is about as useful as reading the code, which is exactly the [compression chain I have argued against before](/notes/summaries-all-the-way-down/): the summary is not wrong, it is omitting, and what it omits is unrecoverable at the point you need it. Trading the review for a summary of the review buys a false sense of awareness, produced by the same system whose work you were supposed to be checking.
+
+He also points at Chainguard as the company that stopped human code review in favour of design decisions. [Their own account](https://www.chainguard.dev/unchained/this-shit-is-hard-how-ai-keeps-our-code-on-standard) is narrower than the summary of it, and what the summarizing dropped is the part that matters. Over eight weeks a fleet of agents opened 4,746 standards-fix pull requests, and 840 of the 1,117 eligible ones merged with nobody watching; eligible meant a confidence grade bound to that exact commit and every required check green on it. The thing that does the merging is a separate bot with no model in it at all ("no model, no judgment, just policy"), and anything touching production infrastructure or auth still goes to a person. They did not delete the review. They moved the judgement up a level, into a standard written once and applied everywhere.
+
+## It ain't got no gas in it
+
+GiTF is an agent platform I work on, and every mission it runs makes a long sequence of model calls with an enormous stable preamble: system prompt, tool definitions, the conversation so far.
+
+It sent no cache markers at all. Not misconfigured ones, none: nothing telling the provider to keep that preamble warm and charge a tenth of the input price for it on the next call, for months. Every mission cost somewhere between five and ten times what it needed to. Luckily this is all still experimental and I have AWS budget alerts hooked up, or I would have been selling a kidney to settle the bill.
+
+Here is what makes it worse than an oversight. The codebase was full of caching. The cost module had `cache_read_tokens` fields, cache pricing tables, cache aggregation rolled into every summary; the Gemini path had an entire class called `GeminiCacheManager`. Anyone who greps for "cache" finds plumbing everywhere and concludes the feature is handled. Those fields had been faithfully recording zeros since the day they were written, and zeros do not alarm anybody when it comes to costs.
+
+<Callout variant="note" title="Sandy Island, 1876 to 2012">
+  There used to be an island in the Coral Sea called [Sandy Island](https://en.wikipedia.org/wiki/Sandy_Island,_New_Caledonia). A whaling ship charted it in 1876, the British navy's official charts copied the whaler, National Geographic copied the navy, the digital shoreline databases inherited it when the paper charts were converted, and by 2012 it was sitting on Google Earth as a long black polygon in an otherwise blue sea. That November an Australian research vessel sailed to the coordinates to have a look at it and found open water, the sounder reading thirteen hundred metres and never anything shallower. Every chart was excellent evidence of the chart before it. Not one of them was evidence of an island. What resolved it, after 136 years, was somebody aboard that ship weighing the answer to an idle curiosity above the fuel it would burn to go and get one. They wanted to know what was really out there. It was a plate tectonics cruise; nobody was paying them to check. A model would have plotted the course dutifully around it, calculating wind and currents for the most efficient way past a thing that does not exist. We sailed past those zeros for months.
+</Callout>
+
+This is the thing that makes working with these tools infuriating. None of it was obscure. The vendor documents the feature, prices it, and publishes the exact diagnostic (check the two cache fields; if they are zero it is not working). We had an audit skill that inventoried every external platform the system depends on, and another that walks all six AWS Well-Architected pillars, cost optimization and operational excellence among them. Those agents found plenty. A dedicated cost review looked at a request path burning ten times what it needed to and reported nothing. Not one of them ever asked what the platform was offering that we were not taking. Mad power, and no idea what to point it at.
+
+So I asked it why none of that had caught this. The answer was annoying in the matter-of-fact way these things excel at:
+
+> **Why wasn't that something caught by the dozens of reviews of the code we've done?**
+>
+> Every lens we ever pointed at this codebase was a "what's broken" lens; none was a "what's missing that the platform offers" lens.
+
+A trip to the kitchen for another coffee, a few minutes lamenting my choice not to be an electrician, and I carried on with the session, adding the caching mechanism to the top of the todo list.
+
+Two details make this harder to explain away. All of it ran on Fable, the most capable model on sale and priced accordingly, and that goes for the reviews that missed the absence and the diagnosis that eventually found it. A better model would not have helped, because the blind spot was in the question. And three weeks earlier, in a different repository on the same provider, I had implemented prompt caching correctly: cache points on the tools, on the system blocks, rolling checkpoints through the message history. That code has been sitting in [CORA](/lab/cora/) since July. So this was not a knowledge gap; I had already built the thing, and still shipped and reviewed a production path that did without it.
+
+What finally exposed it was a ceiling. When we hit a daily token quota, cost stopped being an abstraction and turned into a failure, and the question got asked within the hour. That is the only mechanism that worked. Not a review, a limit.
+
+## I would have said yes
+
+Both of these have the same shape, and it is not the shape our tools are built for. The page rendered. Nothing threw. The requests succeeded. The budget caps worked perfectly, enforcing correct budgets against inflated prices. Correct, and wrong.
+
+Reading the diff harder catches neither. That is the concession I have to make before I am allowed to argue anything, because it costs me the easy position. I cannot claim we need humans in review on the grounds that humans read code better than models do. At this volume, on the median PR, they do not, and Sam is right about that.
+
+What I want a human on is a different question: was the judgement behind this change any good. Did the person driving it understand the problem well enough that this was the right thing to build. Did they look at what the platform was already offering before writing their own. Is the shape right, or is it just working. That question survives everything AI does to Sam's four, because it is about the person, and there is still a person.
+
+And I do not know how to operationalize it, which is where the whole thing goes soft. Write it down and it becomes a checklist, and a checklist only ever finds the things on it, which is precisely how the cache miss (heh) survived. Leave it unwritten and it stays in my head, where it is no use to anybody but me.
+
+The closest I have is the assistant in CORA, which tries to work out how a change fits the picture around it and which parts of it carry any blast radius. On a finding I can click <span class="ui-label">explain this like I am five</span> and get what it is, why it matters and what to do about it, then argue with the answer with the whole repository in context before I have it post the comment and request the changes. What nags at me is why CORA exists at all: I built it because my sense of what matters in a review differed from somebody else's, and what I built encodes mine. The far end of writing it down is Damn Matthew's Infernal Machine: my instincts, tuned to my own mistakes, applied to everybody else's work.
+
+<Callout variant="note" title="Do What I Mean, 1972">
+  We have been here before, at a much smaller scale. In the early seventies Warren Teitelman built a package for Interlisp called DWIM, for Do What I Mean: it read your code, decided which bits were mistakes, and corrected them on your behalf. It was seriously clever and people seriously hated it, because the pain in the butt was that it had been tuned to the particular typos Teitelman himself was prone to and no others. Everybody else got one person's instincts applied to their programs. They started saying DWIM stood for Damn Warren's Infernal Machine.
+</Callout>
+
+CORA taught me the other half too. It orders my pull request queue using weights I set on the repository and on the person who opened the change, so an AWS SSO configuration change from the engineer who always draws the hairiest problems on the tightest deadlines sits well above a maintenance version bump in a repository I barely touch, opened by a junior. None of that came from the model. Asked for a list, it sorted alphabetically. Asked to think about the problem I actually had (there are 250 pull requests open, how do I know which one deserves me right now), it came back with a file-importance weighting, which was good enough that I kept it, and that was as far as it went. It was never going to work out that I care about some repositories more than others, or that certain people get handed the work most likely to hurt. How would it know? Its world is a small place, and its window into that world is smaller.
+
+The blank spot shows up from the other direction too. Nothing suggested that meme to me. I had wanted it for twenty years, the thing that could finally make it had been sitting on my desktop for weeks, and at no point did it say "that thing you have been waiting on, I can do that now". I had to go and wonder. Claude has watched me push dozens of enormous pull requests through it and ask for a summary as a principal engineer, and it knew I had spent the spring contributing to Marrow, and it has never once suggested I build my own reviewer. I built CORA anyway. Every question these tools have answered well for me is one I brought them.
+
+I also notice that I would have failed my own test. Nobody asked me whether the judgement behind the GiTF request path was sound, and if they had, in month two, I would have said yes.
+
+## A dark factory of my own
+
+Sam closes by borrowing the dark factory, the automated plant that runs with the lights off because nobody is inside, and asks whether you have considered one for code. I already run one. Work goes out to agents on `ghost/` branches, comes back merged, and I talk about improving the factory the way you would talk about a machine.
+
+A factory makes what you tell it to make. That is the whole point of one: repetitive work, all day, for days on end, without complaint, and mine is very good at it. What no factory has ever done is design the thing it stamps out. Before the line there is a prototype, and the prototype is where somebody picks the thing up and asks what no specification holds: how does this feel in the hand, does the latch make a satisfying click, is it too heavy, does it feel worth the price we plan to sell it at. Those are taste, and they all get settled before the tooling is cut.
+
+Sam's closing question is whether you trust your workflow enough to stop looking. Mine is worse than that, and it points at the people rather than the machines: we are not as good at building things as we like to believe. We are human. There are four other things running, a release that slipped, a meeting in ten minutes, a message saying it is blocking. "Looks good" is what a tired person says at four o'clock on a Thursday, and I do not blame them; I just do not yet know how to help them.
+
+I do not have a policy to offer. What I have is a habit of looking at the invoices more often, another of wiggling the browser window whenever I look at a page, and a suspicion I cannot shake that the review was doing less than we all said it was long before any of this started.
+
+<SoapboxFold title="LGTM" signoff="nobody was reading them then either">
+
+Here's the thing nobody wants to say out loud in the AI argument: the code review was already broken before the robots showed up. Fifteen years of LGTM and a thumbs-up emoji on a forty file PR. "can you approve this real quick, it's blocking the release" ... and we all did it, and then we all wrote the review step up in the postmortem like it was a control that existed. brutal.
+
+So when someone tells me AI is destroying code review I want to know which code review, because the one I keep seeing in the metrics was never really a review. It was a merge delay with a person's name on it.
+
+I'm not saying throw it out. I'm saying stop citing it. If your team's average is three minutes, you have two options and only two: make the review real, which costs time you will have to actually take from somewhere, or admit it isn't one and go spend that effort where it lands (design conversations, tests that mean something, a limit that makes invisible costs visible before the quota does it for you). What you can't keep doing is running a ceremony and calling it a gate. Everyone knows. We've all known for years.
+
+</SoapboxFold>
