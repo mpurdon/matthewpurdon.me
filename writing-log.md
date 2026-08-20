@@ -122,3 +122,42 @@ Predates this log; the entry below covers a maintenance pass only.
   card titles and pull quotes already balanced; prose section headings were the last text on
   the site still wrapping greedily, which orphaned "forgot" onto its own line in "The old
   fixes knew something we forgot".
+
+## What was the review ever for? — published 2026-08-19
+
+- **Idea to published:** 3 sessions. Research August 16 (GiTF prompt-caching transcript mined
+  out of the session JSONL, the codenaked Safari sequence reconstructed from git history and
+  transcripts, Cora/Marrow provenance, Sam Newman's video transcribed and argued with).
+  Matthew overruled the article-first plan mid-research — the Cora Lab story had to ship
+  before a Field Note could lean on it — so the Lab report went out August 18. Draft and
+  ship August 19: first render ~6:20pm, unlisted for feedback by ~6:30pm, published 10:30pm.
+- **Revision rounds:** ~60 from Matthew, 22 commits on the article file. Weighted heavily
+  toward the Soapbox, which took 11 consecutive rounds on its own.
+- **Size:** first draft 3,819 words; published at 3,745 / 17 min. The compression pass
+  I projected at ~350 words delivered 51 — the draft was already tight, and saying so
+  would have been cheaper than the pass.
+- **The register correction that shaped the piece:** the first draft stated a policy.
+  Matthew: "I am not stating a policy in this article, I'm stating a sense of unease about
+  the way forward. Were we ever right about what we thought PRs were doing." Every
+  prescriptive sentence came out. The one that survived does so as a question.
+- **Rubber-stamping constraint:** no anecdote, because he does not do it. What he has is the
+  metric — average review time under three minutes — which is a stronger claim than a story
+  and required rewriting the section around evidence he can point at rather than a scene.
+- **Headings:** the first set were verbless labels ("The part I cannot specify"). A count of
+  the corpus found 26 of 30 existing section headings make a claim with a verb; these were
+  4 of 5 without one. Rewritten to "Three minutes is not a good time", "Sam is mostly right",
+  "It ain't got no gas in it", "I would have said yes", "A dark factory of my own".
+- **Sourcing:** the Chainguard paragraph was a hedge until Matthew's (wrong) hunch that it
+  was an X post unblocked the search — their own engineering blog has the numbers, and what
+  the second-hand summaries dropped turned out to be the part the article needed. The Faros
+  figures got the study's actual name and a link. The GiTF verbatim was recovered by grepping
+  the raw session JSONL rather than paraphrasing from memory.
+- **Self-caught fingerprints:** a structural announcement ("Which brings me to the part of my
+  own year I have been avoiding") and a three-beat negation with a fragment, both removed
+  before Matthew saw the draft — which is what the checklist is for.
+- **Shipped alongside:** an `unlisted` frontmatter flag (builds at its own URL, served
+  noindex, absent from the feed, sitemap, llms.txt and every index) so the piece could
+  circulate for feedback for four hours before it was really published; a `.ui-label` style
+  in site.css for quoting an interface control without overloading code ticks; the Recent
+  hero rotation; and a backlink from "Judgement is the job now", which had promised the
+  fifty-file era its own write-up.
