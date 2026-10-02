@@ -44,21 +44,21 @@ const selectedLab = projects.filter((project) => ['grey-eminence', 'tcc', 'mcp-s
   description="Principal engineer and AI platform builder in Toronto with twenty-five years of experience turning messy software delivery into repeatable systems."
   view="home"
 >
-  <main style="max-width:1080px;margin:0 auto;padding:0 32px 96px">
-    <section style="padding:64px 0 52px;border-bottom:1px solid var(--border)">
-      <div style="display:grid;grid-template-columns:132px minmax(0, 1fr);gap:28px;align-items:flex-start">
-        <img src={PROFILE.avatar} alt="Matthew Purdon" width="120" height="120" style="width:120px;height:120px;border-radius:9999px;object-fit:cover;flex-shrink:0;border:2px solid var(--border-strong);box-shadow:0 0 0 4px rgba(252,172,60,0.10)" />
-        <div style="min-width:0">
-          <p style={`font-family:var(--font-label);text-transform:uppercase;letter-spacing:var(--tracking-wider);font-size:var(--text-xs);font-weight:700;color:${kicker(t)};margin:0 0 14px`}>{PROFILE.role} · {PROFILE.location}</p>
-          <h1 style="font-family:var(--font-mono);font-weight:700;font-size:clamp(38px, 5.2vw, 56px);line-height:1.04;letter-spacing:-0.04em;margin:0 0 18px;color:var(--text-primary)">Matthew Purdon</h1>
-          <p style="font-family:var(--font-prose);font-size:clamp(1.25rem, 2vw, 1.45rem);line-height:1.5;font-weight:600;color:var(--text-primary);max-width:760px;margin:0 0 16px;text-wrap:pretty">I build the systems around AI-assisted engineering: platform boundaries, review loops, agent workflows, and the team habits that keep generated software from turning into entropy. And I lead the teams who run them.</p>
+  <main class="home" style="max-width:1080px;margin:0 auto;padding:0 32px 96px">
+    <section class="home-hero" style="padding:64px 0 52px;border-bottom:1px solid var(--border)">
+      <div class="home-hero__grid" style="display:grid;grid-template-columns:132px minmax(0, 1fr);gap:28px;align-items:flex-start">
+        <img class="home-hero__avatar" src={PROFILE.avatar} alt="Matthew Purdon" width="120" height="120" style="width:120px;height:120px;border-radius:9999px;object-fit:cover;flex-shrink:0;border:2px solid var(--border-strong);box-shadow:0 0 0 4px rgba(252,172,60,0.10)" />
+        <div class="home-hero__body" style="min-width:0">
+          <p class="home-hero__kicker" style={`font-family:var(--font-label);text-transform:uppercase;letter-spacing:var(--tracking-wider);font-size:var(--text-xs);font-weight:700;color:${kicker(t)};margin:0 0 14px`}>{PROFILE.role} · {PROFILE.location}</p>
+          <h1 class="home-hero__name" style="font-family:var(--font-mono);font-weight:700;font-size:clamp(38px, 5.2vw, 56px);line-height:1.04;letter-spacing:-0.04em;margin:0 0 18px;color:var(--text-primary)">Matthew Purdon</h1>
+          <p class="home-hero__lead" style="font-family:var(--font-prose);font-size:clamp(1.25rem, 2vw, 1.45rem);line-height:1.5;font-weight:600;color:var(--text-primary);max-width:760px;margin:0 0 16px;text-wrap:pretty">I build the systems around AI-assisted engineering: platform boundaries, review loops, agent workflows, and the team habits that keep generated software from turning into entropy. And I lead the teams who run them.</p>
           <p style="font-family:var(--font-prose);font-size:var(--text-base);line-height:1.65;color:var(--text-secondary);max-width:680px;margin:0 0 18px;text-wrap:pretty">Twenty-five years in software, writing Field Notes on the new SDLC, code review, hiring for judgement, and how teams actually ship.</p>
-          <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:26px">
+          <div class="home-hero__social" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:26px">
             {social.map(([label, href]) => (
               <a href={href} target={href.startsWith('mailto') ? undefined : '_blank'} rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:0.4rem;white-space:nowrap;font-family:var(--font-mono);font-size:var(--text-sm);color:var(--text-secondary);text-decoration:none;padding:0.45rem 0.85rem;border-radius:var(--radius-md);border:1px solid var(--border);background:var(--bg-surface);transition:border-color var(--duration-base) var(--ease), color var(--duration-base) var(--ease)">{label} <span style="color:var(--text-disabled)">↗</span></a>
             ))}
           </div>
-          <div style="display:flex;gap:12px;margin-top:22px;flex-wrap:wrap;align-items:center">
+          <div class="home-hero__ctas" style="display:flex;gap:12px;margin-top:22px;flex-wrap:wrap;align-items:center">
             <a class="mp-btn mp-btn--solid mp-btn--md" href="/notes/" style="text-decoration:none">Read Field Notes</a>
             <a class="mp-btn mp-btn--outline mp-btn--md" href="/lab/" style="text-decoration:none">See Lab Reports</a>
             <a href="/about/" style="font-family:var(--font-mono);font-size:var(--text-xs);font-weight:700;text-transform:uppercase;letter-spacing:var(--tracking-wider);color:var(--text-secondary);text-decoration:none;padding:8px 16px;border:1px solid var(--border);border-radius:var(--radius-md);transition:all var(--duration-base) var(--ease)">About Matthew</a>
@@ -67,16 +67,16 @@ const selectedLab = projects.filter((project) => ['grey-eminence', 'tcc', 'mcp-s
       </div>
     </section>
 
-    <section style="padding:42px 0;border-bottom:1px solid var(--border)">
-      <div style="display:grid;grid-template-columns:60px 1fr;gap:18px;align-items:baseline;margin-bottom:22px">
+    <section class="home-sec" style="padding:42px 0;border-bottom:1px solid var(--border)">
+      <div class="home-sec__head" style="display:grid;grid-template-columns:60px 1fr;gap:18px;align-items:baseline;margin-bottom:22px">
         <span style="color:var(--canada-300);font-family:var(--font-mono);font-weight:700;letter-spacing:0.18em;font-size:var(--text-xs)">01</span>
         <h2 style="margin:0;color:var(--text-primary);font-family:var(--font-mono);font-size:clamp(22px, 2.8vw, 26px);line-height:1.1;letter-spacing:-0.025em">The Work</h2>
       </div>
-      <div style="display:grid;grid-template-columns:1.15fr 0.85fr;gap:46px;align-items:start">
+      <div class="home-work" style="display:grid;grid-template-columns:1.15fr 0.85fr;gap:46px;align-items:start">
         <p style="margin:0;font-family:var(--font-prose);font-size:clamp(1.35rem, 2.3vw, 1.48rem);line-height:1.48;color:var(--prose-text);max-width:650px;text-wrap:pretty">My work sits at the intersection of <strong style="color:var(--text-primary)">architecture</strong>, <strong style="color:var(--text-primary)">process</strong>, and <strong style="color:var(--text-primary)">AI-assisted delivery</strong>. I care less about demos and more about the operating system that lets teams ship with models in the loop without lowering their standards.</p>
         <div style="border-left:2px solid var(--canada-500);padding-left:20px;display:grid;gap:14px;margin-top:4px">
           {workRows.map(([label, copy]) => (
-            <div style="display:grid;grid-template-columns:88px 1fr;gap:14px;line-height:1.45">
+            <div class="home-work__row" style="display:grid;grid-template-columns:88px 1fr;gap:14px;line-height:1.45">
               <span style="color:var(--text-muted);font-family:var(--font-label);font-size:11px;text-transform:uppercase;letter-spacing:0.12em;font-weight:700">{label}</span>
               <span style="color:var(--text-secondary);font-family:var(--font-prose);font-size:var(--text-base)">{copy}</span>
             </div>
@@ -85,25 +85,25 @@ const selectedLab = projects.filter((project) => ['grey-eminence', 'tcc', 'mcp-s
       </div>
     </section>
 
-    <section style="padding:42px 0;border-bottom:1px solid var(--border)">
-      <div style="display:grid;grid-template-columns:60px 1fr;gap:18px;align-items:baseline;margin-bottom:22px">
+    <section class="home-sec" style="padding:42px 0;border-bottom:1px solid var(--border)">
+      <div class="home-sec__head" style="display:grid;grid-template-columns:60px 1fr;gap:18px;align-items:baseline;margin-bottom:22px">
         <span style="color:var(--canada-300);font-family:var(--font-mono);font-weight:700;letter-spacing:0.18em;font-size:var(--text-xs)">02</span>
         <h2 style="margin:0;color:var(--text-primary);font-family:var(--font-mono);font-size:clamp(22px, 2.8vw, 26px);line-height:1.1;letter-spacing:-0.025em">Start Here</h2>
       </div>
       <div style="display:grid;gap:0;border-top:1px solid var(--border)">
         {startHere.map(({ post, copy }) => (
-          <a href={'/notes/' + post.slug + '/'} style="display:grid;grid-template-columns:64px 1fr 18px;gap:18px;padding:20px 0;border-bottom:1px solid var(--border);text-decoration:none;color:inherit"><span aria-hidden="true" style="color:var(--text-muted);font-family:var(--font-mono);font-weight:700;letter-spacing:-0.04em;font-size:32px;line-height:1">{post.number}</span><span><h3 style="margin:0 0 7px;font-family:var(--font-mono);font-size:var(--text-lg);color:var(--text-primary);letter-spacing:-0.025em">{post.title}</h3><p style="margin:0;max-width:730px;font-family:var(--font-prose);font-size:var(--text-base);line-height:1.55;color:var(--text-secondary)">{copy}</p></span><span aria-hidden="true" style="color:var(--canada-300);font-size:18px;padding-top:2px">→</span></a>
+          <a class="home-start__item" href={'/notes/' + post.slug + '/'} style="display:grid;grid-template-columns:64px 1fr 18px;gap:18px;padding:20px 0;border-bottom:1px solid var(--border);text-decoration:none;color:inherit"><span class="home-start__num" aria-hidden="true" style="color:var(--text-muted);font-family:var(--font-mono);font-weight:700;letter-spacing:-0.04em;font-size:32px;line-height:1">{post.number}</span><span><h3 style="margin:0 0 7px;font-family:var(--font-mono);font-size:var(--text-lg);color:var(--text-primary);letter-spacing:-0.025em">{post.title}</h3><p style="margin:0;max-width:730px;font-family:var(--font-prose);font-size:var(--text-base);line-height:1.55;color:var(--text-secondary)">{copy}</p></span><span class="home-start__arrow" aria-hidden="true" style="color:var(--canada-300);font-size:18px;padding-top:2px">→</span></a>
         ))}
       </div>
     </section>
 
-    <section style="padding:42px 0;border-bottom:1px solid var(--border)">
-      <div style="display:grid;grid-template-columns:60px 1fr;gap:18px;align-items:baseline;margin-bottom:22px">
+    <section class="home-sec" style="padding:42px 0;border-bottom:1px solid var(--border)">
+      <div class="home-sec__head" style="display:grid;grid-template-columns:60px 1fr;gap:18px;align-items:baseline;margin-bottom:22px">
         <span style="color:var(--canada-300);font-family:var(--font-mono);font-weight:700;letter-spacing:0.18em;font-size:var(--text-xs)">03</span>
         <h2 style="margin:0;color:var(--text-primary);font-family:var(--font-mono);font-size:clamp(22px, 2.8vw, 26px);line-height:1.1;letter-spacing:-0.025em">Recent Field Notes</h2>
       </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
-        <a href={'/notes/' + featured.slug + '/'} style="min-height:218px;display:flex;flex-direction:column;justify-content:space-between;padding:22px;border:1px solid var(--border);border-radius:var(--radius-lg);text-decoration:none;color:inherit;background:radial-gradient(120% 150% at 100% 0%, rgba(129, 140, 248, 0.18), transparent 55%), linear-gradient(135deg, rgba(47, 43, 40, 0.72), rgba(39, 35, 37, 0.68))">
+      <div class="home-recent" style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+        <a class="home-recent__feature" href={'/notes/' + featured.slug + '/'} style="min-height:218px;display:flex;flex-direction:column;justify-content:space-between;padding:22px;border:1px solid var(--border);border-radius:var(--radius-lg);text-decoration:none;color:inherit;background:radial-gradient(120% 150% at 100% 0%, rgba(129, 140, 248, 0.18), transparent 55%), linear-gradient(135deg, rgba(47, 43, 40, 0.72), rgba(39, 35, 37, 0.68))">
           <div style="color:var(--indigo-400);font-family:var(--font-label);font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase">{featured.category} · {featured.time}</div>
           <div>
             <h3 style="margin:0 0 10px;color:var(--text-primary);font-family:var(--font-mono);font-size:clamp(26px, 3.5vw, 32px);line-height:1.1;letter-spacing:-0.04em">{featured.title}</h3>
@@ -121,15 +121,15 @@ const selectedLab = projects.filter((project) => ['grey-eminence', 'tcc', 'mcp-s
       </div>
     </section>
 
-    <section style="padding:42px 0;border-bottom:1px solid var(--border)">
-      <div style="display:grid;grid-template-columns:60px 1fr;gap:18px;align-items:baseline;margin-bottom:22px">
+    <section class="home-sec" style="padding:42px 0;border-bottom:1px solid var(--border)">
+      <div class="home-sec__head" style="display:grid;grid-template-columns:60px 1fr;gap:18px;align-items:baseline;margin-bottom:22px">
         <span style="color:var(--canada-300);font-family:var(--font-mono);font-weight:700;letter-spacing:0.18em;font-size:var(--text-xs)">04</span>
         <h2 style="margin:0;color:var(--text-primary);font-family:var(--font-mono);font-size:clamp(22px, 2.8vw, 26px);line-height:1.1;letter-spacing:-0.025em">Selected Lab Reports</h2>
       </div>
-      <div style="display:grid;grid-template-columns:repeat(3, 1fr);gap:22px">
+      <div class="home-lab" style="display:grid;grid-template-columns:repeat(3, 1fr);gap:22px">
         {selectedLab.map((project) => (
-          <a href={'/lab/' + project.slug + '/'} style="min-height:184px;display:flex;flex-direction:column;padding:20px;border:1px solid var(--border);border-radius:var(--radius-lg);background:linear-gradient(180deg, rgba(47, 43, 40, 0.58), rgba(32, 30, 28, 0.35));text-decoration:none;color:inherit">
-            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:30px"><TypeBadge type={project.type} />{project.ai && <AIBadge />}</div>
+          <a class="home-lab__card" href={'/lab/' + project.slug + '/'} style="min-height:184px;display:flex;flex-direction:column;padding:20px;border:1px solid var(--border);border-radius:var(--radius-lg);background:linear-gradient(180deg, rgba(47, 43, 40, 0.58), rgba(32, 30, 28, 0.35));text-decoration:none;color:inherit">
+            <div class="home-lab__badges" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:30px"><TypeBadge type={project.type} />{project.ai && <AIBadge />}</div>
             <h3 style="margin:0 0 9px;color:var(--text-primary);font-family:var(--font-mono);font-size:var(--text-xl);letter-spacing:-0.03em">{project.name}</h3>
             <p style="margin:0;font-family:var(--font-prose);font-size:var(--text-sm);line-height:1.55;color:var(--text-secondary)">{project.tagline}</p>
             <span style="margin-top:auto;padding-top:20px;color:var(--canada-300);font-family:var(--font-mono);font-weight:700;font-size:var(--text-sm)">View report →</span>
@@ -138,12 +138,12 @@ const selectedLab = projects.filter((project) => ['grey-eminence', 'tcc', 'mcp-s
       </div>
     </section>
 
-    <section style="margin-top:20px;padding-top:36px">
-      <div style="display:grid;grid-template-columns:60px 1fr;gap:18px;align-items:baseline;margin-bottom:22px">
+    <section class="home-sec" style="margin-top:20px;padding-top:36px">
+      <div class="home-sec__head" style="display:grid;grid-template-columns:60px 1fr;gap:18px;align-items:baseline;margin-bottom:22px">
         <span style="color:var(--canada-300);font-family:var(--font-mono);font-weight:700;letter-spacing:0.18em;font-size:var(--text-xs)">05</span>
         <h2 style="margin:0;color:var(--text-primary);font-family:var(--font-mono);font-size:clamp(22px, 2.8vw, 26px);line-height:1.1;letter-spacing:-0.025em">Browse Topics</h2>
       </div>
-      <div style="display:flex;flex-wrap:wrap;gap:10px">
+      <div class="home-topics" style="display:flex;flex-wrap:wrap;gap:10px">
         {Object.keys(TOPICS).map(name => (
           <TopicChip label={name} t={t} />
         ))}
@@ -151,3 +151,50 @@ const selectedLab = projects.filter((project) => ['grey-eminence', 'tcc', 'mcp-s
     </section>
   </main>
 </Layout>
+
+<style>
+  /* Phone layout. The page is styled inline for desktop, so these overrides
+     need !important. Mocked up as V2 in mockups/home-mobile.html. */
+  @media (max-width: 760px) {
+    .home { padding: 0 20px 64px !important; }
+    .home-sec { padding-block: 32px !important; margin-top: 0 !important; }
+    .home-sec__head { grid-template-columns: auto 1fr !important; gap: 12px !important; margin-bottom: 18px !important; }
+
+    /* Hero: avatar beside kicker + name, everything else full width below. */
+    .home-hero { padding-block: 32px 36px !important; }
+    .home-hero__grid { grid-template-columns: 60px minmax(0, 1fr) !important; column-gap: 16px !important; row-gap: 0 !important; align-items: center !important; }
+    .home-hero__body { display: contents !important; }
+    .home-hero__avatar { grid-row: 1 / 3; width: 60px !important; height: 60px !important; }
+    .home-hero__kicker { grid-column: 2; margin: 0 0 6px !important; align-self: end; }
+    .home-hero__name { grid-column: 2; font-size: 32px !important; margin: 0 !important; align-self: start; }
+    .home-hero__body > :nth-child(n+3) { grid-column: 1 / -1; }
+    .home-hero__lead { margin-top: 22px !important; font-size: 1.15rem !important; }
+    .home-hero__social { margin-top: 18px !important; gap: 6px !important; }
+    .home-hero__social a { padding: 0.35rem 0.65rem !important; font-size: 12px !important; }
+    .home-hero__ctas { display: grid !important; grid-template-columns: 1fr; gap: 10px !important; }
+    .home-hero__ctas > a { justify-content: center; text-align: center; }
+    .home-hero__ctas > a:nth-child(3) { border: 0 !important; padding: 4px 0 !important; }
+
+    .home-work { grid-template-columns: 1fr !important; gap: 24px !important; }
+    .home-work > p { font-size: 1.2rem !important; }
+    .home-work__row { grid-template-columns: 1fr !important; gap: 2px !important; }
+
+    /* Start Here: the big number becomes a small red label; no arrow column. */
+    .home-start__item { grid-template-columns: minmax(0, 1fr) !important; gap: 6px !important; padding: 18px 0 !important; }
+    .home-start__num { font-size: 12px !important; letter-spacing: 0.18em !important; color: var(--canada-300) !important; }
+    .home-start__num::before { content: 'NO. '; }
+    .home-start__arrow { display: none; }
+
+    .home-recent { grid-template-columns: 1fr !important; }
+    .home-recent__feature { min-height: 0 !important; gap: 28px; }
+
+    /* Lab reports: a swipeable row that peeks the next card. */
+    .home-lab { grid-template-columns: none !important; grid-auto-flow: column; grid-auto-columns: 84%; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: 20px; margin-inline: -20px; padding: 0 20px 6px; }
+    .home-lab__card { scroll-snap-align: start; min-height: 0 !important; }
+    .home-lab__badges { margin-bottom: 16px !important; }
+
+    .home-topics { flex-wrap: nowrap !important; overflow-x: auto; margin-inline: -20px; padding: 0 20px 6px; }
+    /* The chips come from TopicChip, so they need :global() to escape scoping. */
+    .home-topics > :global(*) { flex-shrink: 0; white-space: nowrap; }
+  }
+</style>

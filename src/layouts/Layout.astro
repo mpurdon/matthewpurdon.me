@@ -152,6 +152,11 @@ const pageSchemas = breadcrumbSchema ? [...jsonLd, breadcrumbSchema] : jsonLd;
     @media (max-width: 480px) {
       .site-head__word { display: none !important; }
     }
+    /* Footer at phone width: brand on its own row, then the three link columns. */
+    @media (max-width: 760px) {
+      .site-foot { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; gap: 28px 16px !important; padding: 40px 20px !important; }
+      .site-foot > :first-child { grid-column: 1 / -1; }
+    }
   </style>
 </head>
 <body>
@@ -202,7 +207,7 @@ const pageSchemas = breadcrumbSchema ? [...jsonLd, breadcrumbSchema] : jsonLd;
 
   <!-- Footer -->
   <footer style="border-top: 1px solid var(--border); background: var(--bg-surface)">
-    <div style="maxWidth: 1080px; margin: 0 auto; padding: 48px 32px; display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 32px">
+    <div class="site-foot" style="max-width: 1080px; margin: 0 auto; padding: 48px 32px; display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 32px">
       <div>
         <span style="display: inline-flex; align-items: center; gap: 0.55rem">
           <svg width="20" height="20" viewBox="-2015 -2000 4030 4030" fill="currentColor" style="color: var(--canada-500)"><path d={LEAF} /></svg>

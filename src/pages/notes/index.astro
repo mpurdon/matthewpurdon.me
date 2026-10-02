@@ -60,7 +60,7 @@ const notesSchema = {
     {grid.length > 0 && (
       <section style={`padding:${pad(t, '8px 0 40px', '4px 0 28px')}`}>
         <SectionLabel>Recent</SectionLabel>
-        <div style="display:grid;grid-template-columns:repeat(3, 1fr);gap:28px">
+        <div class="notes-grid">
           {grid.map((p) => (
             <ArticleCard variant="grid" accent={p.accent} category={p.category} href={'/notes/' + p.slug + '/'} title={p.title} dek={p.dek} date={p.date} time={p.time} big={p.number} />
           ))}
@@ -90,3 +90,9 @@ const notesSchema = {
     </section>
   </main>
 </Layout>
+
+<style>
+  .notes-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; }
+  @media (max-width: 960px) { .notes-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 760px) { .notes-grid { grid-template-columns: minmax(0, 1fr); } }
+</style>
