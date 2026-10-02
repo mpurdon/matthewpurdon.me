@@ -69,7 +69,7 @@ const labSchema = {
     {rest.length > 0 && (
       <section style={`padding:${pad(t, '24px 0 40px', '16px 0 30px')}`}>
         <SectionLabel>Other Lab Reports</SectionLabel>
-        <div style="display:grid;grid-template-columns:repeat(2, 1fr);gap:24px">
+        <div class="lab-grid">
           {rest.map(pr => {
             const m = TYPE_META[pr.type] || TYPE_META.Software;
             return (
@@ -91,3 +91,8 @@ const labSchema = {
     <GitHubBench />
   </main>
 </Layout>
+
+<style>
+  .lab-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+  @media (max-width: 760px) { .lab-grid { grid-template-columns: minmax(0, 1fr); } }
+</style>

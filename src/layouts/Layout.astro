@@ -141,13 +141,24 @@ const pageSchemas = breadcrumbSchema ? [...jsonLd, breadcrumbSchema] : jsonLd;
 
   <style is:global>
     html, body { margin: 0; background: #242220; }
+    /* Masthead at phone width: the inline styles size it for desktop, so these
+       overrides need !important. The Read CTA and GitHub icon duplicate the nav
+       and footer; below 480px the leaf alone stands in for the wordmark. */
+    @media (max-width: 760px) {
+      .site-head { padding: 0 16px !important; }
+      .site-nav__extra { display: none !important; }
+      .site-nav__link { padding: 0.5rem 0.45rem !important; }
+    }
+    @media (max-width: 480px) {
+      .site-head__word { display: none !important; }
+    }
   </style>
 </head>
 <body>
   <a href="#main-content" class="sr-only">Skip to main content</a>
 
   <!-- Header / Masthead -->
-  <header style={{
+  <header class="site-head" style={{
     position: 'sticky', top: 0, zIndex: 600,
     display: 'flex', alignItems: 'center', justifyContent: 'space-between',
     height: '68px', padding: '0 32px', background: 'rgba(36,34,32,0.82)',
@@ -157,14 +168,14 @@ const pageSchemas = breadcrumbSchema ? [...jsonLd, breadcrumbSchema] : jsonLd;
     <a href="/" style="text-decoration: none" aria-label="matthewpurdon — home">
       <span style="display: inline-flex; align-items: center; gap: 0.55rem">
         <svg width="22" height="22" viewBox="-2015 -2000 4030 4030" fill="currentColor" style="color: var(--canada-500)"><path d={LEAF} /></svg>
-        <span style="font-family: var(--font-mono); font-weight: 700; font-size: 19px; letter-spacing: -0.02em; background: var(--brand-gradient); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">
+        <span class="site-head__word" style="font-family: var(--font-mono); font-weight: 700; font-size: 19px; letter-spacing: -0.02em; background: var(--brand-gradient); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">
           matthew<span style="color: var(--text-primary); -webkit-text-fill-color: currentColor">purdon</span>
         </span>
       </span>
     </a>
     <nav style="display: inline-flex; align-items: center; gap: 4px">
       {NAV.map(n => (
-        <a href={n.href} style={{
+        <a href={n.href} class="site-nav__link" style={{
           fontFamily: 'var(--font-label)', fontSize: 'var(--text-xs)', fontWeight: 600,
           textTransform: 'uppercase', letterSpacing: 'var(--tracking-wide)',
           padding: '0.5rem 0.75rem', borderRadius: 'var(--radius-md)', textDecoration: 'none',
@@ -172,15 +183,15 @@ const pageSchemas = breadcrumbSchema ? [...jsonLd, breadcrumbSchema] : jsonLd;
           color: n.key === active ? 'var(--text-primary)' : 'var(--text-muted)',
         }}>{n.label}</a>
       ))}
-      <span style="width: 12px" />
-      <a href={L.github} target="_blank" rel="noopener noreferrer" aria-label="Matthew Purdon on GitHub"
+      <span class="site-nav__extra" style="width: 12px" />
+      <a class="site-nav__extra" href={L.github} target="_blank" rel="noopener noreferrer" aria-label="Matthew Purdon on GitHub"
          style="display: inline-flex; color: var(--text-muted); padding: 0.35rem; transition: color var(--duration-base) var(--ease)"
          onmouseover="this.style.color = 'var(--text-primary)'"
          onmouseout="this.style.color = 'var(--text-muted)'">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.73.5.5 5.73.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56v-2c-3.2.7-3.88-1.54-3.88-1.54-.53-1.34-1.29-1.7-1.29-1.7-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.8 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.69 5.39-5.25 5.68.41.36.78 1.07.78 2.16v3.2c0 .31.21.68.8.56A11.51 11.51 0 0 0 23.5 12C23.5 5.73 18.27.5 12 .5z"/></svg>
       </a>
-      <span style="width: 8px" />
-      <a href="/notes/" class="mp-btn mp-btn--solid" style="display: inline-flex; align-items: center; justify-content: center; font-family: var(--font-label); font-weight: 700; text-transform: uppercase; letter-spacing: var(--tracking-wider); border-radius: var(--radius-md); font-size: var(--text-xs); height: 32px; padding: 0 16px; border: 1px solid transparent; text-decoration: none; color: #fff; background: var(--indigo-700); cursor: pointer;">Read</a>
+      <span class="site-nav__extra" style="width: 8px" />
+      <a href="/notes/" class="mp-btn mp-btn--solid site-nav__extra" style="display: inline-flex; align-items: center; justify-content: center; font-family: var(--font-label); font-weight: 700; text-transform: uppercase; letter-spacing: var(--tracking-wider); border-radius: var(--radius-md); font-size: var(--text-xs); height: 32px; padding: 0 16px; border: 1px solid transparent; text-decoration: none; color: #fff; background: var(--indigo-700); cursor: pointer;">Read</a>
     </nav>
   </header>
 
