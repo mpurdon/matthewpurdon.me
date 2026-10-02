@@ -5,6 +5,7 @@ import { kicker, pad, TYPE_META } from '../../lib/ui.js';
 import SectionLabel from '../../components/SectionLabel.astro';
 import TypeBadge from '../../components/TypeBadge.astro';
 import AIBadge from '../../components/AIBadge.astro';
+import GitHubBench from '../../components/GitHubBench.astro';
 
 const projects = await getProjects();
 const t = {
@@ -86,5 +87,7 @@ const labSchema = {
         </div>
       </section>
     )}
+
+    <GitHubBench />
   </main>
 </Layout>

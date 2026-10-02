@@ -1,11 +1,11 @@
 {
   "login": "mpurdon",
-  "fetchedAt": "2026-10-02T21:05:00.526Z",
+  "fetchedAt": "2026-10-02T21:48:05.578Z",
   "since": "2009",
   "followers": 25,
   "repos": 51,
   "stars": 17,
-  "contributions": 3761,
+  "contributions": 3762,
   "streak": {
     "longest": 55,
     "current": 5
@@ -134,6 +134,15 @@
   ],
   "recent": [
     {
+      "name": "cora",
+      "description": "CORA — AI code-review copilot for GitHub pull requests",
+      "url": "https://github.com/mpurdon/cora",
+      "pushedAt": "2026-10-02T21:13:15Z",
+      "stars": 0,
+      "language": "Rust",
+      "color": "#dea584"
+    },
+    {
       "name": "tariffmap",
       "description": "A live, sourced map of the world's tariffs — tariffmap.org",
       "url": "https://github.com/mpurdon/tariffmap",
@@ -150,15 +159,6 @@
       "stars": 2,
       "language": "Swift",
       "color": "#F05138"
-    },
-    {
-      "name": "cora",
-      "description": "CORA — AI code-review copilot for GitHub pull requests",
-      "url": "https://github.com/mpurdon/cora",
-      "pushedAt": "2026-09-29T17:40:24Z",
-      "stars": 0,
-      "language": "Rust",
-      "color": "#dea584"
     },
     {
       "name": "homebrew-tap",
@@ -186,6 +186,60 @@
       "stars": 0,
       "language": "Rust",
       "color": "#dea584"
+    },
+    {
+      "name": "sleipnir",
+      "description": null,
+      "url": "https://github.com/mpurdon/sleipnir",
+      "pushedAt": "2026-09-15T02:34:56Z",
+      "stars": 1,
+      "language": "TypeScript",
+      "color": "#3178c6"
+    },
+    {
+      "name": "warpcore",
+      "description": "A tool for deploying Strands SDK agents to AWS AgentCore Runtime",
+      "url": "https://github.com/mpurdon/warpcore",
+      "pushedAt": "2026-09-09T06:15:39Z",
+      "stars": 0,
+      "language": "Python",
+      "color": "#3572A5"
+    },
+    {
+      "name": "mcp-servers",
+      "description": "Custom Model Context Protocol (MCP) servers for Claude Desktop, Code, and Cowork — independently installable, npm-published.",
+      "url": "https://github.com/mpurdon/mcp-servers",
+      "pushedAt": "2026-09-04T05:14:16Z",
+      "stars": 0,
+      "language": "TypeScript",
+      "color": "#3178c6"
+    },
+    {
+      "name": "homebrew-gitf",
+      "description": "Homebrew tap for gitf",
+      "url": "https://github.com/mpurdon/homebrew-gitf",
+      "pushedAt": "2026-09-01T04:37:42Z",
+      "stars": 0,
+      "language": "Ruby",
+      "color": "#701516"
+    },
+    {
+      "name": "matthewpurdon.me",
+      "description": "The MatthewPurdon.me website",
+      "url": "https://github.com/mpurdon/matthewpurdon.me",
+      "pushedAt": "2026-08-20T15:27:46Z",
+      "stars": 0,
+      "language": "MDX",
+      "color": "#fcb32c"
+    },
+    {
+      "name": "codenaked.org",
+      "description": "Coed Naked Coding — single-poster landing page. Astro + Cloudflare Pages.",
+      "url": "https://github.com/mpurdon/codenaked.org",
+      "pushedAt": "2026-08-12T22:33:02Z",
+      "stars": 0,
+      "language": "CSS",
+      "color": "#663399"
     }
   ],
   "starred": [
@@ -1714,7 +1768,7 @@
     },
     {
       "date": "2026-10-02",
-      "count": 13
+      "count": 14
     }
   ]
 }

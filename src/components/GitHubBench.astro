@@ -1,0 +1,137 @@
+---
+// "On the bench": public GitHub activity, snapshotted at build time by
+// scripts/fetch-github.mjs. Zero JS; the numbers are as of the last deploy.
+import SectionLabel from './SectionLabel.astro';
+import gh from '../lib/github.json';
+
+const fmt = n => n.toLocaleString('en-CA');
+const day = iso => new Date(iso).toLocaleDateString('en-CA', { month: 'short', day: 'numeric', timeZone: 'America/Toronto' });
+const asOf = new Date(gh.fetchedAt).toLocaleDateString('en-CA', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'America/Toronto' });
+
+// Heatmap levels: quartiles of the non-zero days, so one huge day doesn't wash out the rest.
+const nz = gh.days.map(d => d.count).filter(Boolean).sort((a, b) => a - b);
+const q = p => nz[Math.floor(p * (nz.length - 1))] ?? 0;
+const cuts = [q(0.25), q(0.5), q(0.75)];
+const level = c => (c === 0 ? 0 : c <= cuts[0] ? 1 : c <= cuts[1] ? 2 : c <= cuts[2] ? 3 : 4);
+const lead = new Date(gh.days[0].date + 'T00:00:00Z').getUTCDay();
+const weeks = Math.ceil((lead + gh.days.length) / 7);
+
+// Month labels sit over the first week of each month, skipping any that would crowd the previous one.
+const months = [];
+let lastMonth = -1, lastWeek = -9;
+for (let w = 0; w < weeks; w++) {
+  const d = gh.days[Math.max(0, w * 7 - lead)];
+  const m = new Date(d.date + 'T00:00:00Z').getUTCMonth();
+  const show = m !== lastMonth && w < weeks - 2 && w - lastWeek >= 3;
+  if (show) lastWeek = w;
+  months.push(show ? new Date(d.date + 'T00:00:00Z').toLocaleString('en', { month: 'short', timeZone: 'UTC' }) : '');
+  lastMonth = m;
+}
+
+const top = gh.languages.slice(0, 6);
+const other = Math.max(0, 100 - top.reduce((s, l) => s + l.pct, 0));
+const profile = `https://github.com/${gh.login}`;
+// Repos without a description are plumbing (taps, configs); the bench shows what's being built.
+const recent = gh.recent.filter(r => r.description).slice(0, 6);
+---
+
+<section class="bench" aria-labelledby="bench-label">
+  <div class="bench__head">
+    <SectionLabel style="margin:0"><span id="bench-label">On the bench</span></SectionLabel>
+    <span class="bench__asof">public GitHub, as of {asOf}</span>
+  </div>
+  <div class="bench__grid">
+    <div class="bench__card">
+      <dl class="bench__stats">
+        <div><dt>contributions, last 12 months</dt><dd>{fmt(gh.contributions)}</dd></div>
+        <div><dt>longest streak</dt><dd>{gh.streak.longest}d</dd></div>
+        <div><dt>public repos</dt><dd>{gh.repos}</dd></div>
+        <div><dt>on GitHub since</dt><dd>{gh.since}</dd></div>
+      </dl>
+      <div class="bench__heatwrap">
+        <div class="bench__heatinner">
+          <div class="bench__months" style={`grid-template-columns:repeat(${weeks},1fr)`} aria-hidden="true">
+            {months.map(m => <span>{m}</span>)}
+          </div>
+          <div class="bench__heat" role="img" aria-label={`Contribution heatmap: ${fmt(gh.contributions)} contributions over the last 12 months, longest streak ${gh.streak.longest} days`}>
+            {Array.from({ length: lead }, () => <i class="pad"></i>)}
+            {gh.days.map(d => <i class={`l${level(d.count)}`} title={`${d.date}: ${d.count}`}></i>)}
+          </div>
+        </div>
+      </div>
+      <div class="bench__legend" aria-hidden="true">less <i class="l0"></i><i class="l1"></i><i class="l2"></i><i class="l3"></i><i class="l4"></i> more</div>
+      <div class="bench__langbar" aria-hidden="true">
+        {top.map(l => <span style={`flex:${l.pct};background:${l.color}`}></span>)}
+        {other > 0 && <span style={`flex:${other};background:var(--text-muted)`}></span>}
+      </div>
+      <ul class="bench__langs" aria-label="Languages by code size across public repos">
+        {top.map(l => <li style={`--c:${l.color}`}>{l.name} <em>{Math.round(l.pct)}%</em></li>)}
+        {other > 0 && <li style="--c:var(--text-muted)">other <em>{Math.round(other)}%</em></li>}
+      </ul>
+    </div>
+    <div class="bench__card">
+      <p class="bench__kicker">Recently pushed</p>
+      <ul class="bench__repos">
+        {recent.map(r => (
+          <li>
+            <div class="bench__repotop">
+              <a href={r.url} rel="noopener"><span class="dot" style={`background:${r.color || 'var(--text-muted)'}`}></span>{r.name}</a>
+              <span class="bench__when">{day(r.pushedAt)}</span>
+            </div>
+            {r.description && <p>{r.description}</p>}
+          </li>
+        ))}
+      </ul>
+      <a class="bench__all" href={profile} rel="noopener">all repos on GitHub ↗</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .bench { padding: 56px 0 0; }
+  .bench__head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px 16px; flex-wrap: wrap; margin-bottom: 20px; }
+  .bench__asof { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--text-muted); }
+  .bench__grid { display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr); gap: 24px; align-items: start; }
+  .bench__card { border: 1px solid var(--border); border-radius: var(--radius-lg); background: linear-gradient(180deg, rgba(36,34,32,0.6) 0%, rgba(26,24,22,0.4) 100%); padding: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.12); min-width: 0; }
+
+  .bench__stats { display: grid; grid-template-columns: repeat(4, auto); justify-content: space-between; gap: 16px; margin: 0 0 22px; }
+  .bench__stats div { display: flex; flex-direction: column-reverse; }
+  .bench__stats dd { margin: 0; font-family: var(--font-mono); font-weight: 700; font-size: 24px; letter-spacing: -0.02em; color: var(--text-primary); font-variant-numeric: tabular-nums; }
+  .bench__stats dt { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--text-muted); }
+
+  .bench__heatwrap { overflow-x: auto; }
+  .bench__heatinner { min-width: 520px; }
+  .bench__months { display: grid; grid-auto-flow: column; font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); margin-bottom: 6px; white-space: nowrap; }
+  .bench__heat { display: grid; grid-auto-flow: column; grid-template-rows: repeat(7, 1fr); gap: 3px; }
+  .bench i { display: block; aspect-ratio: 1; border-radius: 2px; background: rgba(255, 246, 229, 0.06); }
+  .bench i.pad { visibility: hidden; }
+  .bench i.l1 { background: var(--canada-900); }
+  .bench i.l2 { background: var(--canada-700); }
+  .bench i.l3 { background: var(--canada-500); }
+  .bench i.l4 { background: var(--canada-300); }
+  .bench__legend { display: flex; gap: 4px; align-items: center; justify-content: flex-end; font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); margin-top: 8px; }
+  .bench__legend i { width: 10px; height: 10px; }
+
+  .bench__langbar { display: flex; height: 8px; border-radius: 9999px; overflow: hidden; gap: 2px; margin: 18px 0 10px; }
+  .bench__langs { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px 18px; font-family: var(--font-mono); font-size: var(--text-xs); color: var(--text-secondary); }
+  .bench__langs li::before { content: ''; display: inline-block; width: 8px; height: 8px; border-radius: 9999px; background: var(--c); margin-right: 6px; }
+  .bench__langs em { font-style: normal; color: var(--text-muted); }
+
+  .bench__kicker { font-family: var(--font-label); text-transform: uppercase; letter-spacing: var(--tracking-widest); font-size: 11px; color: var(--text-muted); margin: 0 0 14px; }
+  .bench__repos { list-style: none; margin: 0; padding: 0; }
+  .bench__repos li { padding: 12px 0; border-top: 1px dashed var(--border); }
+  .bench__repos li:first-child { border-top: 0; padding-top: 0; }
+  .bench__repotop { display: flex; justify-content: space-between; gap: 12px; }
+  .bench__repotop a { font-family: var(--font-mono); font-weight: 600; font-size: var(--text-sm); color: var(--text-primary); text-decoration: none; overflow-wrap: anywhere; }
+  .bench__repotop a:hover { color: var(--canada-300); }
+  .dot { display: inline-block; width: 8px; height: 8px; border-radius: 9999px; margin-right: 8px; vertical-align: 1px; }
+  .bench__when { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--text-muted); white-space: nowrap; }
+  .bench__repos p { font-family: var(--font-prose); font-size: var(--text-sm); line-height: 1.5; color: var(--text-secondary); margin: 4px 0 0; }
+  .bench__all { display: block; text-align: right; margin-top: 14px; font-family: var(--font-mono); font-size: var(--text-xs); color: var(--canada-300); text-decoration: none; }
+  .bench__all:hover { color: var(--canada-400); }
+
+  @media (max-width: 760px) {
+    .bench__grid { grid-template-columns: minmax(0, 1fr); }
+    .bench__stats { grid-template-columns: repeat(2, auto); justify-content: start; gap: 16px 32px; }
+  }
+</style>

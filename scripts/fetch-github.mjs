@@ -51,6 +51,9 @@ function streaks(days) {
 }
 
 async function main() {
+  // Refresh only in CI (the deploy) or on request, so local builds don't dirty
+  // the committed snapshot. `npm run github` refreshes it by hand.
+  if (!process.env.CI && !process.argv.includes('--force')) return console.log('[github] local build; using committed snapshot');
   const t = token();
   if (!t) return console.warn('[github] no token; keeping existing snapshot');
 
@@ -96,7 +99,7 @@ async function main() {
     contributions: u.contributionsCollection.contributionCalendar.totalContributions,
     streak: streaks(days),
     languages,
-    recent: repos.slice(0, 6).map(pick),
+    recent: repos.slice(0, 12).map(pick),
     starred: [...repos].sort((a, b) => b.stargazerCount - a.stargazerCount).filter(r => r.stargazerCount > 0).slice(0, 5).map(pick),
     days,
   };

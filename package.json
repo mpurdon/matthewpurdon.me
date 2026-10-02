@@ -5,7 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "astro dev",
+    "prebuild": "node scripts/fetch-github.mjs",
     "build": "astro build",
+    "github": "node scripts/fetch-github.mjs --force",
     "preview": "astro preview",
     "deploy": "npm run build && wrangler pages deploy dist --project-name matthewpurdon-me"
   },
